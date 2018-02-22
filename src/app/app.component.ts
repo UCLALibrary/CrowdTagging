@@ -28,7 +28,7 @@ export class AppComponent {
       this.books = this.bookCollection.valueChanges();
   }
   
-  title = 'app';
+  title = 'CrowdTagging';
   
   ngOnInit(){
   }
