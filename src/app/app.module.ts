@@ -7,6 +7,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TranscribeComponent } from './transcribe/transcribe.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { TutorialComponent } from './tutorial/tutorial.component';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { TutorialComponent } from './tutorial/tutorial.component';
     NavbarComponent,
     TranscribeComponent,
     AboutUsComponent,
-    TutorialComponent
+    TutorialComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule
