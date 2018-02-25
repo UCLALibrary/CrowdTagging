@@ -7,7 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  title: string;
+  constructor() {
+    this.title = 'Crowd Tagging';
+  }
 
   ngOnInit() {
   }
