@@ -25,7 +25,7 @@ $ npm install
 ```
 6. Start up angular's localhost development server
 ```bash
-ng serve
+$ ng serve
 ```
 7. Visit localhost:4200 on your computer's browser to play around with the app!
 
