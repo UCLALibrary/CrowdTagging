@@ -1,28 +1,30 @@
-# CrowdTagging
+# Crowd Tagging
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.0.
+## Instructions for local set up
 
-## Development server
+### Packages/Dependencies you must have
+1. Ensure you have the latest version of Node.js and NPM installed before starting. You can download it from [here](https://nodejs.org/en/).
+2. Note: if you already have npm installed, you can update npm by running
+```bash
+$ npm i -g npm
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
->>>>>>> 933192e3d5b891bb012132744cd52d4391db3e65
+### Step-by-step Set Up instructions (Mac OS)
+1. Download the contents of this branch into a folder on your computer called 'crowd-tagging'.
+2. Open a terminal window on your window and cd into the crowd-tagging folder.
+```bash
+$ cd path/to/crowd-tagging
+```
+3. Install Angular and the Angular CLI on your system (and in the folder)
+```bash
+$ npm install -g @angular/cli
+```
+4. Install all the node packages required by angular (and our app)
+```bash
+$ npm install
+```
+5. Start up angular's localhost development server
+```bash
+$ ng serve
+```
+6. Visit localhost:4200 on your computer's browser to play around with the app!

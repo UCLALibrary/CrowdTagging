@@ -8,11 +8,28 @@ import { environment } from '../environments/environment';
 import { AngularFireDatabase } from 'angularfire2/database';
 
 import { AppComponent } from './app.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { TranscribeComponent } from './transcribe/transcribe.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { TutorialComponent } from './tutorial/tutorial.component';
+import {RouterModule, Routes} from '@angular/router';
+import { HomeComponent } from './home/home.component';
 
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'transcribe', component: TranscribeComponent },
+  { path: 'about-us', component: AboutUsComponent },
+  { path: 'tutorial', component: TutorialComponent }
+];
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent,
+    TranscribeComponent,
+    AboutUsComponent,
+    TutorialComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -20,6 +37,7 @@ import { AppComponent } from './app.component';
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule // imports firebase/storage only needed for storage features
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [AngularFireDatabase],
   bootstrap: [AppComponent]
