@@ -1,3 +1,206 @@
-<p>
-  transcribe works!
-</p>
+<div id="container">
+  <div id="viewContainer">
+    <div id="viewer">
+      <img id="galleryImage">
+      <img src="../../assets/left.svg" id="prev"/>
+      <img src="../../assets/right.svg"  id="next"/>
+    </div>
+  </div>
+  <div id="options">
+    <form> <!-- method="POST" action="#" --> 
+      <div id="dataSet">
+        <div class="title">
+          <div class="triangle rot"></div>
+          <span>Title</span>
+        </div>
+        <div class="data">
+          <div class="ital">Title in Native Language</div>
+          <div>
+            <label class="chkbox-label" for="title">
+              <input type="radio" class="chkbox-input" name="title" id="title">
+              <span>Leaves of Grass</span>
+            </label>
+          </div>
+          <div>
+            <label class="chkbox-label" for="otherTitle">
+                <input type="radio" class="chkbox-input" id="otherTitle" name="title">
+                <span></span>
+            </label>  
+            <input type="text" name="otherTitle" placeholder="Add option...">
+          </div>
+        </div>
+        <div class="data">
+          <div class="ital">Romanization</div>
+          <div>
+              <label class="chkbox-label" for="roman">
+                <input type="radio" class="chkbox-input" id="roman" name="roman">
+                <span>Leaves of Grass</span>
+              </label>
+            </div>
+            <div>
+              <label class="chkbox-label" for="otherRoman">
+                  <input type="radio" class="chkbox-input" id="otherRoman" name="roman">
+                  <span></span>
+              </label>  
+              <input type="text" name="otherRoman" placeholder="Add option...">
+            </div>
+        </div>
+      </div>
+    <div id="dataSet">
+      <div class="title">
+        <div class="triangle rot"></div>
+        <span>Author</span>
+      </div>
+      <div class="data">
+        <div class="ital">First Name</div>
+        <div>
+            <label class="chkbox-label" for="firstName">
+              <input type="radio" class="chkbox-input" id="firstName" name="firstName">
+              <span>Walt</span>
+            </label>
+          </div>
+          <div>
+            <label class="chkbox-label" for="otherFirstName">
+                <input type="radio" class="chkbox-input" id="otherFirstName" name="firstName">
+                <span></span>
+            </label>  
+            <input type="text" name="otherFirstName" placeholder="Add option...">
+          </div>
+      </div>
+      <div class="data">
+        <div class="ital">Last Name</div>
+        <div>
+            <label class="chkbox-label" for="lastName">
+              <input type="radio" class="chkbox-input" id="lastName" name="lastName">
+              <span>Whitman</span>
+            </label>
+          </div>
+          <div>
+            <label class="chkbox-label" for="otherLastName">
+                <input type="radio" class="chkbox-input" id="otherLastName" name="lastName">
+                <span></span>
+            </label>  
+            <input type="text" name="otherLastName" placeholder="Add option...">
+          </div>
+      </div>
+    </div>
+    <div id="dataSet">
+        <div class="title">
+          <div class="triangle rot"></div>
+          <span>Publisher</span>
+        </div>
+        <div class="data">
+          <div class="ital">Company</div>
+          <div>
+            <label class="chkbox-label" for="company">
+              <input type="radio" class="chkbox-input" id="company" name="company">
+              <span>Thayer and Elridge</span>
+            </label>
+          </div>
+          <div>
+            <label class="chkbox-label" for="otherCompany">
+                <input type="radio" class="chkbox-input" id="otherCompany" name="company">
+                <span></span>
+            </label>  
+            <input type="text" name="otherCompany" placeholder="Add option...">
+          </div>
+        </div>
+        <div class="data">
+          <div class="ital">City</div>
+          <div>
+              <label class="chkbox-label" for="city">
+                <input type="radio" class="chkbox-input" id="city" name="city">
+                <span>New York City</span>
+              </label>
+            </div>
+            <div>
+              <label class="chkbox-label" for="otherCity">
+                  <input type="radio" class="chkbox-input" id="otherCity" name="city">
+                  <span></span>
+              </label>  
+              <input type="text" name="otherCity" placeholder="Add option...">
+            </div>
+        </div>
+        <div class="data">
+            <div class="ital">Country</div>
+            <div>
+                <label class="chkbox-label" for="country">
+                  <input type="radio" class="chkbox-input" id="country" name="country">
+                  <span>United States</span>
+                </label>
+              </div>
+              <div>
+                <label class="chkbox-label" for="otherCountry">
+                    <input type="radio" class="chkbox-input" id="otherCountry" name="country">
+                    <span></span>
+                </label>  
+                <input type="text" name="otherCountry" placeholder="Add option...">
+              </div>
+          </div>
+          <div class="data">
+              <div class="ital">Year</div>
+              <div>
+                  <label class="chkbox-label" for="year">
+                    <input type="radio" class="chkbox-input" id="year" name="year">
+                    <span>1860</span>
+                  </label>
+                </div>
+                <div>
+                  <label class="chkbox-label" for="otherYear">
+                      <input type="radio" class="chkbox-input" id="otherYear" name="year">
+                      <span></span>
+                  </label>  
+                  <input type="text" name="otherYear" placeholder="Add option...">
+                </div>
+            </div>
+      </div>
+      <div id="dataSet">
+        <div class="title">
+          <div class="triangle rot"></div>
+          <span>Number of Pages</span>
+        </div>
+        <div class="data">
+          <div class="ital">Pages</div>
+          <div>
+            <label class="chkbox-label" for="pages">
+              <input type="radio" class="chkbox-input" id="pages" name="pages">
+              <span>394</span>
+            </label>
+          </div>
+          <div>
+            <label class="chkbox-label" for="otherPages">
+                <input type="radio" class="chkbox-input" id="otherPages" name="pages">
+                <span></span>
+            </label>  
+            <input type="text" name="otherPages" placeholder="Add option...">
+          </div>
+        </div>
+      </div>
+      <div id="dataSet">
+        <div class="title">
+          <div class="triangle rot"></div>
+          <span>Genre</span>
+        </div>
+        <div class="data">
+          <div class="ital">Genre</div>
+          <div>
+            <label class="chkbox-label" for="genre">
+              <input type="radio" class="chkbox-input" id="genre" name="genre">
+              <span>Fantasy</span>
+            </label>
+          </div>
+          <div>
+            <label class="chkbox-label" for="otherGenre">
+                <input type="radio" class="chkbox-input" id="otherGenre" name="genre">
+                <span></span>
+            </label>  
+            <input type="text" name="otherGenre" placeholder="Add option...">
+          </div>
+        </div>
+      </div>
+      <div id="submit"><input type="submit"></div>
+    </form>
+  </div>
+</div>
+
+<!-- TODO: Dynamically create elements instead of copy/paste -->

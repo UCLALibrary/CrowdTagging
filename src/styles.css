@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+body{
+    font-family: Lato;
+    height: 100vh;
+    line-height: unset;
+    min-width: 1000px;
+    overflow: hidden;
+    background-color: #f0f3f5;
+}
