@@ -7,6 +7,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TranscribeComponent } from './transcribe/transcribe.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { DataComponent } from './transcribe/data/data.component';
+import { TitleComponent } from './transcribe/title/title.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,7 +20,9 @@ const appRoutes: Routes = [
     AppComponent,
     NavbarComponent,
     TranscribeComponent,
-    HomeComponent
+    HomeComponent,
+    DataComponent,
+    TitleComponent
   ],
   imports: [
     BrowserModule,

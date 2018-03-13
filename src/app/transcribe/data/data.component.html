@@ -1,0 +1,16 @@
+<div class="data">
+    <div class="ital">{{title}}</div>
+    <div>
+      <label class="chkbox-label" for="{{labeledAs}}">
+        <input type="radio" class="chkbox-input" name="{{labeledAs}}" id="{{labeledAs}}">
+        <span>{{highestVoted}}</span>
+      </label>
+    </div>
+    <div>
+      <label class="chkbox-label" for="other{{labeledAs}}">
+          <input type="radio" class="chkbox-input" id="other{{labeledAs}}" name="{{labeledAs}}">
+          <span></span>
+      </label>  
+      <input type="text" name="other{{labeledAs}}" placeholder="Add option...">
+    </div>
+</div>
