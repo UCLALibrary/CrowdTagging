@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import {ViewEncapsulation} from '@angular/core';
 import * as panzoom from '../../../node_modules/panzoom/dist/panzoom.js';
 
@@ -8,11 +8,11 @@ import * as panzoom from '../../../node_modules/panzoom/dist/panzoom.js';
   templateUrl: './transcribe.component.html',
   styleUrls: ['./transcribe.component.css']
 })
-export class TranscribeComponent implements OnInit {
+export class TranscribeComponent implements AfterViewInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
  
     /* Select reusable HTML elements */
     var triangles    = Array.from(document.querySelectorAll('.triangle')),
@@ -25,7 +25,7 @@ export class TranscribeComponent implements OnInit {
     /* Collapse on click for each data set */
     triangles.forEach(function(item){ 
         item.addEventListener('click', function() { 
-            var data = Array.from(this.parentElement.parentElement.getElementsByClassName('data'));
+            var data = Array.from(this.parentElement.parentElement.parentElement.querySelectorAll('app-data'));
 
             data.forEach(function(item){
                 (item as any).classList.toggle("hidden"); 
