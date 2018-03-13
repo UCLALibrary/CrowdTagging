@@ -75,9 +75,3 @@ input[type="text"] {
     margin-left: -2px;
     width: 85%;
 }
-
-input[type="submit"] {
-    background: none;
-    border: none;
-    width: 100%;
-}

@@ -79,3 +79,9 @@
     align-items: center;
     color: #f0f3f5;
 }
+
+input[type="submit"] {
+    background: none;
+    border: none;
+    width: 100%;
+}
