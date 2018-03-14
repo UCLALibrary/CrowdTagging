@@ -46,7 +46,7 @@ export class TranscribeComponent implements AfterViewInit {
     /* Update gallery */
     function renderImage(){
         var currImagePath = determineImageName();
-        console.log(currImagePath);
+
         galleryImg.removeAttribute("style");
         galleryImg.style.backgroundImage = "url('" + currImagePath + "')";
         statusBar.innerHTML = index + "/" + currSetLength;

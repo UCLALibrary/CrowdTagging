@@ -60,7 +60,6 @@ img {
 }
 
 .navbar-header{
-    /* width: 260px; */
     width: 30%;
 }
 
@@ -74,9 +73,6 @@ img {
 #valueProp {
     color: #f0f3f5;
     font-size: 1.2rem;
-    /* font-size: 1.8rem; */
-    /* text-align: center; */
-    /* width: 50%; */
     height: 30%;
 }
 
