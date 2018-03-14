@@ -15,10 +15,11 @@
         </div>
         <div class="data">
           <div class="ital">Title in Native Language</div>
-          <div>
+          <div *ngFor="let title of titles | async">
             <label class="chkbox-label" for="title">
               <input type="radio" class="chkbox-input" name="title" id="title">
-              <span>Leaves of Grass</span>
+              <span>{{title.name}}</span>
+              <span>{{title.votes}}</span>
             </label>
           </div>
           <div>
@@ -53,10 +54,11 @@
       </div>
       <div class="data">
         <div class="ital">First Name</div>
-        <div>
+        <div *ngFor="let author of authors | async">
             <label class="chkbox-label" for="firstName">
               <input type="radio" class="chkbox-input" id="firstName" name="firstName">
-              <span>Walt</span>
+              <span>{{author.first_name}}</span>
+              <span>{{author.votes}}</span>
             </label>
           </div>
           <div>
@@ -69,10 +71,11 @@
       </div>
       <div class="data">
         <div class="ital">Last Name</div>
-        <div>
+        <div *ngFor="let author of authors | async ">
             <label class="chkbox-label" for="lastName">
               <input type="radio" class="chkbox-input" id="lastName" name="lastName">
-              <span>Whitman</span>
+              <span>{{author.last_name}}</span>
+              <span>{{author.votes}}</span>
             </label>
           </div>
           <div>
@@ -91,10 +94,10 @@
         </div>
         <div class="data">
           <div class="ital">Company</div>
-          <div>
+          <div *ngFor="let publisher of publishers | async">
             <label class="chkbox-label" for="company">
               <input type="radio" class="chkbox-input" id="company" name="company">
-              <span>Thayer and Elridge</span>
+              <span>{{publisher.company}}</span>
             </label>
           </div>
           <div>
@@ -107,10 +110,10 @@
         </div>
         <div class="data">
           <div class="ital">City</div>
-          <div>
+          <div *ngFor="let publisher of publishers | async">
               <label class="chkbox-label" for="city">
                 <input type="radio" class="chkbox-input" id="city" name="city">
-                <span>New York City</span>
+                <span>{{publisher.city}}</span>
               </label>
             </div>
             <div>
@@ -123,10 +126,10 @@
         </div>
         <div class="data">
             <div class="ital">Country</div>
-            <div>
+            <div *ngFor="let publisher of publishers | async">
                 <label class="chkbox-label" for="country">
                   <input type="radio" class="chkbox-input" id="country" name="country">
-                  <span>United States</span>
+                  <span>{{publisher.country}}</span>
                 </label>
               </div>
               <div>
@@ -139,10 +142,10 @@
           </div>
           <div class="data">
               <div class="ital">Year</div>
-              <div>
+              <div *ngFor="let publisher of publishers | async">
                   <label class="chkbox-label" for="year">
                     <input type="radio" class="chkbox-input" id="year" name="year">
-                    <span>1860</span>
+                    <span>{{publisher.year}}</span>
                   </label>
                 </div>
                 <div>
@@ -161,16 +164,16 @@
         </div>
         <div class="data">
           <div class="ital">Pages</div>
-          <div>
+          <div *ngFor="let page of pages | async">
             <label class="chkbox-label" for="pages">
               <input type="radio" class="chkbox-input" id="pages" name="pages">
-              <span>394</span>
+              <span>123</span>
             </label>
           </div>
           <div>
             <label class="chkbox-label" for="otherPages">
                 <input type="radio" class="chkbox-input" id="otherPages" name="pages">
-                <span></span>
+                <span>{{page.number}}</span>
             </label>  
             <input type="text" name="otherPages" placeholder="Add option...">
           </div>
@@ -183,10 +186,11 @@
         </div>
         <div class="data">
           <div class="ital">Genre</div>
-          <div>
+          <div *ngFor="let genre of genres | async">
             <label class="chkbox-label" for="genre">
               <input type="radio" class="chkbox-input" id="genre" name="genre">
-              <span>Fantasy</span>
+              <span>{{genre.name}}</span>
+              <span>{{genre.votes}}</span>
             </label>
           </div>
           <div>

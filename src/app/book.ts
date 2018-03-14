@@ -17,10 +17,17 @@ export interface Author{
     votes: number;
 }
 
+export interface Page{
+    number: number;
+    votes: number;
+}
+
+export interface Genre{
+    name: string;
+    votes: number;
+}
+
 export class Book{
    image_ids: number[];
    pages: number;
-   publisher: Publisher[];
-   title:  Title[];
-   author: Author[];
 }
