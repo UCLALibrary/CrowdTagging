@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ViewEncapsulation} from '@angular/core';
+import {Book} from '../book'
 import * as panzoom from '../../../node_modules/panzoom/dist/panzoom.js';
 
 @Component({
