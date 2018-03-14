@@ -3,15 +3,19 @@
     display: flex;
 }
 
-#galleryImage {
-    position: absolute;
+#galleryImage, #rotateContainer, #viewer {
     width: 100%;
     height: 100%;
-    background-image: url("../../assets/pup1.jpg");
-    background-size: 100% 100%;
 }
 
-#dataSet {
+#galleryImage {
+    position: absolute;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.dataSet {
     margin-bottom: 3%;
 }
 
@@ -23,13 +27,8 @@
 }
 
 #prev, #next {
-    position: absolute;
-    height: 32px;
-    width: 32px;
     top: 50%;
     margin-top: -35px;
-    cursor: pointer;
-    transition: transform 111ms linear;
 }
 
 #prev {
@@ -40,6 +39,44 @@
 #next {
     right: 3%;
     transform: translate(160%);
+}
+
+#prev, #next, #rotateLeft, #rotateRight {
+    position: absolute;
+    height: 32px;
+    width: 32px;
+    cursor: pointer;
+    transition: transform 111ms linear;
+}
+
+#rotateLeft, #rotateRight {
+    top: 5%;
+}
+
+#rotateLeft {
+    left: 3%;
+    transform: translate(-160%);
+}
+
+#rotateRight {
+    right: 3%;
+    transform: translate(160%);
+}
+
+#progress {
+    width: 100%;
+    position: relative;
+    top: 90%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    color: grey;
+    font-size: 2rem;
+    letter-spacing: 5px;
+    transform: translateY(100%);
+    transition: transform 111ms linear;
 }
 
 #viewContainer {
@@ -53,9 +90,17 @@
 #viewer {
     position: relative;
     overflow: hidden;
-    height: 100%;
-    width: 100%;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    background-color: black;
+}
+
+#rotateContainer {
+    position: absolute;
+}
+
+#rotateContainer:focus, input[type="submit"]:focus {
+    outline: none;
 }
 
 .hidden {
@@ -71,7 +116,7 @@
     margin: 0 auto;
     min-width: 262px;
     width: 100%;
-    height: 7%;
+    height: 10%;
     min-height:40px;
     margin-bottom: 1%;
     display: flex;
