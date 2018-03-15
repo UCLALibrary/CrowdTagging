@@ -14,7 +14,5 @@ export class HomeComponent implements OnInit {
     this.title = 'Crowd Tagging';
   }
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

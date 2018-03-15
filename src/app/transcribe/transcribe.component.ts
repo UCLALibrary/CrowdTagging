@@ -76,6 +76,7 @@ export class TranscribeComponent implements AfterViewInit {
     function renderImage(){
         var currImagePath = determineImageName();
 
+        pan.resetTransform();
         rotContainer.removeAttribute("style");
         galleryImg.removeAttribute("style");
         galleryImg.style.backgroundImage = "url('" + currImagePath + "')";
@@ -120,7 +121,6 @@ export class TranscribeComponent implements AfterViewInit {
             index--;
 
         degree = 0;
-        pan.resetTransform();
         renderImage();
     });
 
@@ -130,7 +130,6 @@ export class TranscribeComponent implements AfterViewInit {
             index++;
 
         degree = 0;
-        pan.resetTransform();
         renderImage();
     });
 

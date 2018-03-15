@@ -56,7 +56,7 @@ img {
 
 .navbar-brand {
     color: #f0f3f5;
-    font-size: 2.5rem;
+    font-size: 2em;
 }
 
 .navbar-header{
@@ -67,12 +67,16 @@ img {
     width: 13%;
     height: 70%;
     margin-left: 40%;
-    font-size: 1.7rem;
+    font-size: 2rem;
+}
+
+#login:focus {
+    outline: none;
 }
 
 #valueProp {
     color: #f0f3f5;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     height: 30%;
 }
 
