@@ -83,11 +83,14 @@ export class TranscribeComponent implements AfterViewInit {
         statusBar.style.transform = "translateY(100%)";
     });
 
+    var degree = 0;
+
     /* Handle lower-bound of gallery */
     prevArrow.addEventListener("click", function(){
         if(index > 1)
             index--;
 
+        degree = 0;
         pan.resetTransform();
         renderImage();
     });
@@ -97,11 +100,10 @@ export class TranscribeComponent implements AfterViewInit {
         if(index < currSetLength)
             index++;
 
+        degree = 0;
         pan.resetTransform();
         renderImage();
     });
-
-    var degree = 0;
 
     /* Allow for left rotation */
     rotateLeft.addEventListener("click", function(){
