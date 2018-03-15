@@ -27,6 +27,11 @@ export interface Genre{
     votes: number;
 }
 
+export interface Romanization{
+    name: string;
+    votes: number;
+}
+
 export class Book{
    image_ids: number[];
    pages: number;
