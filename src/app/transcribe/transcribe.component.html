@@ -12,31 +12,32 @@
     </div>
   </div>
   <div id="options">
-    <form onsubmit="return false"> <!-- method="POST" action="#" --> 
-      <div class="dataSet">
+    <form onsubmit="return false"> <!-- method="POST" action="#" -->
+      <div class="dataSet" *ngFor="let title of titles | async">
         <app-title title="Title"></app-title>
-        <app-data title="Title in Native Language" labeledAs="title" highestVoted="Leaves of Grass"></app-data>
-        <app-data title="Romanization" labeledAs="roman" highestVoted="Leaves of Grass"></app-data>
+        <app-data title="Title in Native Language" labeledAs="title" highestVoted="{{title.name}}"></app-data> <!-- votes="{{title.votes}}"-->
+        <app-data title="Romanization" labeledAs="roman" highestVoted="{{title.name}}"></app-data><!-- votes="{{title.votes}}"-->
       </div>
-      <div class="dataSet">
+      <div class="dataSet" *ngFor="let author of authors | async">
         <app-title title="Author"></app-title>
-        <app-data title="First Name" labeledAs="firstName" highestVoted="Walt"></app-data>
-        <app-data title="Last Name" labeledAs="lastName" highestVoted="Whitman"></app-data>
+        <app-data title="First Name" labeledAs="firstName" highestVoted="{{author.first_name}}"></app-data> <!-- votes="{{author.votes}}" -->
+        <app-data title="Last Name" labeledAs="lastName" highestVoted="{{author.last_name}}"></app-data> <!-- votes="{{author.votes}}" -->
+        <!-- Should vote be the same for last_name/first_name? Will they be voting on combined string? -->
       </div>
-      <div class="dataSet">
+      <div class="dataSet" *ngFor="let publisher of publishers | async">
         <app-title title="Publisher"></app-title>
-        <app-data title="Company" labeledAs="company" highestVoted="Thayer and Elridge"></app-data>
-        <app-data title="City" labeledAs="city" highestVoted="New York City"></app-data>
-        <app-data title="Country" labeledAs="country" highestVoted="United States"></app-data>
-        <app-data title="Year" labeledAs="year" highestVoted="1860"></app-data>
+        <app-data title="Company" labeledAs="company" highestVoted="{{publisher.company}}"></app-data>
+        <app-data title="City" labeledAs="city" highestVoted="{{publisher.city}}"></app-data>
+        <app-data title="Country" labeledAs="country" highestVoted="{{publisher.country}}"></app-data>
+        <app-data title="Year" labeledAs="year" highestVoted="{{publisher.year}}"></app-data>
       </div>
-      <div class="dataSet">
+      <div class="dataSet" *ngFor="let page of pages | async">
         <app-title title="Number of Pages"></app-title>
-        <app-data title="Pages" labeledAs="pages" highestVoted="394"></app-data>
+        <app-data title="Pages" labeledAs="pages" highestVoted="{{page.number}}"></app-data>
       </div>
-      <div class="dataSet">
+      <div class="dataSet" *ngFor="let genre of genres | async">
         <app-title title="Genre"></app-title>
-        <app-data title="Genre" labeledAs="genre" highestVoted="Fantasy"></app-data>
+        <app-data  title="Genre" labeledAs="genre" highestVoted="{{genre.name}}"></app-data> <!-- votes="{{genre.votes}}" -->
       </div>
       <div id="submit"><input type="submit"></div>
     </form>

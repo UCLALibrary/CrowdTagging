@@ -1,5 +1,9 @@
 import { Component, AfterViewInit } from '@angular/core';
-import {ViewEncapsulation} from '@angular/core';
+import { ViewEncapsulation } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { Book, Author, Publisher, Title, Page, Genre } from '../book'
 import * as panzoom from './panzoom/dist/panzoom.js';
 
 @Component({
@@ -9,11 +13,36 @@ import * as panzoom from './panzoom/dist/panzoom.js';
   styleUrls: ['./transcribe.component.css']
 })
 export class TranscribeComponent implements AfterViewInit {
+  
+  /* Book object */
+  book: Observable<Book>;
+  bookDoc: AngularFirestoreDocument<Book>;
+  
+  /* Author */
+  authors: Observable<Author[]>
 
-  constructor() { }
+  /* Publisher */
+  publishers: Observable<Publisher[]>
+
+  /* Title */
+  titles: Observable<Title[]>
+
+  /* Page */
+  pages: Observable<Page[]>
+  
+  /* Genre */
+  genres: Observable<Genre[]>
+
+  constructor(private afs: AngularFirestore) {
+    this.bookDoc = this.afs.doc<Book>('books/1');
+    this.authors = this.bookDoc.collection<Author>('authors').valueChanges();
+    this.titles = this.bookDoc.collection<Title>('titles').valueChanges();
+    this.publishers = this.bookDoc.collection<Publisher>('publishers').valueChanges();
+    this.pages = this.bookDoc.collection<Page>('pages').valueChanges();
+    this.genres = this.bookDoc.collection<Genre>('genres').valueChanges();
+  }
 
   ngAfterViewInit() {
-
     /* Select reusable HTML elements */
     var triangles    = Array.from(document.querySelectorAll('.triangle')),
         imgContainer = document.getElementById("viewContainer"),

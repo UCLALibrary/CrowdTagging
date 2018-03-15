@@ -28,4 +28,3 @@ $ npm install
 $ ng serve
 ```
 6. Visit localhost:4200 on your computer's browser to play around with the app!
-
