@@ -1,0 +1,58 @@
+{
+  "_from": "panzoom",
+  "_id": "panzoom@4.1.0",
+  "_inBundle": false,
+  "_integrity": "sha1-+SaR/Ogypbfb45I4gtwm+QjZkK8=",
+  "_location": "/panzoom",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "panzoom",
+    "name": "panzoom",
+    "escapedName": "panzoom",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/panzoom/-/panzoom-4.1.0.tgz",
+  "_shasum": "f92691fce832a5b7dbe3923882dc26f908d990af",
+  "_spec": "panzoom",
+  "_where": "/Users/jorge/Desktop/BuildUCLA/HirdayBranch/src",
+  "author": {
+    "name": "Andrei Kashcha"
+  },
+  "bugs": {
+    "url": "https://github.com/anvaka/panzoom/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "amator": "^1.0.1",
+    "wheel": "0.0.4"
+  },
+  "deprecated": false,
+  "description": "Extensible, mobile friendly pan and zoom framework (supports DOM and SVG).",
+  "homepage": "https://github.com/anvaka/panzoom#readme",
+  "keywords": [
+    "dom",
+    "svg",
+    "pan",
+    "zoom"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "panzoom",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anvaka/panzoom.git"
+  },
+  "scripts": {
+    "build": "browserify -s panzoom ./index.js > dist/panzoom.js && uglifyjs dist/panzoom.js > dist/panzoom.min.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "4.1.0"
+}

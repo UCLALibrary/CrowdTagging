@@ -1,6 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import {ViewEncapsulation} from '@angular/core';
-import * as panzoom from '../../../node_modules/panzoom/dist/panzoom.js';
+import * as panzoom from './panzoom/dist/panzoom.js';
 
 @Component({
   encapsulation: ViewEncapsulation.None, /* External CSS will not be applied without this */
@@ -47,6 +47,7 @@ export class TranscribeComponent implements AfterViewInit {
     function renderImage(){
         var currImagePath = determineImageName();
 
+        rotContainer.removeAttribute("style");
         galleryImg.removeAttribute("style");
         galleryImg.style.backgroundImage = "url('" + currImagePath + "')";
         statusBar.innerHTML = index + "/" + currSetLength;
@@ -87,6 +88,7 @@ export class TranscribeComponent implements AfterViewInit {
         if(index > 1)
             index--;
 
+        pan.resetTransform();
         renderImage();
     });
 
@@ -95,6 +97,7 @@ export class TranscribeComponent implements AfterViewInit {
         if(index < currSetLength)
             index++;
 
+        pan.resetTransform();
         renderImage();
     });
 
