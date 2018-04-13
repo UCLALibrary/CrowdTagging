@@ -3,7 +3,7 @@ import { ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Book, Author, Publisher, Title, Page, Genre } from '../book'
+import { Book, Author, Publisher, Title, Page, Genre, Romanization } from '../book'
 import * as panzoom from './panzoom/dist/panzoom.js';
 
 @Component({
@@ -33,6 +33,9 @@ export class TranscribeComponent implements AfterViewInit {
   /* Genre */
   genres: Observable<Genre[]>
 
+  /* Romanizations */
+  romans: Observable<Romanization[]>
+
   constructor(private afs: AngularFirestore) {
     this.bookDoc = this.afs.doc<Book>('books/1');
     this.authors = this.bookDoc.collection<Author>('authors').valueChanges();
@@ -40,6 +43,7 @@ export class TranscribeComponent implements AfterViewInit {
     this.publishers = this.bookDoc.collection<Publisher>('publishers').valueChanges();
     this.pages = this.bookDoc.collection<Page>('pages').valueChanges();
     this.genres = this.bookDoc.collection<Genre>('genres').valueChanges();
+    this.romans = this.bookDoc.collection<Romanization>('romans').valueChanges();
   }
 
   ngAfterViewInit() {
@@ -58,7 +62,7 @@ export class TranscribeComponent implements AfterViewInit {
     /* Collapse on click for each data set */
     triangles.forEach(function(item){ 
         item.addEventListener('click', function() { 
-            var data = Array.from(this.parentElement.parentElement.parentElement.querySelectorAll('app-data'));
+            var data = Array.from(this.parentElement.parentElement.parentElement.querySelectorAll('.data'));
 
             data.forEach(function(item){
                 (item as any).classList.toggle("hidden"); 

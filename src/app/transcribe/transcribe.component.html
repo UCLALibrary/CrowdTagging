@@ -7,40 +7,150 @@
       <img src="../../assets/rotateLeft.png" id="rotateLeft"/>
       <img src="../../assets/rotateRight.png" id="rotateRight"/>
       <img src="../../assets/left.svg" id="prev"/>
-      <img src="../../assets/right.svg"  id="next"/>
+      <img src="../../assets/right.svg" id="next"/>
       <div id="progress"></div>
     </div>
   </div>
   <div id="options">
     <form onsubmit="return false"> <!-- method="POST" action="#" -->
-      <div class="dataSet"> <!-- *ngFor="let title of titles | async" -->
+      <!-- Title Dataset-->
+      <div class="dataSet">
         <app-title title="Title"></app-title>
-        <app-data title="Title in Native Language" labeledAs="title" highestVoted="Leaves of Grass"></app-data> <!-- highestVoted="{{title.name}}" votes="{{title.votes}}"-->
-        <app-data title="Romanization" labeledAs="roman" highestVoted="Leaves of Grass"></app-data><!-- highestVoted="{{title.name}}" votes="{{title.votes}}"-->
+
+        <div class="data">
+          <div class="ital">Title in Native Language</div>
+          <div *ngFor="let title of titles | async">
+            <label class="chkbox-label" for="{{title.name}}">
+              <input type="radio" class="chkbox-input" name="title" id="{{title.name}}">
+              <span>{{title.name}}</span>
+            </label>
+          </div>
+          <app-addOption title="title"></app-addOption>
+        </div>
+
+        <div class="data">
+          <div class="ital">Romanization</div>
+          <div *ngFor="let roman of romans | async">
+            <label class="chkbox-label" for="{{roman.name}}">
+              <input type="radio" class="chkbox-input" name="roman" id="{{roman.name}}">
+              <span>{{roman.name}}</span>
+            </label>
+          </div>
+          <app-addOption title="roman"></app-addOption>
+        </div>
       </div>
-      <div class="dataSet"> <!--  *ngFor="let author of authors | async" -->
+
+      <!-- Author Dataset-->
+      <div class="dataSet">
         <app-title title="Author"></app-title>
-        <app-data title="First Name" labeledAs="firstName" highestVoted="Walt"></app-data> <!-- highestVoted="{{author.first_name}}" votes="{{author.votes}}" -->
-        <app-data title="Last Name" labeledAs="lastName" highestVoted="Whitman"></app-data> <!-- highestVoted="{{author.last_name}}" votes="{{author.votes}}" -->
-        <!-- Should vote be the same for last_name/first_name? Will they be voting on combined string? -->
+
+        <div class="data">
+          <div class="ital">First Name</div>
+          <div *ngFor="let author of authors | async">
+            <label class="chkbox-label" for="{{author.first_name}}">
+              <input type="radio" class="chkbox-input" name="firstName" id="{{author.first_name}}">
+              <span>{{author.first_name}}</span>
+            </label>
+          </div>
+          <app-addOption title="firstName"></app-addOption>
+        </div>
+
+        <div class="data">
+          <div class="ital">Last Name</div>
+          <div *ngFor="let author of authors | async">
+            <label class="chkbox-label" for="{{author.last_name}}">
+              <input type="radio" class="chkbox-input" name="lastName" id="{{author.last_name}}">
+              <span>{{author.last_name}}</span>
+            </label>
+          </div>
+          <app-addOption title="lastName"></app-addOption>
+        </div>
       </div>
-      <div class="dataSet"> <!-- *ngFor="let publisher of publishers | async" -->
+
+      <!-- Publisher Dataset-->
+      <div class="dataSet">
         <app-title title="Publisher"></app-title>
-        <app-data title="Company" labeledAs="company" highestVoted="Thayer and Elridge"></app-data> <!-- highestVoted="{{publisher.company}}" -->
-        <app-data title="City" labeledAs="city" highestVoted="New York City"></app-data> <!-- highestVoted="{{publisher.city}}" -->
-        <app-data title="Country" labeledAs="country" highestVoted="United States"></app-data> <!-- highestVoted="{{publisher.country}}" -->
-        <app-data title="Year" labeledAs="year" highestVoted="1860"></app-data> <!-- highestVoted="{{publisher.year}}" -->
+
+        <div class="data">
+          <div class="ital">Company</div>
+          <div *ngFor="let publisher of publishers | async">
+            <label class="chkbox-label" for="{{publisher.company}}">
+              <input type="radio" class="chkbox-input" name="company" id="{{publisher.company}}">
+              <span>{{publisher.company}}</span>
+            </label>
+          </div>
+          <app-addOption title="company"></app-addOption>
+        </div>
+
+        <div class="data">
+          <div class="ital">City</div>
+          <div *ngFor="let publisher of publishers | async">
+            <label class="chkbox-label" for="{{publisher.city}}">
+              <input type="radio" class="chkbox-input" name="city" id="{{publisher.city}}">
+              <span>{{publisher.city}}</span>
+            </label>
+          </div>
+          <app-addOption title="city"></app-addOption>
+        </div>
+
+        <div class="data">
+          <div class="ital">Country</div>
+          <div *ngFor="let publisher of publishers | async">
+            <label class="chkbox-label" for="{{publisher.country}}">
+              <input type="radio" class="chkbox-input" name="country" id="{{publisher.country}}">
+              <span>{{publisher.country}}</span>
+            </label>
+          </div>
+          <app-addOption title="country"></app-addOption>
+        </div>
+
+        <div class="data">
+          <div class="ital">Year</div>
+          <div *ngFor="let publisher of publishers | async">
+            <label class="chkbox-label" for="{{publisher.year}}">
+              <input type="radio" class="chkbox-input" name="year" id="{{publisher.year}}">
+              <span>{{publisher.year}}</span>
+            </label>
+          </div>
+          <app-addOption title="year"></app-addOption>
+        </div>
       </div>
-      <div class="dataSet"> <!--  *ngFor="let page of pages | async" -->
+
+      <!-- Pages Dataset-->
+      <div class="dataSet">
         <app-title title="Number of Pages"></app-title>
-        <app-data title="Pages" labeledAs="pages" highestVoted="394"></app-data> <!-- highestVoted="{{page.number}}" -->
+
+        <div class="data">
+          <div class="ital">Pages</div>
+          <div *ngFor="let page of pages | async">
+            <label class="chkbox-label" for="{{page.number}}">
+              <input type="radio" class="chkbox-input" name="page" id="{{page.number}}">
+              <span>{{page.number}}</span>
+            </label>
+          </div>
+          <app-addOption title="page"></app-addOption>
+        </div>
       </div>
-      <div class="dataSet"> <!--  *ngFor="let genre of genres | async" -->
+
+      <!-- Genre Dataset-->
+      <div class="dataSet">
         <app-title title="Genre"></app-title>
-        <app-data title="Genre" labeledAs="genre" highestVoted="Fantasy"></app-data> <!-- highestVoted="{{genre.name}}" votes="{{genre.votes}}" -->
+
+        <div class="data">
+          <div class="ital">Genre</div>
+          <div *ngFor="let genre of genres | async">
+            <label class="chkbox-label" for="{{genre.name}}">
+              <input type="radio" class="chkbox-input" name="genre" id="{{genre.name}}">
+              <span>{{genre.name}}</span>
+            </label>
+          </div>
+          <app-addOption title="genre"></app-addOption>
+        </div>
       </div>
+
       <div id="submit"><input type="submit"></div>
     </form>
-    <!-- TODO: Replace ngFor with something equivalent to "get next element in struct" | generator/iterator? -->  
   </div>
 </div>
+
+<!-- STOP submission on enter; user might click enter to indicate end of new option -->

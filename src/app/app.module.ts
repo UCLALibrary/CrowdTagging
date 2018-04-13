@@ -12,7 +12,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { TranscribeComponent } from './transcribe/transcribe.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { DataComponent } from './transcribe/data/data.component';
+import { AddOptionComponent } from './transcribe/addOption/addOption.component';
 import { TitleComponent } from './transcribe/title/title.component';
 
 const appRoutes: Routes = [
@@ -26,7 +26,7 @@ const appRoutes: Routes = [
     NavbarComponent,
     TranscribeComponent,
     HomeComponent,
-    DataComponent,
+    AddOptionComponent,
     TitleComponent
   ],
   imports: [
