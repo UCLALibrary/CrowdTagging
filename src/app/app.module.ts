@@ -14,10 +14,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AddOptionComponent } from './transcribe/addOption/addOption.component';
 import { TitleComponent } from './transcribe/title/title.component';
+import { AfService } from './providers/af.service';
+import { AdminComponent } from './admin/admin.component';
+import { AdminGuard } from './guards/admin.guard';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'transcribe', component: TranscribeComponent }
+  { path: 'transcribe', component: TranscribeComponent },
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard]}
 ];
 
 @NgModule({
@@ -27,7 +31,8 @@ const appRoutes: Routes = [
     TranscribeComponent,
     HomeComponent,
     AddOptionComponent,
-    TitleComponent
+    TitleComponent,
+    AdminComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -35,13 +40,9 @@ const appRoutes: Routes = [
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
     BrowserModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
-    AngularFireStorageModule, // imports firebase/storage only needed for storage features
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AngularFireDatabase],
+  providers: [AngularFireDatabase, AfService, AdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

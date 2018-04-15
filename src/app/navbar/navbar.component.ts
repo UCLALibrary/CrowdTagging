@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AfService } from '../providers/af.service';
+import { User } from '../providers/user';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  user: User;
+
+  constructor(public AfService: AfService) { }
+
+  login() {
+    this.AfService.loginWithGoogle();
+  }
+
+  logout() {
+    this.AfService.logout();
+  }
 
   ngOnInit() {
+    this.AfService.user$.subscribe(user => this.user = user);
   }
 
 }

@@ -1,14 +1,21 @@
 <nav class="navbar">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/">
-        <img src="../../assets/CTlogo.png">
+      <a class="navbar-brand" routerLink="/">
+        <img src="../../assets/CTlogo.png" id="logo">
         <div id="brandPlusProp">
           <span id="brand">Crowd Tagging</span>
           <span id="valueProp">Book Tagging Without The Headaches</span>
         </div>
       </a>
     </div>
-    <button id="login">Log In</button>
+    <div *ngIf="user; else loginTemplate" class="dropdown">
+      <img [src]="user.photoURL" id="user">
+      <button (click)="logout()" class="dropdown-content">Log Out</button>
+    </div>
   </div>
 </nav>
+
+<ng-template #loginTemplate>
+    <button id="login" (click)="login()">Log In</button>
+  </ng-template>

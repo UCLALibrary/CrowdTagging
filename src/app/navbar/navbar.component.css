@@ -25,7 +25,7 @@ button {
     height: 60%;
 }
 
-img {
+#logo {
     min-height: 65px;
     min-width: 95px;
     padding: 2% 0;
@@ -91,4 +91,36 @@ img {
     line-height: 200%;
     height: 60%;
     vertical-align: middle;
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    transform: translateY(60px);
+    z-index: 1000000000;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown {
+    position: relative;
+    min-height: 65px;
+    min-width: 95px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 13%;
+    height: 90%;
+    margin-left: 40%;
+}
+
+#user {
+    height: 90%;
+    border-radius: 50%;
 }
