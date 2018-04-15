@@ -43,7 +43,7 @@ export class TranscribeComponent implements AfterViewInit {
     this.publishers = this.bookDoc.collection<Publisher>('publishers').valueChanges();
     this.pages = this.bookDoc.collection<Page>('pages').valueChanges();
     this.genres = this.bookDoc.collection<Genre>('genres').valueChanges();
-    this.romans = this.bookDoc.collection<Romanization>('romans').valueChanges();
+    this.romans = this.bookDoc.collection<Romanization>('romanization').valueChanges();
   }
 
   ngAfterViewInit() {
