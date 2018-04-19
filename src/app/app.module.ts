@@ -17,10 +17,11 @@ import { TitleComponent } from './transcribe/title/title.component';
 import { AfService } from './providers/af.service';
 import { AdminComponent } from './admin/admin.component';
 import { AdminGuard } from './guards/admin.guard';
+import { UserGuard } from './guards/user.guard';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'transcribe', component: TranscribeComponent },
+  { path: 'transcribe', component: TranscribeComponent, canActivate: [UserGuard]},
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard]}
 ];
 
@@ -42,7 +43,7 @@ const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AngularFireDatabase, AfService, AdminGuard],
+  providers: [AngularFireDatabase, AfService, AdminGuard, UserGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

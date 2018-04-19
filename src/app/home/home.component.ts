@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { AfService } from '../providers/af.service';
+import { User } from '../providers/user';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +12,7 @@ import { AfService } from '../providers/af.service';
 })
 export class HomeComponent implements OnInit {
   title: string;
+  user: User;
 
   constructor(private afs: AngularFirestore, public AfService: AfService) {
     this.title = 'Crowd Tagging';
@@ -20,5 +22,7 @@ export class HomeComponent implements OnInit {
     this.AfService.loginWithGoogle();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.AfService.user$.subscribe(user => this.user = user);
+  }
 }

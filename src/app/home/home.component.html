@@ -29,5 +29,14 @@
       </div>
     </div>
   </div>
-  <div id="bottomHalf" routerLinkActive="active"><button routerLink="transcribe" (click)="login()">Get Started!</button></div>
+  <div *ngIf="user; else loginTemplate" id="bottomHalf" routerLinkActive="active">
+    <button routerLink="transcribe">Start Tagging!</button>
+  </div>
+  
 </div>
+
+<ng-template #loginTemplate>
+  <div id="bottomHalf" routerLinkActive="active">
+    <button (click)="login()">Get Started!</button>
+  </div>
+</ng-template>

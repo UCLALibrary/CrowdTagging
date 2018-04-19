@@ -11,11 +11,11 @@
     </div>
     <div *ngIf="user; else loginTemplate" class="dropdown">
       <img [src]="user.photoURL" id="user">
-      <button (click)="logout()" class="dropdown-content">Log Out</button>
+      <button (click)="logout()" class="dropdown-content" routerLink="/">Log Out</button>
     </div>
   </div>
 </nav>
 
 <ng-template #loginTemplate>
     <button id="login" (click)="login()">Log In</button>
-  </ng-template>
+</ng-template>
