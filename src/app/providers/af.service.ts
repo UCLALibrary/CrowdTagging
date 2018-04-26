@@ -41,8 +41,8 @@ export class AfService {
       email: user.email,
       photoURL: user.photoURL,
       roles: {
-        user: true,
-        admin: false
+        user: user.rules.user,
+        admin: user.rules.admin
       }
     }
 
