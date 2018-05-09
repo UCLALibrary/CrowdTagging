@@ -88,9 +88,15 @@ img {
     left: 120%;
     top: 0%;
     z-index: 1;
+    max-height: 300px;
+    overflow: scroll;
 }
 
 .tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltiptext:hover {
     visibility: visible;
 }
 

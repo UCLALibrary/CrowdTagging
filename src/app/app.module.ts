@@ -18,11 +18,13 @@ import { AfService } from './providers/af.service';
 import { AdminComponent } from './admin/admin.component';
 import { AdminGuard } from './guards/admin.guard';
 import { UserGuard } from './guards/user.guard';
+import { ProfileComponent } from './profile/profile.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'transcribe', component: TranscribeComponent, canActivate: [UserGuard]},
-  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard]}
+  { path: 'transcribe', component: TranscribeComponent, canActivate: [UserGuard] },
+  { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [UserGuard] }
 ];
 
 @NgModule({
@@ -33,7 +35,8 @@ const appRoutes: Routes = [
     HomeComponent,
     AddOptionComponent,
     TitleComponent,
-    AdminComponent
+    AdminComponent,
+    ProfileComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),

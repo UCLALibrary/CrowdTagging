@@ -9,9 +9,15 @@
         </div>
       </a>
     </div>
+    <span></span>
     <div *ngIf="user; else loginTemplate" class="dropdown">
       <img [src]="user.photoURL" id="user">
-      <button (click)="logout()" class="dropdown-content" routerLink="/">Log Out</button>
+      <div class="dropdown-content">
+        <button routerLink="/profile">Profile</button>
+        <button routerLink="/transcribe">Transcribe</button>
+        <button routerLink="/admin" *ngIf="user.roles.admin">Admin View</button>
+        <button routerLink="/" (click)="logout()" >Log Out</button>
+      </div>
     </div>
   </div>
 </nav>

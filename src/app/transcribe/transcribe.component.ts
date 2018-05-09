@@ -1,10 +1,12 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Book, Author, Publisher, Title, Page, Genre, Romanization } from '../book'
 import * as panzoom from './panzoom/dist/panzoom.js';
+import { User } from '../providers/user';
+import { AfService } from '../providers/af.service';
 
 @Component({
   encapsulation: ViewEncapsulation.None, /* External CSS will not be applied without this */
@@ -12,8 +14,9 @@ import * as panzoom from './panzoom/dist/panzoom.js';
   templateUrl: './transcribe.component.html',
   styleUrls: ['./transcribe.component.css']
 })
-export class TranscribeComponent implements AfterViewInit {
-  
+export class TranscribeComponent implements OnInit, AfterViewInit {
+  user: User;
+
   /* Book object */
   book: Observable<Book>;
   bookDoc: AngularFirestoreDocument<Book>;
@@ -36,7 +39,7 @@ export class TranscribeComponent implements AfterViewInit {
   /* Romanizations */
   romans: Observable<Romanization[]>
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, public AfService: AfService) {
     this.bookDoc = this.afs.doc<Book>('books/1');
     this.authors = this.bookDoc.collection<Author>('authors').valueChanges();
     this.titles = this.bookDoc.collection<Title>('titles').valueChanges();
@@ -44,6 +47,58 @@ export class TranscribeComponent implements AfterViewInit {
     this.pages = this.bookDoc.collection<Page>('pages').valueChanges();
     this.genres = this.bookDoc.collection<Genre>('genres').valueChanges();
     this.romans = this.bookDoc.collection<Romanization>('romanization').valueChanges();
+  }
+
+  isAdmin() {
+      return this.user.roles.admin;
+  }
+
+  isUser() {
+      return this.user.roles.user;
+  }
+
+  // maybe we could change database to have several docs instead of fields,
+  // so that we can delete them without having to monitor null states?
+  delete(collection, id, field?){
+    // need to also remove from progress? 
+    // or do we want users to have record of their exact transcriptions?
+    
+    var col = this.bookDoc.collection(collection).doc(id);
+      
+    if(field){ // tells us that document has other values we might care about
+        return col.ref.get().then(doc => {
+            const data = doc.data();
+            data[field] = null;
+
+            // if any field still has a value, maintain entry
+            // otherwise get rid of entire doc (entire doc basically null)
+            for (let key in data)
+                if(data[key]){
+                    col.set(data, {merge: true});
+                    return;
+                }      
+        });
+    }
+    
+    this.bookDoc.collection(collection).doc(id).delete(); 
+  }
+
+  set(collection, id, field, value){
+    // need to also set in progress?
+    // or do we want users to have record of their exact transcriptions?
+    
+    var col = this.bookDoc.collection(collection).doc(id);
+
+    col.ref.get().then(doc => {
+        const data = doc.data();
+        data[field] = value;
+
+        col.set(data, {merge: true});     
+    });
+}
+
+  ngOnInit() {
+    this.AfService.user$.subscribe(user => this.user = user);
   }
 
   ngAfterViewInit() {

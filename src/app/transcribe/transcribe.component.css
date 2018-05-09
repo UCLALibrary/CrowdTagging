@@ -194,3 +194,28 @@ input[type="text"] {
     margin-left: -2px;
     width: 85%;
 }
+
+.iconContainer {
+    display: inline;
+}
+
+.pencil, .ex {
+    float: right;
+}
+
+.pencil {
+    padding-right: 10%;
+}
+
+.ex {
+    padding-right: 3%;
+}
+
+.modified {
+    margin-bottom: 1.5%;
+    width: 78% !important;
+}
+
+.glyphicon-ok {
+    padding-left: 1%;
+}

@@ -28,7 +28,6 @@ export class AfService {
 
       if(this.user$) {
         this.router.navigate(['transcribe']);
-        // Do all users land here? What are the landing pages for user/admin?
       }
     });
   }
@@ -36,17 +35,26 @@ export class AfService {
   updateUser(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
 
-    const data: User = {
-      uid: user.uid,
-      email: user.email,
-      photoURL: user.photoURL,
-      roles: {
-        user: user.rules.user,
-        admin: user.rules.admin
+    userRef.ref.get().then(function(doc){
+      const data: User = {
+        uid: user.uid,
+        dispName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        roles: {
+          user: true,
+          admin: false
+        },
+        booksTagged: []
       }
-    }
+  
+      try {
+        data.roles.admin = doc.data().roles.admin
+        data.booksTagged = doc.data().booksTagged
+      } catch (e) {}
 
-    return userRef.set(data,{merge: true});
+      return userRef.set(data, {merge: true});
+    });
   }
 
   logout() {
