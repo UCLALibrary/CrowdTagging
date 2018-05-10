@@ -45,12 +45,14 @@ export class AfService {
           user: true,
           admin: false
         },
-        booksTagged: []
+        booksTagged: [],
+        numTagged: 0
       }
   
       try {
-        data.roles.admin = doc.data().roles.admin
-        data.booksTagged = doc.data().booksTagged
+        data.roles.admin = doc.data().roles.admin;
+        data.booksTagged = doc.data().booksTagged;
+        data.numTagged = doc.data().numTagged;
       } catch (e) {}
 
       return userRef.set(data, {merge: true});

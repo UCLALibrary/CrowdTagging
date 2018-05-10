@@ -9,7 +9,9 @@ img {
 button {
     width: 70%;
     height: 10%;
-    min-height: 50px;
+    min-height: 30px;
+    background-color: #495867;
+    color: #f0f3f5;
 }
 
 #container {
@@ -17,7 +19,7 @@ button {
     display: flex;
     flex-direction: column;
     width: 100vw;
-    border: 1px red solid;
+    overflow: scroll;
 }
 
 #imageArea {
@@ -44,14 +46,17 @@ button {
 
 #personalData {
     display: flex;
-    width: 100%;
+    width: 90%;
     height: 45%;
+    min-height: 260px;
     margin: 5%;
+    margin-bottom: 3%;
 }
 
 #fluidCont {
     background-color: #86DEB7;
     height: 45px;
+    min-height: 45px;
     padding-left: 5%;
     display: flex;
 }
@@ -70,4 +75,64 @@ button {
     padding-left: 3%;
     padding-right: 3%;
     font-size: 2rem;
+}
+
+
+
+
+
+.data {
+    background-color: #ddd;
+    min-height: 40px;
+    height: 40px;
+    padding-left: 6%;
+    border-bottom: 1px #808080 solid;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ital {
+    font-size: 18px;
+}
+
+.title {
+    background-color: #495867;
+    box-shadow:0px 3px 3px rgba(0, 0, 0, 0.35); 
+    height: 40px; 
+    display: flex;
+    align-items: center;
+    padding-left: 13px;
+    font-size: 20px;
+    position: relative;
+    z-index: 10;
+    color: #f0f3f5;
+}
+
+.triangle {
+
+	border-top: 9px solid transparent;
+	border-left: 16px solid white;
+    border-bottom: 9px solid transparent;
+}
+
+.rot {
+    transform: rotate(90deg);
+    
+}
+
+.dataSet {
+    margin-top: 1.5%;
+    margin-bottom: 0.5%;
+    width: 85%;
+    align-self: center;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+div > span {
+    padding-left: 2%;
 }

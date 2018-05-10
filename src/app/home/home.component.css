@@ -85,7 +85,7 @@ img {
     height: auto;
     line-height: 2rem;
     position: absolute;
-    left: 120%;
+    left: 176px;
     top: 0%;
     z-index: 1;
     max-height: 300px;
@@ -94,6 +94,7 @@ img {
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
+    border-left: 20px #f0f3f5 solid;
 }
 
 .tooltiptext:hover {

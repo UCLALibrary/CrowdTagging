@@ -103,3 +103,6 @@ button:focus {
     color: black;
 }
 
+img:hover {
+    cursor: pointer;
+}

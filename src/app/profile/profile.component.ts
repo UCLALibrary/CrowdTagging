@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { AfService } from '../providers/af.service';
+import { User } from '../providers/user';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { Observable } from '@firebase/util';
+import { Book } from '../book';
+import { Transcription } from '../transcription';
 
 @Component({
   selector: 'app-profile',
@@ -7,8 +13,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  user: User;
+  books;
 
-  ngOnInit() { }
+  constructor(private afs: AngularFirestore, public AfService: AfService) {}
 
+  ngOnInit() { 
+    this.AfService.user$.subscribe(user => {
+      this.user = user;
+      this.books = this.afs.collection(`progress/${user.uid}/books`).valueChanges();
+    });
+  }
+
+  toggle(event){
+    event.target.classList.toggle("rot");
+
+    var data = Array.from(event.target.parentElement.parentElement.querySelectorAll('.data'));
+
+    data.forEach(function(item){
+      (item as any).classList.toggle("hidden"); 
+  });
+  }
 }

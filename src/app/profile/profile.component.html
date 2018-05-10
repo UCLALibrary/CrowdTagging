@@ -1,14 +1,14 @@
 <div id="container">
   <div id="personalData">
     <div id="imageArea">
-      <img src="http://via.placeholder.com/350x150">
+      <img src="{{user?.photoURL}}">
       <button>Edit Image</button>
     </div>
     <div id="textArea">
-      <span>Name: <span>John Doe</span></span>
-      <span>Email: <span>johndoe@g.ucla.edu</span></span>
-      <span>Roles: <span>User, Admin</span></span>
-      <span>Total Books Tagged: <span>#</span></span>
+      <span>Name: <span>{{user?.dispName}}</span></span>
+      <span>Email: <span>{{user?.email}}</span></span>
+      <span>Roles: <span>{{user?.roles.admin ? "User, Admin" : "User"}}</span></span>
+      <span>Total Books Tagged: <span>{{user?.numTagged}}</span></span>
     </div>
   </div>
 
@@ -17,4 +17,32 @@
     <div id="transcription">Transcriptions</div>
     <div id="blank"></div>
   </div>
+
+  <div class="dataSet" *ngFor="let book of books | async">
+    <div class="title">
+      <div class="triangle" (click)="toggle($event)"></div>
+      <span>{{book.title}}</span>
+    </div>
+
+    <div class="data hidden">
+      <div class="ital">Romanization: <span>{{book.roman}}</span></div>
+    </div>
+
+    <div class="data hidden">
+      <div class="ital">Author: <span>{{book.author.last_name}}, {{book.author.first_name}} </span></div>
+    </div>
+
+    <div class="data hidden">
+      <div class="ital">Publisher: <span>{{book.publisher.company}}, {{book.publisher.city}}, {{book.publisher.country}}, {{book.publisher.year}}</span></div>
+    </div>
+
+    <div class="data hidden">
+      <div class="ital">Genre: <span>{{book.genre}}</span></div>
+    </div>
+
+    <div class="data hidden">
+      <div class="ital">Pages: <span>{{book.pages}}</span></div>
+    </div>
+  </div>
+  
 </div>

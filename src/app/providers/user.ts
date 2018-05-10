@@ -5,6 +5,7 @@ export interface User {
     photoURL: String;
     roles: Roles;
     booksTagged: Array<number>;
+    numTagged: number;
 }
 
 export interface Roles {
