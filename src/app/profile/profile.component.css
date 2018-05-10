@@ -77,15 +77,11 @@ button {
     font-size: 2rem;
 }
 
-
-
-
-
 .data {
     background-color: #ddd;
     min-height: 40px;
     height: 40px;
-    padding-left: 6%;
+    padding: 0 0 0 6%;
     border-bottom: 1px #808080 solid;
     font-size: 16px;
     display: flex;
@@ -93,7 +89,7 @@ button {
     justify-content: center;
 }
 
-.ital {
+#ital { /* must be an id; can't be a class */
     font-size: 18px;
 }
 
@@ -111,15 +107,13 @@ button {
 }
 
 .triangle {
-
-	border-top: 9px solid transparent;
-	border-left: 16px solid white;
+    border-top: 9px solid transparent;
+    border-left: 16px solid white;
     border-bottom: 9px solid transparent;
 }
 
 .rot {
-    transform: rotate(90deg);
-    
+    transform: rotate(90deg);   
 }
 
 .dataSet {
