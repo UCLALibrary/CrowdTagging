@@ -8,7 +8,7 @@
       <span>Name: <span>{{user?.dispName}}</span></span>
       <span>Email: <span>{{user?.email}}</span></span>
       <span>Roles: <span>{{user?.roles.admin ? "User, Admin" : "User"}}</span></span>
-      <span>Total Books Tagged: <span>{{user?.numTagged}}</span></span>
+      <span>Total Books Tagged: <span>{{user?.numTagged ? user?.numTagged : 0}}</span></span>
     </div>
   </div>
 

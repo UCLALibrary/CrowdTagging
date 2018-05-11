@@ -53,7 +53,7 @@
                   <span></span>
               </label>  
               <input type="text" class="modified" name="edit{{roman.name}}" value="{{roman.name}}">
-              <span class="glyphicon glyphicon-ok" (click)="roman.edit = false; set('romans', roman.id, 'name', $event.target.previousElementSibling.value)"></span>
+              <span class="glyphicon glyphicon-ok" (click)="roman.edit = false; set('romanization', roman.id, 'name', $event.target.previousElementSibling.value)"></span>
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && roman.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="roman.edit = true; roman.hovering = false"></span>
