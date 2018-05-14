@@ -21,14 +21,14 @@
           <div class="ital">Title in Native Language</div>
           <div class="dataPoint" *ngFor="let title of titles | async" (mouseenter)="title.hovering = !title.edit" (mouseleave)="title.hovering = false">
             <label class="chkbox-label" for="{{title.name}}" *ngIf="!title.edit">
-              <input type="radio" class="chkbox-input" name="title" id="{{title.name}}">
+              <input type="radio" class="chkbox-input" name="title" id="{{title.name}}" (change)="onSelectionChange('title', title.id)">
               <span>{{title.name}}</span>
             </label>
             <div *ngIf="title.edit">
               <label class="chkbox-label" for="edit{{title.name}}">
                   <input type="radio" class="chkbox-input" id="edit{{title.name}}" name="title">
                   <span></span>
-              </label>  
+              </label>
               <input type="text" class="modified" name="edit{{title.name}}" value="{{title.name}}">
               <span class="glyphicon glyphicon-ok" (click)="title.edit = false; set('titles', title.id, 'name', $event.target.previousElementSibling.value)"></span>
             </div>
@@ -37,21 +37,21 @@
               <span class="ex glyphicon glyphicon-remove" (click)="delete('titles', title.id)"></span>
             </div>
           </div>
-          <app-addOption title="title"></app-addOption>
+          <app-addOption title="title" (onAddOptionInteraction)="onAddOption('title', $event)"></app-addOption>
         </div>
 
         <div class="data">
           <div class="ital">Romanization</div>
           <div class="dataPoint" *ngFor="let roman of romans | async" (mouseenter)="roman.hovering = !roman.edit" (mouseleave)="roman.hovering = false">
             <label class="chkbox-label" for="{{roman.name}}" *ngIf="!roman.edit">
-              <input type="radio" class="chkbox-input" name="roman" id="{{roman.name}}">
+              <input type="radio" class="chkbox-input" name="roman" id="{{roman.name}}" (change)="onSelectionChange('roman', roman.id)">
               <span>{{roman.name}}</span>
             </label>
             <div *ngIf="roman.edit">
               <label class="chkbox-label" for="edit{{roman.name}}">
                   <input type="radio" class="chkbox-input" id="edit{{roman.name}}" name="title">
                   <span></span>
-              </label>  
+              </label>
               <input type="text" class="modified" name="edit{{roman.name}}" value="{{roman.name}}">
               <span class="glyphicon glyphicon-ok" (click)="roman.edit = false; set('romanization', roman.id, 'name', $event.target.previousElementSibling.value)"></span>
             </div>
@@ -60,7 +60,7 @@
               <span class="ex glyphicon glyphicon-remove" (click)="delete('romanization', roman.id)"></span>
             </div>
           </div>
-          <app-addOption title="roman"></app-addOption>
+          <app-addOption title="roman" (onAddOptionInteraction)="onAddOption('roman', $event)"></app-addOption>
         </div>
       </div>
 
@@ -73,14 +73,14 @@
           <div *ngFor="let author of authors | async">
           <div class="dataPoint" *ngIf="author.first_name" (mouseenter)="author.hovering = !author.edit" (mouseleave)="author.hovering = false">
             <label class="chkbox-label" for="{{author.first_name}}" *ngIf="!author.edit">
-              <input type="radio" class="chkbox-input" name="firstName" id="{{author.first_name}}">
+              <input type="radio" class="chkbox-input" name="firstName" id="{{author.first_name}}" (change)="onSelectionChange('author', author.id)">
               <span>{{author.first_name}}</span>
             </label>
             <div *ngIf="author.edit">
               <label class="chkbox-label" for="edit{{author.first_name}}">
                   <input type="radio" class="chkbox-input" id="edit{{author.first_name}}" name="title">
                   <span></span>
-              </label>  
+              </label>
               <input type="text" class="modified" name="edit{{author.first_name}}" value="{{author.first_name}}">
               <span class="glyphicon glyphicon-ok" (click)="author.edit = false; set('authors', author.id, 'first_name', $event.target.previousElementSibling.value)"></span>
             </div>
@@ -105,7 +105,7 @@
               <label class="chkbox-label" for="edit{{author.last_name}}">
                   <input type="radio" class="chkbox-input" id="edit{{author.last_name}}" name="title">
                   <span></span>
-              </label>  
+              </label>
               <input type="text" class="modified" name="edit{{author.last_name}}" value="{{author.last_name}}">
               <span class="glyphicon glyphicon-ok" (click)="author.edit = false; set('authors', author.id, 'last_name', $event.target.previousElementSibling.value)"></span>
             </div>
@@ -117,7 +117,7 @@
         </div>
           <app-addOption title="lastName"></app-addOption>
         </div>
-      
+
       </div>
 
       <!-- Publisher Dataset-->
@@ -136,7 +136,7 @@
               <label class="chkbox-label" for="edit{{publisher.company}}">
                   <input type="radio" class="chkbox-input" id="edit{{publisher.company}}" name="title">
                   <span></span>
-              </label>  
+              </label>
               <input type="text" class="modified" name="edit{{publisher.company}}" value="{{publisher.company}}">
               <span class="glyphicon glyphicon-ok" (click)="publisher.edit = false; set('publishers', publisher.id, 'company', $event.target.previousElementSibling.value)"></span>
             </div>
@@ -161,7 +161,7 @@
               <label class="chkbox-label" for="edit{{publisher.city}}">
                   <input type="radio" class="chkbox-input" id="edit{{publisher.city}}" name="title">
                   <span></span>
-              </label>  
+              </label>
               <input type="text" class="modified" name="edit{{publisher.city}}" value="{{publisher.city}}">
               <span class="glyphicon glyphicon-ok" (click)="publisher.edit = false; set('publishers', publisher.id, 'city', $event.target.previousElementSibling.value)"></span>
             </div>
@@ -186,7 +186,7 @@
               <label class="chkbox-label" for="edit{{publisher.country}}">
                   <input type="radio" class="chkbox-input" id="edit{{publisher.country}}" name="title">
                   <span></span>
-              </label>  
+              </label>
               <input type="text" class="modified" name="edit{{publisher.country}}" value="{{publisher.country}}">
               <span class="glyphicon glyphicon-ok" (click)="publisher.edit = false; set('publishers', publisher.id, 'country', $event.target.previousElementSibling.value)"></span>
             </div>
@@ -211,7 +211,7 @@
               <label class="chkbox-label" for="edit{{publisher.year}}">
                   <input type="radio" class="chkbox-input" id="edit{{publisher.year}}" name="title">
                   <span></span>
-              </label>  
+              </label>
               <input type="text" class="modified" name="edit{{publisher.year}}" value="{{publisher.year}}">
               <span class="glyphicon glyphicon-ok" (click)="publisher.edit = false; set('publishers', publisher.id, 'year', $event.target.previousElementSibling.value)"></span>
             </div>
@@ -233,14 +233,14 @@
           <div class="ital">Pages</div>
           <div class="dataPoint" *ngFor="let page of pages | async" (mouseenter)="page.hovering = !page.edit" (mouseleave)="page.hovering = false">
             <label class="chkbox-label" for="{{page.number}}" *ngIf="!page.edit">
-              <input type="radio" class="chkbox-input" name="page" id="{{page.number}}">
+              <input type="radio" class="chkbox-input" name="page" id="{{page.number}}" (change)="onSelectionChange('pages', page.id)">
               <span>{{page.number}}</span>
             </label>
             <div *ngIf="page.edit">
               <label class="chkbox-label" for="edit{{page.number}}">
                   <input type="radio" class="chkbox-input" id="edit{{page.number}}" name="title">
                   <span></span>
-              </label>  
+              </label>
               <input type="text" class="modified" name="edit{{page.number}}" value="{{page.number}}">
               <span class="glyphicon glyphicon-ok" (click)="page.edit = false; set('pages', page.id, 'number', $event.target.previousElementSibling.value)"></span>
             </div>
@@ -249,7 +249,7 @@
               <span class="ex glyphicon glyphicon-remove" (click)="delete('pages', page.id)"></span>
             </div>
           </div>
-          <app-addOption title="page"></app-addOption>
+          <app-addOption title="page" (onAddOptionInteraction)="onAddOption('pages', $event)"></app-addOption>
         </div>
       </div>
 
@@ -261,14 +261,14 @@
           <div class="ital">Genre</div>
           <div class="dataPoint" *ngFor="let genre of genres | async" (mouseenter)="genre.hovering = !genre.edit" (mouseleave)="genre.hovering = false">
             <label class="chkbox-label" for="{{genre.name}}" *ngIf="!genre.edit">
-              <input type="radio" class="chkbox-input" name="genre" id="{{genre.name}}">
+              <input type="radio" class="chkbox-input" name="genre" id="{{genre.name}}" (change)="onSelectionChange('genre', genre.id)">
               <span>{{genre.name}}</span>
             </label>
             <div *ngIf="genre.edit">
               <label class="chkbox-label" for="edit{{genre.name}}">
                   <input type="radio" class="chkbox-input" id="edit{{genre.name}}" name="title">
                   <span></span>
-              </label>  
+              </label>
               <input type="text" class="modified" name="edit{{genre.name}}" value="{{genre.name}}">
               <span class="glyphicon glyphicon-ok" (click)="genre.edit = false; set('genres', genre.id, 'name', $event.target.previousElementSibling.value)"></span>
             </div>
@@ -277,7 +277,7 @@
               <span class="ex glyphicon glyphicon-remove" (click)="delete('genres', genre.id)"></span>
             </div>
           </div>
-          <app-addOption title="genre"></app-addOption>
+          <app-addOption title="genre" (onAddOptionInteraction)="onAddOption('genre', $event)"></app-addOption>
         </div>
       </div>
 

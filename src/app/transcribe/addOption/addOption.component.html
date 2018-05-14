@@ -1,7 +1,7 @@
 <div>
   <label class="chkbox-label" for="other{{title}}">
-      <input type="radio" class="chkbox-input" id="other{{title}}" name="{{title}}">
+      <input type="radio" class="chkbox-input" id="other{{title}}" name="{{title}}" (change)="onSelectionChange(true)">
       <span></span>
-  </label>  
-  <input type="text" name="other{{title}}" placeholder="Add option...">
+  </label>
+  <input type="text" name="other{{title}}" placeholder="Add option..." (input)="onInputChange($event)">
 </div>

@@ -6,7 +6,8 @@ export interface Publisher{
     votes: number;
 }
 
-export interface Title{
+export interface Title {
+    id: string;
     name: string;
     votes: number;
 }
@@ -18,16 +19,19 @@ export interface Author{
 }
 
 export interface Page{
-    number: number;
+    id: string;
+    number: string;
     votes: number;
 }
 
 export interface Genre{
+    id: string;
     name: string;
     votes: number;
 }
 
 export interface Romanization{
+    id: string;
     name: string;
     votes: number;
 }
