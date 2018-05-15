@@ -34,6 +34,7 @@
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && title.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="title.edit = true; title.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
               <span class="ex glyphicon glyphicon-remove" (click)="delete('titles', title.id)"></span>
             </div>
           </div>
@@ -57,6 +58,7 @@
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && roman.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="roman.edit = true; roman.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
               <span class="ex glyphicon glyphicon-remove" (click)="delete('romanization', roman.id)"></span>
             </div>
           </div>
@@ -86,6 +88,7 @@
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && author.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="author.edit = true; author.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
               <span class="ex glyphicon glyphicon-remove" (click)="delete('authors', author.id, 'first_name')"></span>
             </div>
           </div>
@@ -111,6 +114,7 @@
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && author.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="author.edit = true; author.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
               <span class="ex glyphicon glyphicon-remove" (click)="delete('authors', author.id)"></span>
             </div>
           </div>
@@ -142,6 +146,7 @@
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && publisher.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="publisher.edit = true; publisher.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
               <span class="ex glyphicon glyphicon-remove" (click)="delete('publishers', publisher.id, 'company')"></span>
             </div>
           </div>
@@ -167,6 +172,7 @@
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && publisher.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="publisher.edit = true; publisher.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
               <span class="ex glyphicon glyphicon-remove" (click)="delete('publishers', publisher.id, 'city')"></span>
             </div>
           </div>
@@ -192,6 +198,7 @@
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && publisher.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="publisher.edit = true; publisher.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
               <span class="ex glyphicon glyphicon-remove" (click)="delete('publishers', publisher.id, 'country')"></span>
             </div>
           </div>
@@ -217,6 +224,7 @@
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && publisher.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="publisher.edit = true; publisher.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
               <span class="ex glyphicon glyphicon-remove" (click)="delete('publishers', publisher.id, 'year')"></span>
             </div>
           </div>
@@ -246,6 +254,7 @@
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && page.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="page.edit = true; page.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
               <span class="ex glyphicon glyphicon-remove" (click)="delete('pages', page.id)"></span>
             </div>
           </div>
@@ -274,6 +283,7 @@
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && genre.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="genre.edit = true; genre.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
               <span class="ex glyphicon glyphicon-remove" (click)="delete('genres', genre.id)"></span>
             </div>
           </div>

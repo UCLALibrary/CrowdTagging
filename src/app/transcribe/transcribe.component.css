@@ -199,16 +199,21 @@ input[type="text"] {
     display: inline;
 }
 
-.pencil, .ex {
+.pencil, .ex, .buffer {
     float: right;
 }
 
 .pencil {
-    padding-right: 10%;
+    margin-right: 10%;
 }
 
 .ex {
-    padding-right: 3%;
+    margin-right: 3%;
+}
+
+.buffer {
+    width: 6%;
+    display: inline-block;
 }
 
 .modified {
