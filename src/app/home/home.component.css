@@ -1,108 +1,47 @@
-button {
-    background-color: #495867;
-    border-radius: 20px;
-    border-style: none;
-    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);  
-    color: #f0f3f5;
-    font-size: 2.2rem;
-    margin: 0 auto;
-    min-width: 262px;
-    width: 20%;
-}
-
-button:focus {
-    outline: none;
-}
-
-img {
-    height: 100%;
-    min-height: 160px;
-    width: 100%;
-}
-
-.container {
+#container {
     flex-direction: column;
     height: 88vh;
-    justify-content: center;
-}
-
-.container, div {
+    min-height: 600px;
+    justify-content: flex-end;
     padding: 0px;
-}
-
-.container, #bottomHalf, #topHalf, #para {
     display: flex;
+    background-image: url("../../assets/BookBackgroundModified.jpg");
+    background-size: cover;
 }
 
-#bottomHalf {
-    height: 12%;
-    min-height: 55px;
-    margin-top: 3%;
+#innerContainer {
+    height: 50%;
     width: 100%;
-}
-
-#logo {
-    margin-right: 2%;
-    min-width: 262px;
-    width: 20%;
-}
-
-#para {
-    min-width: 262px;
-    width:  25%;
+    padding-left: 5%;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
 }
 
-.tooltip {
-    display: block;
-    border-bottom: 1px dotted black;
-    opacity: 1;
-    position: relative;
-    background-color: #495867;
-    text-align: center;
+#textWrapper {
+    width: 50%;
+}
+
+#desc {
+    width: 100%;
+    display: inline-block;
+    padding-top: 3%;
     font-size: 2rem;
+}
+
+#valueProp {
+    font-size: 3.5rem;
+}
+
+button {
+    margin-left: 15%;
+    width: 15%;
+    height: 15%;
+    min-height: 50px;
+    min-width: 170px;
+    align-self: center;
+    background-color: #495867;
     color: #f0f3f5;
-    font-family: Poppins;
-    line-height: 300%;
-    width: 60%;
-    height: 30%;
-    border-radius: 20px;
+    border-radius: 10px;
     border-style: none;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 190%;
-    background-color: gray;
-    color: white;
-    text-align: center;
-    border-radius: 6px;
-    padding: 10%;
-    height: auto;
-    line-height: 2rem;
-    position: absolute;
-    left: 176px;
-    top: 0%;
-    z-index: 1;
-    max-height: 300px;
-    overflow: scroll;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    border-left: 20px #f0f3f5 solid;
-}
-
-.tooltiptext:hover {
-    visibility: visible;
-}
-
-#topHalf {
-    height: 30%;
-    min-height: 200px;
-    justify-content: center;
+    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25); 
+    font-size: 1.5rem;
 }

@@ -1,50 +1,19 @@
-<div class="container">
-  <div id="topHalf">
-    <div id="logo"><img src="../../assets/CrowdTaggingLogo.png"></div>
-    <div id="para">
-      <div class="tooltip">
-        About
-        <span class="tooltiptext">
-            Crowd Tagging is an application that allows you to tag books without all the
-            headaches that usually accompany the task. You can label key characteristics of any
-            book in our database with ease. You have the option of voting on preexisting
-            transcriptions or adding your very own.
-        </span>
-      </div>
-      <div class="tooltip">
-        HowTo
-        <span class="tooltiptext">
-          You can signup or login above in the navigation bar. Once you
-          signin, you will be redirected to our transcription page where you can start participating
-          in the transcription process. You will notice a set of images on the left hand side and a 
-          set of options on the right hand side. These represent the different features of the book
-          that you can tag. For example, title, author, publisher data, and so on. You can select a 
-          predefined tag or you can add your own. Once you select one for each feature, click the submit
-          button at the bottom of the page to save your work. You must select at least one option for
-          each feature to be eligible to save your work.
-        </span>
-      </div>
-      <div class="tooltip">
-        Members
-        <span class="tooltiptext">
-          Ankur - Project Manager <br>
-          Hirday - Team Member <br>
-          Jorge - Team Member <br>
-          Jun - Team Member <br>
-          Kristie - Team Member <br>
-          Peter - Supervisor <br>
-        </span>
-      </div>
-    </div>
+<div id="container">
+  <div id="innerContainer">
+    <span id="textWrapper">
+      <span id="valueProp">Streamlining Tag Discovery</span>
+      <br>
+      <span id="desc">
+        Crowd Tagging is an application that allows you to tag books without all the
+        headaches that usually accompany the task. You can label key characteristics of any
+        book in our database with ease. You have the option of voting on preexisting
+        transcriptions or adding your very own.
+      </span>
+    </span>
+    <button *ngIf="user; else loginTemplate" routerLink="transcribe">Continue Tagging</button>
   </div>
-  <div *ngIf="user; else loginTemplate" id="bottomHalf" routerLinkActive="active">
-    <button routerLink="transcribe">Continue Tagging!</button>
-  </div>
-  
 </div>
 
 <ng-template #loginTemplate>
-  <div id="bottomHalf" routerLinkActive="active">
-    <button (click)="login()">Get Started!</button>
-  </div>
+  <button (click)="login()">Get Started!</button>
 </ng-template>
