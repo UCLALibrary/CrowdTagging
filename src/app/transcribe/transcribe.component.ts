@@ -146,7 +146,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         rotateLeft   = imgContainer.querySelector("#rotateLeft") as any,
         rotateRight  = imgContainer.querySelector("#rotateRight") as any,
         statusBar    = imgContainer.querySelector("#progress") as any,
-        submitBtn    = document.getElementById("submit");
+        submitBtn    = document.getElementById("submit"),
+        addOptions   = Array.from(document.querySelectorAll(".option"));
 
     /* Collapse on click for each data set */
     triangles.forEach(function(item){
@@ -248,6 +249,14 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         document.querySelector("form").reset();
         renderImage();
     })
+
+    /* Tick option checkbox automatically when user tries to add an option */
+    addOptions.forEach(element => {
+      element.addEventListener("click", function(item){
+        (item.srcElement.previousElementSibling.childNodes[1] as HTMLInputElement).checked = true;
+      });
+    });
+
 
     /* Allow for zoom/pan functionality on gallery */
     var pan = panzoom(galleryImg, {
