@@ -21,7 +21,9 @@ export class ProfileComponent implements OnInit {
   ngOnInit() { 
     this.AfService.user$.subscribe(user => {
       this.user = user;
-      this.books = this.afs.collection(`progress/${user.uid}/books`).valueChanges();
+
+      if(user) // prevent triggering error when logging out from profile page
+        this.books = this.afs.collection(`progress/${user.uid}/books`).valueChanges();
     });
   }
 

@@ -245,6 +245,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         imageSetIndex++;
         index = 1;
         this.updateDatabaseForTranscription();
+        document.querySelector("form").reset();
         renderImage();
     })
 
