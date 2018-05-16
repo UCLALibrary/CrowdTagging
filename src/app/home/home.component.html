@@ -9,10 +9,10 @@
         Flexible data export functionality allows integration into any system.
       </span>
     </span>
-    <button *ngIf="user; else loginTemplate" routerLink="transcribe">Continue Tagging</button>
+    <button class="continue" *ngIf="user; else loginTemplate" routerLink="transcribe">Continue Tagging</button>
   </div>
 </div>
 
 <ng-template #loginTemplate>
-  <button (click)="login()">Get Started!</button>
+  <button (click)="login()">Get Started</button>
 </ng-template>
