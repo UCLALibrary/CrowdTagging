@@ -132,8 +132,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   }
 
   createEntry(event, collection) {
-    let value = event.target.previousElementSibling.childNodes[3].value;
-
+    let value = event.target.previousElementSibling.childNodes[2].value;
+    
     if (value == "")
       return;
 
