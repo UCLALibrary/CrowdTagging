@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-title',
@@ -6,11 +6,26 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./title.component.css'],
   inputs: ['title']
 })
-export class TitleComponent implements OnInit {
+export class TitleComponent implements AfterViewInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngAfterViewInit() {
+    this.showTipsOnQuestionHover();
+  }
+
+  /* Hide and Show tip when user hovers over a question mark */
+  showTipsOnQuestionHover() {
+    let questionIcons = document.querySelectorAll('.glyphicon-question-sign');
+
+    Array.from(questionIcons).forEach(item => {
+      ['mouseover', 'mouseout'].forEach(event => {
+        item.addEventListener(event, function(item){
+          item.srcElement.previousElementSibling.classList.toggle('hidden');
+        });
+      });
+    });
+  }
 
   @Input() title: string;
 }

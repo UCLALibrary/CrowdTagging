@@ -9,6 +9,7 @@
       <img src="../../assets/left.svg" id="prev"/>
       <img src="../../assets/right.svg" id="next"/>
       <div id="progress"></div>
+      <span class="glyphicon glyphicon-flag"></span>
     </div>
   </div>
   <div id="options">
@@ -38,7 +39,10 @@
               <span class="ex glyphicon glyphicon-remove" (click)="delete('titles', title.id)"></span>
             </div>
           </div>
-          <app-addOption title="title" (onAddOptionInteraction)="onAddOption('title', $event)"></app-addOption>
+          <div>
+            <app-addOption title="title" (onAddOptionInteraction)="onAddOption('title', $event)"  (click)="showCheck($event)"></app-addOption>
+            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'titles')" *ngIf="user && isAdmin()"></span>
+          </div>
         </div>
 
         <div class="data">
@@ -50,7 +54,7 @@
             </label>
             <div *ngIf="roman.edit">
               <label class="chkbox-label" for="edit{{roman.name}}">
-                  <input type="radio" class="chkbox-input" id="edit{{roman.name}}" name="title">
+                  <input type="radio" class="chkbox-input" id="edit{{roman.name}}" name="roman">
                   <span></span>
               </label>
               <input type="text" class="modified" name="edit{{roman.name}}" value="{{roman.name}}">
@@ -62,7 +66,10 @@
               <span class="ex glyphicon glyphicon-remove" (click)="delete('romanization', roman.id)"></span>
             </div>
           </div>
-          <app-addOption title="roman" (onAddOptionInteraction)="onAddOption('roman', $event)"></app-addOption>
+          <div>
+            <app-addOption title="roman" (onAddOptionInteraction)="onAddOption('roman', $event)" (click)="showCheck($event)"></app-addOption>
+            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'romanization')" *ngIf="user && isAdmin()"></span>
+          </div>
         </div>
       </div>
 
@@ -80,7 +87,7 @@
             </label>
             <div *ngIf="author.edit">
               <label class="chkbox-label" for="edit{{author.first_name}}">
-                  <input type="radio" class="chkbox-input" id="edit{{author.first_name}}" name="title">
+                  <input type="radio" class="chkbox-input" id="edit{{author.first_name}}" name="firstName">
                   <span></span>
               </label>
               <input type="text" class="modified" name="edit{{author.first_name}}" value="{{author.first_name}}">
@@ -93,7 +100,10 @@
             </div>
           </div>
         </div>
-          <app-addOption title="firstName"></app-addOption>
+          <!-- <div> -->
+            <app-addOption title="firstName"></app-addOption>
+            <!-- <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'authors')" *ngIf="isAdmin()"></span>
+          </div> -->
         </div>
 
         <div class="data">
@@ -106,7 +116,7 @@
             </label>
             <div *ngIf="author.edit">
               <label class="chkbox-label" for="edit{{author.last_name}}">
-                  <input type="radio" class="chkbox-input" id="edit{{author.last_name}}" name="title">
+                  <input type="radio" class="chkbox-input" id="edit{{author.last_name}}" name="lastName">
                   <span></span>
               </label>
               <input type="text" class="modified" name="edit{{author.last_name}}" value="{{author.last_name}}">
@@ -119,7 +129,10 @@
             </div>
           </div>
         </div>
+          <!-- <div> -->
           <app-addOption title="lastName"></app-addOption>
+          <!-- <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'authors')" *ngIf="isAdmin()"></span>
+          </div> -->
         </div>
 
       </div>
@@ -138,7 +151,7 @@
             </label>
             <div *ngIf="publisher.edit">
               <label class="chkbox-label" for="edit{{publisher.company}}">
-                  <input type="radio" class="chkbox-input" id="edit{{publisher.company}}" name="title">
+                  <input type="radio" class="chkbox-input" id="edit{{publisher.company}}" name="company">
                   <span></span>
               </label>
               <input type="text" class="modified" name="edit{{publisher.company}}" value="{{publisher.company}}">
@@ -164,7 +177,7 @@
             </label>
             <div *ngIf="publisher.edit">
               <label class="chkbox-label" for="edit{{publisher.city}}">
-                  <input type="radio" class="chkbox-input" id="edit{{publisher.city}}" name="title">
+                  <input type="radio" class="chkbox-input" id="edit{{publisher.city}}" name="city">
                   <span></span>
               </label>
               <input type="text" class="modified" name="edit{{publisher.city}}" value="{{publisher.city}}">
@@ -190,7 +203,7 @@
             </label>
             <div *ngIf="publisher.edit">
               <label class="chkbox-label" for="edit{{publisher.country}}">
-                  <input type="radio" class="chkbox-input" id="edit{{publisher.country}}" name="title">
+                  <input type="radio" class="chkbox-input" id="edit{{publisher.country}}" name="country">
                   <span></span>
               </label>
               <input type="text" class="modified" name="edit{{publisher.country}}" value="{{publisher.country}}">
@@ -216,7 +229,7 @@
             </label>
             <div *ngIf="publisher.edit">
               <label class="chkbox-label" for="edit{{publisher.year}}">
-                  <input type="radio" class="chkbox-input" id="edit{{publisher.year}}" name="title">
+                  <input type="radio" class="chkbox-input" id="edit{{publisher.year}}" name="year">
                   <span></span>
               </label>
               <input type="text" class="modified" name="edit{{publisher.year}}" value="{{publisher.year}}">
@@ -235,7 +248,7 @@
 
       <!-- Pages Dataset-->
       <div class="dataSet">
-        <app-title title="Number of Pages"></app-title>
+        <app-title title="Pages"></app-title>
 
         <div class="data">
           <div class="ital">Pages</div>
@@ -246,7 +259,7 @@
             </label>
             <div *ngIf="page.edit">
               <label class="chkbox-label" for="edit{{page.number}}">
-                  <input type="radio" class="chkbox-input" id="edit{{page.number}}" name="title">
+                  <input type="radio" class="chkbox-input" id="edit{{page.number}}" name="page">
                   <span></span>
               </label>
               <input type="text" class="modified" name="edit{{page.number}}" value="{{page.number}}">
@@ -258,7 +271,10 @@
               <span class="ex glyphicon glyphicon-remove" (click)="delete('pages', page.id)"></span>
             </div>
           </div>
-          <app-addOption title="page" (onAddOptionInteraction)="onAddOption('pages', $event)"></app-addOption>
+          <!-- <div> -->
+            <app-addOption title="page" (onAddOptionInteraction)="onAddOption('pages', $event)"></app-addOption>
+            <!-- <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'pages')" *ngIf="isAdmin()"></span>
+          </div> -->
         </div>
       </div>
 
@@ -275,7 +291,7 @@
             </label>
             <div *ngIf="genre.edit">
               <label class="chkbox-label" for="edit{{genre.name}}">
-                  <input type="radio" class="chkbox-input" id="edit{{genre.name}}" name="title">
+                  <input type="radio" class="chkbox-input" id="edit{{genre.name}}" name="genre">
                   <span></span>
               </label>
               <input type="text" class="modified" name="edit{{genre.name}}" value="{{genre.name}}">
@@ -287,7 +303,10 @@
               <span class="ex glyphicon glyphicon-remove" (click)="delete('genres', genre.id)"></span>
             </div>
           </div>
-          <app-addOption title="genre" (onAddOptionInteraction)="onAddOption('genre', $event)"></app-addOption>
+          <div>
+            <app-addOption title="genre" (onAddOptionInteraction)="onAddOption('genre', $event)" (click)="showCheck($event)"></app-addOption>
+            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'genres')" *ngIf="user && isAdmin()"></span>
+          </div>
         </div>
       </div>
 

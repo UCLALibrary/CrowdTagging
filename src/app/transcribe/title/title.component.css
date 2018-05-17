@@ -22,3 +22,20 @@
     transform: rotate(90deg);
     margin: 2.5% 2% 0 -1%;
 }
+
+div + span {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tip {
+    font-size: 1rem;
+    width: 65%;
+    text-align: end;
+}
+
+.hidden {
+    visibility: hidden;
+}

@@ -129,7 +129,20 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
         col.set(data, {merge: true});
     });
-}
+  }
+
+  createEntry(event, collection) {
+    let value = event.target.previousElementSibling.childNodes[3].value;
+
+    if (value == "")
+      return;
+
+    const newData = {id: this.afs.createId(), name: value, votes: 1};
+    this.bookDoc.collection(collection).doc(newData.id).set(newData);
+
+    document.querySelector("form").reset();
+    event.srcElement.classList.add('hidden');
+  }
 
   ngOnInit() {
     this.AfService.user$.subscribe(user => this.user = user);
@@ -248,7 +261,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         this.updateDatabaseForTranscription();
         document.querySelector("form").reset();
         renderImage();
-    })
+    });
 
     /* Tick option checkbox automatically when user tries to add an option */
     addOptions.forEach(element => {
@@ -366,4 +379,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     }
   }
 
+  showCheck(event){
+    try {
+      event.target.parentElement.nextElementSibling.classList.remove("hidden");
+    } catch {}
+  }
 }
