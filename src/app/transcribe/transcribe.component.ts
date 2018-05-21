@@ -3,7 +3,8 @@ import { ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Book, Author, Publisher, Title, Page, Genre, Romanization } from '../book';
+import { Book, Author, AuthorFirstName, AuthorLastName, Publisher, PublisherCity, PublisherCompany,
+  PublisherCountry, PublisherYear, Title, Page, Genre, Romanization } from '../book';
 import 'rxjs/add/operator/take';
 import * as panzoom from './panzoom/dist/panzoom.js';
 import { User } from '../providers/user';
@@ -26,8 +27,32 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   authorsCollection: AngularFirestoreCollection<Author>;
   authors: Observable<Author[]>
 
+  /* Author First Name */
+  authorsFirstNamesCollection: AngularFirestoreCollection<AuthorFirstName>;
+  authorsFirstNames: Observable<AuthorFirstName[]>
+
+  /* Author Last Name */
+  authorsLastNamesCollection: AngularFirestoreCollection<AuthorLastName>;
+  authorsLastNames: Observable<AuthorLastName[]>
+
   /* Publisher */
   publishers: Observable<Publisher[]>
+
+  /* Publisher City */
+  publishersCitiesCollection: AngularFirestoreCollection<PublisherCity>;
+  publishersCities: Observable<PublisherCity[]>;
+
+  /* Publisher Company */
+  publishersCompaniesCollection: AngularFirestoreCollection<PublisherCompany>;
+  publishersCompanies: Observable<PublisherCompany[]>;
+
+  /* Publisher Name */
+  publisherCountriesCollection: AngularFirestoreCollection<PublisherCountry>;
+  publishersCountries: Observable<PublisherCountry[]>;
+
+  /* Publisher Year */
+  publishersYearsCollection: AngularFirestoreCollection<PublisherYear>;
+  publishersYears: Observable<PublisherYear[]>;
 
   /* Title */
   titlesCollection: AngularFirestoreCollection<Title>;
@@ -48,8 +73,23 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   selectedTitle: string;
   newTitle: string;
 
-  selectedAuthor: string;
-  newAuthor: string;
+  selectedAuthorFirstName: string;
+  newAuthorFirstName: string;
+
+  selectedAuthorLastName: string;
+  newAuthorLastName: string;
+
+  selectedPublisherCity: string;
+  newPublisherCity: string;
+
+  selectedPublisherCompany: string;
+  newPublisherCompany: string;
+
+  selectedPublisherCountry: string;
+  newPublisherCountry: string;
+
+  selectedPublisherYear: string;
+  newPublisherYear: string;
 
   selectedRoman: string;
   newRoman: string;
@@ -68,10 +108,28 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     this.authorsCollection = this.bookDoc.collection<Author>('authors');
     this.authors = this.authorsCollection.valueChanges();
 
+    this.authorsFirstNamesCollection = this.bookDoc.collection<AuthorFirstName>('author_firstname');
+    this.authorsFirstNames = this.authorsFirstNamesCollection.valueChanges();
+
+    this.authorsLastNamesCollection = this.bookDoc.collection<AuthorLastName>('author_lastname');
+    this.authorsLastNames = this.authorsLastNamesCollection.valueChanges();
+
     this.titlesCollection = this.bookDoc.collection<Title>('titles');
     this.titles = this.titlesCollection.valueChanges();
 
     this.publishers = this.bookDoc.collection<Publisher>('publishers').valueChanges();
+
+    this.publishersCitiesCollection = this.bookDoc.collection<PublisherCity>('publisher_city');
+    this.publishersCities = this.publishersCitiesCollection.valueChanges();
+
+    this.publishersCompaniesCollection = this.bookDoc.collection<PublisherCompany>('publisher_company');
+    this.publishersCompanies = this.publishersCompaniesCollection.valueChanges();
+
+    this.publisherCountriesCollection = this.bookDoc.collection<PublisherCountry>('publisher_country');
+    this.publishersCountries = this.publisherCountriesCollection.valueChanges();
+
+    this.publishersYearsCollection = this.bookDoc.collection<PublisherYear>('publisher_year');
+    this.publishersYears = this.publishersYearsCollection.valueChanges();
 
     this.pagesCollection = this.bookDoc.collection<Page>('pages')
     this.pages = this.pagesCollection.valueChanges();
@@ -285,8 +343,23 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       case 'title':
         this.selectedTitle = newVal;
         break;
-      case 'author':
-        this.selectedAuthor = newVal;
+      case 'author_firstname':
+        this.selectedAuthorFirstName = newVal;
+        break;
+      case 'author_lastname':
+        this.selectedAuthorLastName = newVal;
+        break;
+      case 'publisher_city':
+        this.selectedPublisherCity = newVal;
+        break;
+      case 'publisher_company':
+        this.selectedPublisherCompany = newVal;
+        break;
+      case 'publisher_country':
+        this.selectedPublisherCountry = newVal;
+        break;
+      case 'publisher_year':
+        this.selectedPublisherYear = newVal;
         break;
       case 'roman':
         this.selectedRoman = newVal;
@@ -307,9 +380,29 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         this.selectedTitle = event.useNewOption? this.NA_STRING : this.selectedTitle;
         this.newTitle = event.newOption;
         break;
-      case 'author':
-        this.selectedAuthor = event.useNewOption? this.NA_STRING : this.selectedAuthor;
-        this.newAuthor = event.newOption;
+      case 'author_firstname':
+        this.selectedAuthorFirstName = event.useNewOption? this.NA_STRING : this.selectedAuthorFirstName;
+        this.newAuthorFirstName = event.newOption;
+        break;
+      case 'author_lastname':
+        this.selectedAuthorLastName = event.useNewOption? this.NA_STRING : this.selectedAuthorLastName;
+        this.newAuthorLastName = event.newOption;
+        break;
+      case 'publisher_city':
+        this.selectedPublisherCity = event.useNewOption? this.NA_STRING : this.selectedPublisherCity;
+        this.newPublisherCity = event.newOption;
+        break;
+      case 'publisher_company':
+        this.selectedPublisherCompany = event.useNewOption? this.NA_STRING : this.selectedPublisherCompany;
+        this.newPublisherCompany = event.newOption;
+        break;
+      case 'publisher_country':
+        this.selectedPublisherCountry = event.useNewOption? this.NA_STRING : this.selectedPublisherCountry;
+        this.newPublisherCountry = event.newOption;
+        break;
+      case 'publisher_year':
+        this.selectedPublisherYear = event.useNewOption? this.NA_STRING : this.selectedPublisherYear;
+        this.newPublisherYear = event.newOption;
         break;
       case 'roman':
         this.selectedRoman = event.useNewOption? this.NA_STRING : this.selectedRoman;
@@ -351,6 +444,78 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       selectedRoman.valueChanges().take(1).subscribe(val => {
         val.votes = val.votes + 1;
         selectedRoman.update(val);
+      });
+    }
+
+    /* Update author first name votes */
+    if (this.selectedAuthorFirstName === this.NA_STRING) {
+      const newData: AuthorFirstName = {id: this.afs.createId(), name: this.newAuthorFirstName, votes: 1};
+      this.authorsFirstNamesCollection.doc<AuthorFirstName>(newData.id).set(newData);
+    } else {
+      const selectedAuthorFirstName = this.authorsFirstNamesCollection.doc<AuthorFirstName>(this.selectedAuthorFirstName);
+      selectedAuthorFirstName.valueChanges().take(1).subscribe(val => {
+        val.votes = val.votes + 1;
+        selectedAuthorFirstName.update(val);
+      });
+    }
+
+    /* Update author last name votes */
+    if (this.selectedAuthorLastName === this.NA_STRING) {
+      const newData: AuthorLastName = {id: this.afs.createId(), name: this.newAuthorLastName, votes: 1};
+      this.authorsLastNamesCollection.doc<AuthorLastName>(newData.id).set(newData);
+    } else {
+      const selectedAuthorLastName = this.authorsLastNamesCollection.doc<AuthorLastName>(this.selectedAuthorLastName);
+      selectedAuthorLastName.valueChanges().take(1).subscribe(val => {
+        val.votes = val.votes + 1;
+        selectedAuthorLastName.update(val);
+      });
+    }
+
+    /* Update publisher company votes */
+    if (this.selectedPublisherCompany === this.NA_STRING) {
+      const newData: PublisherCompany = {id: this.afs.createId(), company: this.newPublisherCompany, votes: 1};
+      this.publishersCompaniesCollection.doc<PublisherCompany>(newData.id).set(newData);
+    } else {
+      const selectedPublisherCompany = this.publishersCompaniesCollection.doc<PublisherCompany>(this.selectedPublisherCompany);
+      selectedPublisherCompany.valueChanges().take(1).subscribe(val => {
+        val.votes = val.votes + 1;
+        selectedPublisherCompany.update(val);
+      });
+    }
+
+    /* Update publisher city votes */
+    if (this.selectedPublisherCity === this.NA_STRING) {
+      const newData: PublisherCity = {id: this.afs.createId(), city: this.newPublisherCity, votes: 1};
+      this.publishersCitiesCollection.doc<PublisherCity>(newData.id).set(newData);
+    } else {
+      const selectedPublisherCity = this.publishersCitiesCollection.doc<PublisherCity>(this.selectedPublisherCity);
+      selectedPublisherCity.valueChanges().take(1).subscribe(val => {
+        val.votes = val.votes + 1;
+        selectedPublisherCity.update(val);
+      });
+    }
+
+    /* Update publisher country votes */
+    if (this.selectedPublisherCountry === this.NA_STRING) {
+      const newData: PublisherCountry = {id: this.afs.createId(), country: this.newPublisherCountry, votes: 1};
+      this.publisherCountriesCollection.doc<PublisherCountry>(newData.id).set(newData);
+    } else {
+      const selectedPublisherCountry = this.publisherCountriesCollection.doc<PublisherCountry>(this.selectedPublisherCountry);
+      selectedPublisherCountry.valueChanges().take(1).subscribe(val => {
+        val.votes = val.votes + 1;
+        selectedPublisherCountry.update(val);
+      });
+    }
+
+    /* Update publisher year votes */
+    if (this.selectedPublisherYear === this.NA_STRING) {
+      const newData: PublisherYear = {id: this.afs.createId(), year: this.newPublisherYear, votes: 1};
+      this.publishersYearsCollection.doc<PublisherYear>(newData.id).set(newData);
+    } else {
+      const selectedPublisherYear = this.publishersYearsCollection.doc<PublisherYear>(this.selectedPublisherYear);
+      selectedPublisherYear.valueChanges().take(1).subscribe(val => {
+        val.votes = val.votes + 1;
+        selectedPublisherYear.update(val);
       });
     }
 

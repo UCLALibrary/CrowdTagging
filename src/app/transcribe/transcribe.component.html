@@ -79,11 +79,11 @@
 
         <div class="data">
           <div class="ital">First Name</div>
-          <div *ngFor="let author of authors | async">
-          <div class="dataPoint" *ngIf="author.first_name" (mouseenter)="author.hovering = !author.edit" (mouseleave)="author.hovering = false">
-            <label class="chkbox-label" for="{{author.first_name}}" *ngIf="!author.edit">
-              <input type="radio" class="chkbox-input" name="firstName" id="{{author.first_name}}" (change)="onSelectionChange('author', author.id)">
-              <span>{{author.first_name}}</span>
+          <div *ngFor="let author of authorsFirstNames | async">
+          <div class="dataPoint" *ngIf="author.name" (mouseenter)="author.hovering = !author.edit" (mouseleave)="author.hovering = false">
+            <label class="chkbox-label" for="{{author.name}}" *ngIf="!author.edit">
+              <input type="radio" class="chkbox-input" name="firstName" id="{{author.name}}" (change)="onSelectionChange('author_firstname', author.id)">
+              <span>{{author.name}}</span>
             </label>
             <div *ngIf="author.edit">
               <label class="chkbox-label" for="edit{{author.first_name}}">
@@ -100,19 +100,16 @@
             </div>
           </div>
         </div>
-          <!-- <div> -->
-            <app-addOption title="firstName"></app-addOption>
-            <!-- <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'authors')" *ngIf="isAdmin()"></span>
-          </div> -->
+          <app-addOption title="firstName" (onAddOptionInteraction)="onAddOption('author_firstname', $event)"></app-addOption>
         </div>
 
         <div class="data">
           <div class="ital">Last Name</div>
-          <div *ngFor="let author of authors | async">
-          <div class="dataPoint" *ngIf="author.last_name" (mouseenter)="author.hovering = !author.edit" (mouseleave)="author.hovering = false">
-            <label class="chkbox-label" for="{{author.last_name}}" *ngIf="!author.edit">
-              <input type="radio" class="chkbox-input" name="lastName" id="{{author.last_name}}">
-              <span>{{author.last_name}}</span>
+          <div *ngFor="let author of authorsLastNames | async">
+          <div class="dataPoint" *ngIf="author.name" (mouseenter)="author.hovering = !author.edit" (mouseleave)="author.hovering = false">
+            <label class="chkbox-label" for="{{author.name}}" *ngIf="!author.edit">
+              <input type="radio" class="chkbox-input" name="lastName" id="{{author.name}}" (change)="onSelectionChange('author_lastname', author.id)">
+              <span>{{author.name}}</span>
             </label>
             <div *ngIf="author.edit">
               <label class="chkbox-label" for="edit{{author.last_name}}">
@@ -129,10 +126,7 @@
             </div>
           </div>
         </div>
-          <!-- <div> -->
-          <app-addOption title="lastName"></app-addOption>
-          <!-- <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'authors')" *ngIf="isAdmin()"></span>
-          </div> -->
+          <app-addOption title="lastName" (onAddOptionInteraction)="onAddOption('author_lastname', $event)"></app-addOption>
         </div>
 
       </div>
@@ -143,10 +137,10 @@
 
         <div class="data">
           <div class="ital">Company</div>
-          <div *ngFor="let publisher of publishers | async">
+          <div *ngFor="let publisher of publishersCompanies | async">
           <div class="dataPoint" *ngIf="publisher.company" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
             <label class="chkbox-label" for="{{publisher.company}}" *ngIf="!publisher.edit">
-              <input type="radio" class="chkbox-input" name="company" id="{{publisher.company}}">
+              <input type="radio" class="chkbox-input" name="company" id="{{publisher.company}}" (change)="onSelectionChange('publisher_company', publisher.id)">
               <span>{{publisher.company}}</span>
             </label>
             <div *ngIf="publisher.edit">
@@ -164,15 +158,15 @@
             </div>
           </div>
         </div>
-          <app-addOption title="company"></app-addOption>
+          <app-addOption title="company" (onAddOptionInteraction)="onAddOption('publisher_company', $event)"></app-addOption>
         </div>
 
         <div class="data">
           <div class="ital">City</div>
-          <div *ngFor="let publisher of publishers | async">
+          <div *ngFor="let publisher of publishersCities | async">
           <div class="dataPoint" *ngIf="publisher.city" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
             <label class="chkbox-label" for="{{publisher.city}}" *ngIf="!publisher.edit">
-              <input type="radio" class="chkbox-input" name="city" id="{{publisher.city}}">
+              <input type="radio" class="chkbox-input" name="city" id="{{publisher.city}}" (change)="onSelectionChange('publisher_city', publisher.id)">
               <span>{{publisher.city}}</span>
             </label>
             <div *ngIf="publisher.edit">
@@ -190,15 +184,15 @@
             </div>
           </div>
         </div>
-          <app-addOption title="city"></app-addOption>
+          <app-addOption title="city" (onAddOptionInteraction)="onAddOption('publisher_city', $event)"></app-addOption>
         </div>
 
         <div class="data">
           <div class="ital">Country</div>
-          <div *ngFor="let publisher of publishers | async">
+          <div *ngFor="let publisher of publishersCountries | async">
           <div class="dataPoint" *ngIf="publisher.country" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
             <label class="chkbox-label" for="{{publisher.country}}" *ngIf="!publisher.edit">
-              <input type="radio" class="chkbox-input" name="country" id="{{publisher.country}}">
+              <input type="radio" class="chkbox-input" name="country" id="{{publisher.country}}" (change)="onSelectionChange('publisher_country', publisher.id)">
               <span>{{publisher.country}}</span>
             </label>
             <div *ngIf="publisher.edit">
@@ -216,15 +210,15 @@
             </div>
           </div>
           </div>
-          <app-addOption title="country"></app-addOption>
+          <app-addOption title="country" (onAddOptionInteraction)="onAddOption('publisher_country', $event)"></app-addOption>
         </div>
 
         <div class="data">
           <div class="ital">Year</div>
-          <div *ngFor="let publisher of publishers | async">
+          <div *ngFor="let publisher of publishersYears | async">
           <div class="dataPoint" *ngIf="publisher.year" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
             <label class="chkbox-label" for="{{publisher.year}}" *ngIf="!publisher.edit">
-              <input type="radio" class="chkbox-input" name="year" id="{{publisher.year}}">
+              <input type="radio" class="chkbox-input" name="year" id="{{publisher.year}}" (change)="onSelectionChange('publisher_year', publisher.id)">
               <span>{{publisher.year}}</span>
             </label>
             <div *ngIf="publisher.edit">
@@ -242,7 +236,7 @@
             </div>
           </div>
           </div>
-          <app-addOption title="year"></app-addOption>
+          <app-addOption title="year" (onAddOptionInteraction)="onAddOption('publisher_year', $event)"></app-addOption>
         </div>
       </div>
 

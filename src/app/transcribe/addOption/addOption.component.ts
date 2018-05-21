@@ -22,12 +22,10 @@ export class AddOptionComponent implements OnInit {
   onSelectionChange(useNewOption: boolean) {
     this.useNewOption = useNewOption;
     this.onAddOptionInteraction.emit({useNewOption: this.useNewOption, newOption: this.newOption});
-    //console.log(useNewOption);
   }
 
   onInputChange(event: Event) {
     this.newOption = (<HTMLInputElement>event.target).value;
     this.onAddOptionInteraction.emit({useNewOption: this.useNewOption, newOption: this.newOption});
-    //console.log(this.newOption);
   }
 }
