@@ -16,8 +16,34 @@
     <form onsubmit="return false">
       <!-- Title Dataset-->
       <div class="dataSet">
+        <app-title title="Language"></app-title>
+        <div class="data">
+          <div class="ital">Language</div>
+          <div class="dataPoint" *ngFor="let language of languages | async" (mouseenter)="language.hovering = !language.edit" (mouseleave)="language.hovering = false">
+            <label class="chkbox-label" for="{{language.language}}" *ngIf="!language.edit">
+              <input type="radio" class="chkbox-input" name="title" id="{{language.language}}" (change)="onSelectionChange('language', language.id)">
+              <span>{{language.language}}</span>
+            </label>
+            <div *ngIf="language.edit">
+              <label class="chkbox-label" for="edit{{language.language}}">
+                <input type="radio" class="chkbox-input" id="edit{{language.language}}" name="title">
+                <span></span>
+              </label>
+              <input type="text" class="modified" name="edit{{language.language}}" value="{{language.language}}">
+              <span class="glyphicon glyphicon-ok" (click)="language.edit = false; set('languages', language.id, 'language', $event.target.previousElementSibling.value)"></span>
+            </div>
+            <div class="iconContainer" *ngIf="isAdmin() && language.hovering">
+              <span class="pencil glyphicon glyphicon-pencil" (click)="language.edit = true; language.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('languages', language.id)"></span>
+            </div>
+          </div>
+          <div>
+            <app-addOption title="language" (onAddOptionInteraction)="onAddOption('language', $event)"  (click)="showCheck($event)"></app-addOption>
+            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'languages', 'language')" *ngIf="user && isAdmin()"></span>
+          </div>
+        </div>
         <app-title title="Title"></app-title>
-
         <div class="data">
           <div class="ital">Title in Native Language</div>
           <div class="dataPoint" *ngFor="let title of titles | async" (mouseenter)="title.hovering = !title.edit" (mouseleave)="title.hovering = false">

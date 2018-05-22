@@ -72,6 +72,12 @@ export interface Romanization {
     votes: number;
 }
 
+export interface Language {
+  id: string;
+  language: string;
+  votes: number;
+}
+
 export class Book {
    image_ids: number[];
    pages: number;

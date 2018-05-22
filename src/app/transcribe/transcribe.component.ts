@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Book, Author, AuthorFirstName, AuthorLastName, Publisher, PublisherCity, PublisherCompany,
-  PublisherCountry, PublisherYear, Title, Page, Genre, Romanization } from '../book';
+  PublisherCountry, PublisherYear, Title, Page, Genre, Romanization, Language } from '../book';
 import 'rxjs/add/operator/take';
 import * as panzoom from './panzoom/dist/panzoom.js';
 import { User } from '../providers/user';
@@ -26,6 +26,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   /* Author */
   authorsCollection: AngularFirestoreCollection<Author>;
   authors: Observable<Author[]>
+
+  /* Language */
+  languagesCollection: AngularFirestoreCollection<Language>;
+  languages: Observable<Language[]>
 
   /* Author First Name */
   authorsFirstNamesCollection: AngularFirestoreCollection<AuthorFirstName>;
@@ -100,6 +104,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   selectedGenre: string;
   newGenre: string;
 
+  selectedLanguage: string;
+  newLanguage: string;
+
   NA_STRING = 'NA';
 
   constructor(private afs: AngularFirestore, public AfService: AfService) {
@@ -131,14 +138,17 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     this.publishersYearsCollection = this.bookDoc.collection<PublisherYear>('publisher_year');
     this.publishersYears = this.publishersYearsCollection.valueChanges();
 
-    this.pagesCollection = this.bookDoc.collection<Page>('pages')
+    this.pagesCollection = this.bookDoc.collection<Page>('pages');
     this.pages = this.pagesCollection.valueChanges();
 
-    this.genresCollection = this.bookDoc.collection<Genre>('genres')
+    this.genresCollection = this.bookDoc.collection<Genre>('genres');
     this.genres = this.genresCollection.valueChanges();
 
     this.romansCollection = this.bookDoc.collection<Romanization>('romanization');
     this.romans = this.romansCollection.valueChanges();
+
+    this.languagesCollection = this.bookDoc.collection<Language>('languages');
+    this.languages = this.languagesCollection.valueChanges();
   }
 
   isAdmin() {
@@ -189,13 +199,14 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  createEntry(event, collection) {
+  createEntry(event, collection, field = "name") {
     let value = event.target.previousElementSibling.childNodes[2].value;
-    
+
     if (value == "")
       return;
 
-    const newData = {id: this.afs.createId(), name: value, votes: 1};
+    let newData = {id: this.afs.createId(), votes: 1};
+    newData[field] = value;
     this.bookDoc.collection(collection).doc(newData.id).set(newData);
 
     document.querySelector("form").reset();
@@ -340,6 +351,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
   onSelectionChange(beingChanged: string, newVal: string) {
     switch (beingChanged) {
+      case 'language':
+        this.selectedLanguage = newVal;
+        break;
       case 'title':
         this.selectedTitle = newVal;
         break;
@@ -375,6 +389,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
   onAddOption(beingChanged: string, event: {useNewOption: boolean, newOption: string}) {
     switch (beingChanged) {
+      case 'language':
+        this.selectedLanguage = event.useNewOption? this.NA_STRING : this.selectedLanguage;
+        this.newLanguage = event.newOption;
       case 'title':
         // If user doesn't check the box next to his new option, we will not use it.
         this.selectedTitle = event.useNewOption? this.NA_STRING : this.selectedTitle;
@@ -422,6 +439,18 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   updateDatabaseForTranscription() {
 
     // https://stackoverflow.com/questions/46654670/angularfire2-firestore-take1-on-doc-valuechanges
+
+    /* Update language votes */
+    if (this.selectedLanguage === this.NA_STRING) {
+      const newData: Language = {id: this.afs.createId(), language: this.newLanguage, votes: 1}
+      this.languagesCollection.doc<Language>(newData.id).set(newData);
+    } else {
+      const selectedLanguage = this.languagesCollection.doc<Language>(this.selectedLanguage);
+      selectedLanguage.valueChanges().take(1).subscribe(val => {
+        val.votes = val.votes + 1;
+        selectedLanguage.update(val);
+      });
+    }
 
     /* Update title votes */
     if (this.selectedTitle === this.NA_STRING) {
