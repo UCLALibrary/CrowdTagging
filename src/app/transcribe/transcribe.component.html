@@ -21,12 +21,12 @@
           <div class="ital">Language</div>
           <div class="dataPoint" *ngFor="let language of languages | async" (mouseenter)="language.hovering = !language.edit" (mouseleave)="language.hovering = false">
             <label class="chkbox-label" for="{{language.language}}" *ngIf="!language.edit">
-              <input type="radio" class="chkbox-input" name="title" id="{{language.language}}" (change)="onSelectionChange('language', language.id)">
+              <input type="radio" class="chkbox-input" name="language" id="{{language.language}}" (change)="onSelectionChange('language', language.id)">
               <span>{{language.language}}</span>
             </label>
             <div *ngIf="language.edit">
               <label class="chkbox-label" for="edit{{language.language}}">
-                <input type="radio" class="chkbox-input" id="edit{{language.language}}" name="title">
+                <input type="radio" class="chkbox-input" id="edit{{language.language}}" name="language">
                 <span></span>
               </label>
               <input type="text" class="modified" name="edit{{language.language}}" value="{{language.language}}">

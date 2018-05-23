@@ -392,6 +392,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       case 'language':
         this.selectedLanguage = event.useNewOption? this.NA_STRING : this.selectedLanguage;
         this.newLanguage = event.newOption;
+        break;
       case 'title':
         // If user doesn't check the box next to his new option, we will not use it.
         this.selectedTitle = event.useNewOption? this.NA_STRING : this.selectedTitle;
