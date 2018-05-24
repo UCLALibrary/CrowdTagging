@@ -9,6 +9,7 @@ import 'rxjs/add/operator/take';
 import * as panzoom from './panzoom/dist/panzoom.js';
 import { User } from '../providers/user';
 import { AfService } from '../providers/af.service';
+import { resolve } from 'url';
 
 @Component({
   encapsulation: ViewEncapsulation.None, /* External CSS will not be applied without this */
@@ -312,17 +313,20 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     if(userSelectedInputs.length < this.numCategories)
       return;
 
+      let promises = [];
+
     userSelectedInputs.forEach((item) => {
       let input = item as HTMLInputElement;
 
       if(input.id.substring(0,5) !== "other"){ // if preexisting option was selected, increment vote
         const docToUpdate = this.bookDoc.collection(`${input.name}`).doc(input.id);
-          docToUpdate.ref.get().then(val => {
+          promises.push(new Promise((resolve, reject) => {docToUpdate.ref.get().then(val => {
           let value = val.data();
           userData[input.name] = value.value; // save user field transcription
           value.votes = value.votes + 1;
           docToUpdate.update(value);
-        });
+          resolve();
+        })}));
       } else { // if user typed in a new option, create new entry
         const newData = {id: this.afs.createId(), value: null, votes: 1};
         newData.value = (input.parentElement.nextElementSibling as HTMLInputElement).value;
@@ -331,13 +335,17 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       }
     }); 
 
-    console.log(userData);
+    
+    Promise.all(promises).then(()=>{ console.log("addding");let newID = this.afs.createId();
+      this.afs.collection(`progress/${this.user.uid}/books`).doc(`${newID}`).set(userData).then(() => {
+        console.log("hereinside");
+        console.log(userData);
+        document.querySelector("form").reset();
+      });});
 
+      console.log("here");
     // save full user transcription
-    // let newID = this.afs.createId();
-    // this.afs.collection(`progress/${this.user.uid}/books`).doc(`${newID}`).set(userData).then(() => {
-    //   document.querySelector("form").reset();
-    // });
+    
   }
 
   showCheck(event) {
