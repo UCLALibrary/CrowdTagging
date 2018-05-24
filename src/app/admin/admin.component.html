@@ -3,13 +3,6 @@
     <form onsubmit="return false"> 
 
       <div class="rowflex" id="exportRow">
-        <div class="colflex selection">
-          <span>Select</span>
-          <span>All</span>
-          <label class="chkbox-label">
-            <input type="checkbox" class="chkbox-input" id="selectAll"><span></span>
-          </label>
-        </div>
         <div class="colflex">
           <button id="exportBtn">Export</button>
         </div>
@@ -52,13 +45,7 @@
           <div class="colflex">Genre</div>
       </div>
       
-      <div class="rowflex" *ngFor="let i of [0,0,0,0,0,0,0,0,0,0]">
-        <div class="selection colflex">
-          <label class="chkbox-label">
-              <input type="checkbox" class="chkbox-input"><span></span>
-          </label>
-        </div>
-
+      <div class="rowflex" *ngFor="let book of books | async">
         <div class="colflex">
           <img src="http://via.placeholder.com/80x80" routerLink="/transcribe">
         </div>

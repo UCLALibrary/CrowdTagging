@@ -18,6 +18,7 @@ import { AfService } from '../providers/af.service';
 })
 export class TranscribeComponent implements OnInit, AfterViewInit {
   user: User;
+  numCategories: Number;
 
   /* Book object */
   book: Observable<Book>;
@@ -74,41 +75,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   romansCollection: AngularFirestoreCollection<Title>;
   romans: Observable<Romanization[]>
 
-  selectedTitle: string;
-  newTitle: string;
-
-  selectedAuthorFirstName: string;
-  newAuthorFirstName: string;
-
-  selectedAuthorLastName: string;
-  newAuthorLastName: string;
-
-  selectedPublisherCity: string;
-  newPublisherCity: string;
-
-  selectedPublisherCompany: string;
-  newPublisherCompany: string;
-
-  selectedPublisherCountry: string;
-  newPublisherCountry: string;
-
-  selectedPublisherYear: string;
-  newPublisherYear: string;
-
-  selectedRoman: string;
-  newRoman: string;
-
-  selectedPages: string;
-  newPages: string;
-
-  selectedGenre: string;
-  newGenre: string;
-
-  selectedLanguage: string;
-  newLanguage: string;
-
-  NA_STRING = 'NA';
-
   constructor(private afs: AngularFirestore, public AfService: AfService) {
     this.bookDoc = this.afs.doc<Book>('books/1');
 
@@ -149,6 +115,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
     this.languagesCollection = this.bookDoc.collection<Language>('languages');
     this.languages = this.languagesCollection.valueChanges();
+
+    this.numCategories = 0
   }
 
   isAdmin() {
@@ -159,47 +127,25 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       return this.user.roles.user;
   }
 
-  // maybe we could change database to have several docs instead of fields,
-  // so that we can delete them without having to monitor null states?
-  delete(collection, id, field?){
-    // need to also remove from progress?
-    // or do we want users to have record of their exact transcriptions?
-
-    var col = this.bookDoc.collection(collection).doc(id);
-
-    if(field){ // tells us that document has other values we might care about
-        return col.ref.get().then(doc => {
-            const data = doc.data();
-            data[field] = null;
-
-            // if any field still has a value, maintain entry
-            // otherwise get rid of entire doc (entire doc basically null)
-            for (let key in data)
-                if(data[key]){
-                    col.set(data, {merge: true});
-                    return;
-                }
-        });
-    }
-
+  delete(collection, id){
     this.bookDoc.collection(collection).doc(id).delete();
   }
 
-  set(collection, id, field, value){
-    // need to also set in progress?
-    // or do we want users to have record of their exact transcriptions?
+  set(collection, id, value){
+    if(value == "")
+       return;
 
     var col = this.bookDoc.collection(collection).doc(id);
 
     col.ref.get().then(doc => {
         const data = doc.data();
-        data[field] = value;
+        data.value = value;
 
         col.set(data, {merge: true});
     });
   }
 
-  createEntry(event, collection, field = "name") {
+  createEntry(event, collection, field = "value") {
     let value = event.target.previousElementSibling.childNodes[2].value;
 
     if (value == "")
@@ -230,6 +176,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         statusBar    = imgContainer.querySelector("#progress") as any,
         submitBtn    = document.getElementById("submit"),
         addOptions   = Array.from(document.querySelectorAll(".option"));
+
+    // Number of separate fields that require a selection from the user
+    this.numCategories = document.querySelectorAll(".data").length;
 
     /* Collapse on click for each data set */
     triangles.forEach(function(item){
@@ -327,7 +276,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     submitBtn.addEventListener("click", () => {
         imageSetIndex++;
         index = 1;
-        this.updateDatabaseForTranscription();
+        this.updateDatabase();
         document.querySelector("form").reset();
         renderImage();
     });
@@ -349,233 +298,50 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     renderImage();
   }
 
-  onSelectionChange(beingChanged: string, newVal: string) {
-    switch (beingChanged) {
-      case 'language':
-        this.selectedLanguage = newVal;
-        break;
-      case 'title':
-        this.selectedTitle = newVal;
-        break;
-      case 'author_firstname':
-        this.selectedAuthorFirstName = newVal;
-        break;
-      case 'author_lastname':
-        this.selectedAuthorLastName = newVal;
-        break;
-      case 'publisher_city':
-        this.selectedPublisherCity = newVal;
-        break;
-      case 'publisher_company':
-        this.selectedPublisherCompany = newVal;
-        break;
-      case 'publisher_country':
-        this.selectedPublisherCountry = newVal;
-        break;
-      case 'publisher_year':
-        this.selectedPublisherYear = newVal;
-        break;
-      case 'roman':
-        this.selectedRoman = newVal;
-        break;
-      case 'pages':
-        this.selectedPages = newVal;
-        break;
-      case 'genre':
-        this.selectedGenre = newVal;
-        break;
-    }
+  updateDatabase() {
+    let userSelectedInputs = Array.from(document.querySelectorAll("input:checked"));
+    let userData = {};
+
+    // user had addOption selected at submission, but there was a blank entry
+    for(var item of userSelectedInputs)
+      if(item.id.substring(0,5) === "other")
+        if((item.parentElement.nextElementSibling as HTMLInputElement).value === "")
+          return;
+
+    // user forgot to choose an option for at least one field
+    if(userSelectedInputs.length < this.numCategories)
+      return;
+
+    userSelectedInputs.forEach((item) => {
+      let input = item as HTMLInputElement;
+
+      if(input.id.substring(0,5) !== "other"){ // if preexisting option was selected, increment vote
+        const docToUpdate = this.bookDoc.collection(`${input.name}`).doc(input.id);
+          docToUpdate.ref.get().then(val => {
+          let value = val.data();
+          userData[input.name] = value.value; // save user field transcription
+          value.votes = value.votes + 1;
+          docToUpdate.update(value);
+        });
+      } else { // if user typed in a new option, create new entry
+        const newData = {id: this.afs.createId(), value: null, votes: 1};
+        newData.value = (input.parentElement.nextElementSibling as HTMLInputElement).value;
+        userData[input.name] = newData.value; // save user field transcription
+        this.bookDoc.collection(`${input.name}`).doc(newData.id).set(newData);
+      }
+    }); 
+
+    console.log(userData);
+
+    // save full user transcription
+    // let newID = this.afs.createId();
+    // this.afs.collection(`progress/${this.user.uid}/books`).doc(`${newID}`).set(userData).then(() => {
+    //   document.querySelector("form").reset();
+    // });
   }
 
-  onAddOption(beingChanged: string, event: {useNewOption: boolean, newOption: string}) {
-    switch (beingChanged) {
-      case 'language':
-        this.selectedLanguage = event.useNewOption? this.NA_STRING : this.selectedLanguage;
-        this.newLanguage = event.newOption;
-        break;
-      case 'title':
-        // If user doesn't check the box next to his new option, we will not use it.
-        this.selectedTitle = event.useNewOption? this.NA_STRING : this.selectedTitle;
-        this.newTitle = event.newOption;
-        break;
-      case 'author_firstname':
-        this.selectedAuthorFirstName = event.useNewOption? this.NA_STRING : this.selectedAuthorFirstName;
-        this.newAuthorFirstName = event.newOption;
-        break;
-      case 'author_lastname':
-        this.selectedAuthorLastName = event.useNewOption? this.NA_STRING : this.selectedAuthorLastName;
-        this.newAuthorLastName = event.newOption;
-        break;
-      case 'publisher_city':
-        this.selectedPublisherCity = event.useNewOption? this.NA_STRING : this.selectedPublisherCity;
-        this.newPublisherCity = event.newOption;
-        break;
-      case 'publisher_company':
-        this.selectedPublisherCompany = event.useNewOption? this.NA_STRING : this.selectedPublisherCompany;
-        this.newPublisherCompany = event.newOption;
-        break;
-      case 'publisher_country':
-        this.selectedPublisherCountry = event.useNewOption? this.NA_STRING : this.selectedPublisherCountry;
-        this.newPublisherCountry = event.newOption;
-        break;
-      case 'publisher_year':
-        this.selectedPublisherYear = event.useNewOption? this.NA_STRING : this.selectedPublisherYear;
-        this.newPublisherYear = event.newOption;
-        break;
-      case 'roman':
-        this.selectedRoman = event.useNewOption? this.NA_STRING : this.selectedRoman;
-        this.newRoman = event.newOption;
-        break;
-      case 'pages':
-        this.selectedPages = event.useNewOption? this.NA_STRING : this.selectedPages;
-        this.newPages = event.newOption;
-        break;
-      case 'genre':
-        this.selectedGenre = event.useNewOption? this.NA_STRING : this.selectedGenre;
-        this.newGenre = event.newOption;
-        break;
-    }
-  }
-
-  updateDatabaseForTranscription() {
-
-    // https://stackoverflow.com/questions/46654670/angularfire2-firestore-take1-on-doc-valuechanges
-
-    /* Update language votes */
-    if (this.selectedLanguage === this.NA_STRING) {
-      const newData: Language = {id: this.afs.createId(), language: this.newLanguage, votes: 1}
-      this.languagesCollection.doc<Language>(newData.id).set(newData);
-    } else {
-      const selectedLanguage = this.languagesCollection.doc<Language>(this.selectedLanguage);
-      selectedLanguage.valueChanges().take(1).subscribe(val => {
-        val.votes = val.votes + 1;
-        selectedLanguage.update(val);
-      });
-    }
-
-    /* Update title votes */
-    if (this.selectedTitle === this.NA_STRING) {
-      const newData: Title = {id: this.afs.createId(), name: this.newTitle, votes: 1};
-      this.titlesCollection.doc<Title>(newData.id).set(newData);
-    } else {
-      const selectedTitle = this.titlesCollection.doc<Title>(this.selectedTitle);
-      selectedTitle.valueChanges().take(1).subscribe(val => {
-        val.votes = val.votes + 1;
-        selectedTitle.update(val);
-      });
-    }
-
-    /* Update romanisation votes */
-    if (this.selectedRoman === this.NA_STRING) {
-      const newData: Romanization = {id: this.afs.createId(), name: this.newRoman, votes: 1};
-      this.romansCollection.doc<Romanization>(newData.id).set(newData);
-    } else {
-      const selectedRoman = this.romansCollection.doc<Romanization>(this.selectedRoman);
-      selectedRoman.valueChanges().take(1).subscribe(val => {
-        val.votes = val.votes + 1;
-        selectedRoman.update(val);
-      });
-    }
-
-    /* Update author first name votes */
-    if (this.selectedAuthorFirstName === this.NA_STRING) {
-      const newData: AuthorFirstName = {id: this.afs.createId(), name: this.newAuthorFirstName, votes: 1};
-      this.authorsFirstNamesCollection.doc<AuthorFirstName>(newData.id).set(newData);
-    } else {
-      const selectedAuthorFirstName = this.authorsFirstNamesCollection.doc<AuthorFirstName>(this.selectedAuthorFirstName);
-      selectedAuthorFirstName.valueChanges().take(1).subscribe(val => {
-        val.votes = val.votes + 1;
-        selectedAuthorFirstName.update(val);
-      });
-    }
-
-    /* Update author last name votes */
-    if (this.selectedAuthorLastName === this.NA_STRING) {
-      const newData: AuthorLastName = {id: this.afs.createId(), name: this.newAuthorLastName, votes: 1};
-      this.authorsLastNamesCollection.doc<AuthorLastName>(newData.id).set(newData);
-    } else {
-      const selectedAuthorLastName = this.authorsLastNamesCollection.doc<AuthorLastName>(this.selectedAuthorLastName);
-      selectedAuthorLastName.valueChanges().take(1).subscribe(val => {
-        val.votes = val.votes + 1;
-        selectedAuthorLastName.update(val);
-      });
-    }
-
-    /* Update publisher company votes */
-    if (this.selectedPublisherCompany === this.NA_STRING) {
-      const newData: PublisherCompany = {id: this.afs.createId(), company: this.newPublisherCompany, votes: 1};
-      this.publishersCompaniesCollection.doc<PublisherCompany>(newData.id).set(newData);
-    } else {
-      const selectedPublisherCompany = this.publishersCompaniesCollection.doc<PublisherCompany>(this.selectedPublisherCompany);
-      selectedPublisherCompany.valueChanges().take(1).subscribe(val => {
-        val.votes = val.votes + 1;
-        selectedPublisherCompany.update(val);
-      });
-    }
-
-    /* Update publisher city votes */
-    if (this.selectedPublisherCity === this.NA_STRING) {
-      const newData: PublisherCity = {id: this.afs.createId(), city: this.newPublisherCity, votes: 1};
-      this.publishersCitiesCollection.doc<PublisherCity>(newData.id).set(newData);
-    } else {
-      const selectedPublisherCity = this.publishersCitiesCollection.doc<PublisherCity>(this.selectedPublisherCity);
-      selectedPublisherCity.valueChanges().take(1).subscribe(val => {
-        val.votes = val.votes + 1;
-        selectedPublisherCity.update(val);
-      });
-    }
-
-    /* Update publisher country votes */
-    if (this.selectedPublisherCountry === this.NA_STRING) {
-      const newData: PublisherCountry = {id: this.afs.createId(), country: this.newPublisherCountry, votes: 1};
-      this.publisherCountriesCollection.doc<PublisherCountry>(newData.id).set(newData);
-    } else {
-      const selectedPublisherCountry = this.publisherCountriesCollection.doc<PublisherCountry>(this.selectedPublisherCountry);
-      selectedPublisherCountry.valueChanges().take(1).subscribe(val => {
-        val.votes = val.votes + 1;
-        selectedPublisherCountry.update(val);
-      });
-    }
-
-    /* Update publisher year votes */
-    if (this.selectedPublisherYear === this.NA_STRING) {
-      const newData: PublisherYear = {id: this.afs.createId(), year: this.newPublisherYear, votes: 1};
-      this.publishersYearsCollection.doc<PublisherYear>(newData.id).set(newData);
-    } else {
-      const selectedPublisherYear = this.publishersYearsCollection.doc<PublisherYear>(this.selectedPublisherYear);
-      selectedPublisherYear.valueChanges().take(1).subscribe(val => {
-        val.votes = val.votes + 1;
-        selectedPublisherYear.update(val);
-      });
-    }
-
-    /* Update pages votes */
-    if (this.selectedPages === this.NA_STRING) {
-      const newData: Page = {id: this.afs.createId(), number: this.newPages, votes: 1};
-      this.pagesCollection.doc<Page>(newData.id).set(newData);
-    } else {
-      const selectedPages = this.pagesCollection.doc<Page>(this.selectedPages);
-      selectedPages.valueChanges().take(1).subscribe(val => {
-        val.votes = val.votes + 1;
-        selectedPages.update(val);
-      });
-    }
-
-    /* Update genres votes */
-    if (this.selectedGenre === this.NA_STRING) {
-      const newData: Genre = {id: this.afs.createId(), name: this.newGenre, votes: 1};
-      this.genresCollection.doc<Genre>(newData.id).set(newData);
-    } else {
-      const selectedGenre = this.genresCollection.doc<Genre>(this.selectedGenre);
-      selectedGenre.valueChanges().take(1).subscribe(val => {
-        val.votes = val.votes + 1;
-        selectedGenre.update(val);
-      });
-    }
-  }
-
-  showCheck(event){
-    try {
+  showCheck(event) {
+    try { // try ensures that checkmark is shown only if they click inside the text area
       event.target.parentElement.nextElementSibling.classList.remove("hidden");
     } catch {}
   }

@@ -2,7 +2,8 @@
   <div id="personalData">
     <div id="imageArea">
       <img src="{{user?.photoURL}}">
-      <button>Edit Image</button>
+      <label for="file">Edit Image</label>
+      <input type="file" id="file" class="hidden" multiple>
     </div>
     <div id="textArea">
       <span>Name: <span>{{user?.dispName}}</span></span>

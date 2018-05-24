@@ -1,24 +1,24 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { User } from '../providers/user';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AfService } from '../providers/af.service';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements AfterViewInit {
+export class AdminComponent implements OnInit {
 
-  constructor() { }
+  user: User;
+  books;
 
-  ngAfterViewInit() {
-    let selectAllBtn = document.querySelector("#selectAll");
-    let checkboxes = Array.from(document.querySelectorAll('.chkbox-input:not(#selectAll)'));
+  constructor(private afs: AngularFirestore, public AfService: AfService) { 
+    this.books = this.afs.collection('books').valueChanges();
+  }
 
-    selectAllBtn.addEventListener("click", function(){
-      checkboxes.forEach(function(item){
-        (item.attributes[1].ownerElement as HTMLInputElement).checked = (selectAllBtn.attributes[1].ownerElement as HTMLInputElement).checked;
-      });
-    });
-
+  ngOnInit() { 
+    this.AfService.user$.subscribe(user => this.user = user);
   }
 
 }
