@@ -79,9 +79,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   constructor(private afs: AngularFirestore, public AfService: AfService) {
     this.bookDoc = this.afs.doc<Book>('books/1');
 
-    this.authorsCollection = this.bookDoc.collection<Author>('authors');
-    this.authors = this.authorsCollection.valueChanges();
-
     this.authorsFirstNamesCollection = this.bookDoc.collection<AuthorFirstName>('author_firstname');
     this.authorsFirstNames = this.authorsFirstNamesCollection.valueChanges();
 
@@ -90,8 +87,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
     this.titlesCollection = this.bookDoc.collection<Title>('titles');
     this.titles = this.titlesCollection.valueChanges();
-
-    this.publishers = this.bookDoc.collection<Publisher>('publishers').valueChanges();
 
     this.publishersCitiesCollection = this.bookDoc.collection<PublisherCity>('publisher_city');
     this.publishersCities = this.publishersCitiesCollection.valueChanges();
@@ -146,14 +141,15 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  createEntry(event, collection, field = "value") {
+  createEntry(event, collection) {
     let value = event.target.previousElementSibling.childNodes[2].value;
 
     if (value == "")
       return;
 
-    let newData = {id: this.afs.createId(), votes: 1};
-    newData[field] = value;
+    let newData = {id: this.afs.createId(), value: null, votes: 1};
+    newData.value = value;
+    
     this.bookDoc.collection(collection).doc(newData.id).set(newData);
 
     document.querySelector("form").reset();
@@ -275,8 +271,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
     /* Update current image and image set positions */
     submitBtn.addEventListener("click", () => {
-        imageSetIndex++;
-        index = 1;
+      // not sure how you'll be handling image display for user
+        imageSetIndex++; // Kristie, this should only happen if updateDatabase() is successful
+        index = 1; // Kristie, this should only happen if updateDatabase() is successful
         this.updateDatabase();
         document.querySelector("form").reset();
         renderImage();
@@ -313,39 +310,47 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     if(userSelectedInputs.length < this.numCategories)
       return;
 
-      let promises = [];
+    let promises = [];
 
     userSelectedInputs.forEach((item) => {
       let input = item as HTMLInputElement;
 
-      if(input.id.substring(0,5) !== "other"){ // if preexisting option was selected, increment vote
+      if(input.id.substring(0,5) !== "other"){ // if preexisting option was selected, update existing entry in DB
         const docToUpdate = this.bookDoc.collection(`${input.name}`).doc(input.id);
-          promises.push(new Promise((resolve, reject) => {docToUpdate.ref.get().then(val => {
-          let value = val.data();
-          userData[input.name] = value.value; // save user field transcription
-          value.votes = value.votes + 1;
-          docToUpdate.update(value);
-          resolve();
-        })}));
+
+        promises.push(new Promise((resolve, reject) => {
+          docToUpdate.ref.get().then(val => {
+            let value = val.data();
+            userData[input.name] = value.value; // save user field transcription in JSON
+            value.votes = value.votes + 1;
+            docToUpdate.update(value);
+            resolve();
+          });
+        }));
       } else { // if user typed in a new option, create new entry
         const newData = {id: this.afs.createId(), value: null, votes: 1};
         newData.value = (input.parentElement.nextElementSibling as HTMLInputElement).value;
-        userData[input.name] = newData.value; // save user field transcription
+        userData[input.name] = newData.value; // save user field transcription in JSON
         this.bookDoc.collection(`${input.name}`).doc(newData.id).set(newData);
       }
     }); 
 
-    
-    Promise.all(promises).then(()=>{ console.log("addding");let newID = this.afs.createId();
+    Promise.all(promises).then(() => { // once we finish creating JSON, add it to DB and clear form
+      let newID = this.afs.createId();
       this.afs.collection(`progress/${this.user.uid}/books`).doc(`${newID}`).set(userData).then(() => {
-        console.log("hereinside");
-        console.log(userData);
         document.querySelector("form").reset();
-      });});
+      });
 
-      console.log("here");
-    // save full user transcription
-    
+      const userInfoDoc = this.afs.doc(`users/${this.user.uid}`);
+
+      userInfoDoc.ref.get().then(obj => {
+        let object = obj.data();
+        console.log(object);
+        object.booksTagged.push(newID);
+        object.numTagged += 1;
+        userInfoDoc.update(object);
+      });
+    });
   }
 
   showCheck(event) {

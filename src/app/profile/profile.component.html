@@ -22,23 +22,23 @@
   <div class="dataSet" *ngFor="let book of books | async">
     <div class="title">
       <div class="triangle" (click)="toggle($event)"></div>
-      <span>{{book.title}}</span>
+      <span>{{book.titles}}</span>
     </div>
 
     <div class="data hidden">
-      <div id="ital">Romanization: <span>{{book.roman}}</span></div>
+      <div id="ital">Romanization: <span>{{book.romanization}}</span></div>
     </div>
 
     <div class="data hidden">
-      <div id="ital">Author: <span>{{book.author.last_name}}, {{book.author.first_name}} </span></div>
+      <div id="ital">Author: <span>{{book.author_lastname}}, {{book.author_firstname}} </span></div>
     </div>
 
     <div class="data hidden">
-      <div id="ital">Publisher: <span>{{book.publisher.company}}, {{book.publisher.city}}, {{book.publisher.country}}, {{book.publisher.year}}</span></div>
+      <div id="ital">Publisher: <span>{{book.publisher_company}}, {{book.publisher_city}}, {{book.publisher_country}}, {{book.publisher_year}}</span></div>
     </div>
 
     <div class="data hidden">
-      <div id="ital">Genre: <span>{{book.genre}}</span></div>
+      <div id="ital">Genre: <span>{{book.genres}}</span></div>
     </div>
 
     <div class="data hidden">
