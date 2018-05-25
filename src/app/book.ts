@@ -82,3 +82,9 @@ export class Book {
    image_ids: number[];
    pages: number;
 }
+
+export interface LanguageRec {
+  id: string;
+  lang_name: string;
+  lang_code: string;
+}

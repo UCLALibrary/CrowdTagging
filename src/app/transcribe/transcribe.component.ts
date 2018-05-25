@@ -4,11 +4,12 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Book, Author, AuthorFirstName, AuthorLastName, Publisher, PublisherCity, PublisherCompany,
-  PublisherCountry, PublisherYear, Title, Page, Genre, Romanization, Language } from '../book';
+  PublisherCountry, PublisherYear, Title, Page, Genre, Romanization, Language, LanguageRec } from '../book';
 import 'rxjs/add/operator/take';
 import * as panzoom from './panzoom/dist/panzoom.js';
 import { User } from '../providers/user';
 import { AfService } from '../providers/af.service';
+import * as langs from '../../assets/lang-list.json';
 import { resolve } from 'url';
 
 @Component({
@@ -32,6 +33,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   /* Language */
   languagesCollection: AngularFirestoreCollection<Language>;
   languages: Observable<Language[]>
+  list_of_languages: [LanguageRec] = [];
 
   /* Author First Name */
   authorsFirstNamesCollection: AngularFirestoreCollection<AuthorFirstName>;
@@ -74,7 +76,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
   /* Romanizations */
   romansCollection: AngularFirestoreCollection<Title>;
-  romans: Observable<Romanization[]>
+  romans: Observable<Romanization[]>;
 
   constructor(private afs: AngularFirestore, public AfService: AfService) {
     this.bookDoc = this.afs.doc<Book>('books/1');
@@ -111,6 +113,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
     this.languagesCollection = this.bookDoc.collection<Language>('languages');
     this.languages = this.languagesCollection.valueChanges();
+    for let element of langs {
+      this.list_of_languages.push(element);
+    }
 
     this.numCategories = 0
   }
@@ -149,7 +154,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
     let newData = {id: this.afs.createId(), value: null, votes: 1};
     newData.value = value;
-    
+
     this.bookDoc.collection(collection).doc(newData.id).set(newData);
 
     document.querySelector("form").reset();
@@ -162,7 +167,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.showTipsOnQuestionHover();
-    
+
     /* Select reusable HTML elements */
     var triangles    = Array.from(document.querySelectorAll('.triangle')),
         imgContainer = document.getElementById("viewContainer"),
@@ -335,7 +340,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         userData[input.name] = newData.value; // save user field transcription in JSON
         this.bookDoc.collection(`${input.name}`).doc(newData.id).set(newData);
       }
-    }); 
+    });
 
     Promise.all(promises).then(() => { // once we finish creating JSON, add it to DB and clear form
       let newID = this.afs.createId();
