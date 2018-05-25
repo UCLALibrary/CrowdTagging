@@ -13,4 +13,5 @@ export class Transcription {
     };
     roman: string;
     title: string;
+    oclc: string;
 }

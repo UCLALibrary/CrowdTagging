@@ -101,7 +101,7 @@
     background-color: #86DEB7;
     border-radius: 13px;
     border-style: none;
-    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);  
+    box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);
     font-size: 2rem;
     margin: 0 auto;
     min-width: 262px;
@@ -144,7 +144,7 @@ input[type="submit"] {
     -webkit-transition: .2s;
     transition: .2s;
     box-shadow: inset 0px 2px 3px #aaa;
-    background-color: white; 
+    background-color: white;
 }
 
 .chkbox-input:checked ~ span:after{
@@ -173,8 +173,9 @@ input[type="submit"] {
 .ital {
     font-style: italic;
     margin-bottom: 2%;
-    margin-left: -3px;
+    /* margin-left: -3px; */
     font-size: 18px;
+    text-align: center;
 }
 
 label {
@@ -186,7 +187,7 @@ input[type="text"] {
     border-radius: 10px;
     border: none;
     font-size: 13px;
-    box-shadow:0px 3px 3px rgba(0, 0, 0, 0.25) inset;  
+    box-shadow:0px 3px 3px rgba(0, 0, 0, 0.25) inset;
     padding-left: 4%;
     margin-left: -2px;
     width: 78%;

@@ -18,7 +18,6 @@
       <div class="dataSet">
         <app-title title="Language"></app-title>
         <div class="data">
-          <div class="ital">Language</div>
           <div class="dataPoint" *ngFor="let language of languages | async" (mouseenter)="language.hovering = !language.edit" (mouseleave)="language.hovering = false">
             <label class="chkbox-label" for="{{language.id}}" *ngIf="!language.edit">
               <input type="radio" class="chkbox-input" name="languages" id="{{language.id}}">
@@ -47,9 +46,9 @@
 
         <!-- Title Dataset-->
         <div class="dataSet">
-        <app-title title="Title"></app-title>
+        <app-title title="Title of Book"></app-title>
         <div class="data">
-          <div class="ital">Title in Native Language</div>
+          <div class="ital">Native</div>
           <div class="dataPoint" *ngFor="let title of titles | async" (mouseenter)="title.hovering = !title.edit" (mouseleave)="title.hovering = false">
             <label class="chkbox-label" for="{{title.id}}" *ngIf="!title.edit">
               <input type="radio" class="chkbox-input" name="titles" id="{{title.id}}">
@@ -74,9 +73,9 @@
             <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'titles')" *ngIf="user && isAdmin()"></span>
           </div>
         </div>
-        
+
         <div class="data">
-          <div class="ital">Romanization</div>
+          <div class="ital">Romanized</div>
           <div class="dataPoint" *ngFor="let roman of romans | async" (mouseenter)="roman.hovering = !roman.edit" (mouseleave)="roman.hovering = false">
             <label class="chkbox-label" for="{{roman.id}}" *ngIf="!roman.edit">
               <input type="radio" class="chkbox-input" name="romanization" id="{{roman.id}}">
@@ -164,7 +163,7 @@
 
       <!-- Publisher Dataset-->
       <div class="dataSet">
-        <app-title title="Publisher"></app-title>
+        <app-title title="Publisher Info"></app-title>
 
         <div class="data">
           <div class="ital">Company</div>
@@ -277,9 +276,8 @@
 
       <!-- Pages Dataset-->
       <div class="dataSet">
-        <app-title title="Pages"></app-title>
+        <app-title title="# of Pages"></app-title>
         <div class="data">
-          <div class="ital">Pages</div>
           <div class="dataPoint" *ngFor="let page of pages | async" (mouseenter)="page.hovering = !page.edit" (mouseleave)="page.hovering = false">
             <label class="chkbox-label" for="{{page.id}}" *ngIf="!page.edit">
               <input type="radio" class="chkbox-input" name="pages" id="{{page.id}}">
@@ -311,7 +309,6 @@
         <app-title title="Genre"></app-title>
 
         <div class="data">
-          <div class="ital">Genre</div>
           <div class="dataPoint" *ngFor="let genre of genres | async" (mouseenter)="genre.hovering = !genre.edit" (mouseleave)="genre.hovering = false">
             <label class="chkbox-label" for="{{genre.id}}" *ngIf="!genre.edit">
               <input type="radio" class="chkbox-input" name="genres" id="{{genre.id}}">
@@ -334,6 +331,37 @@
           <div>
             <app-addOption title="genres" (click)="showCheck($event)"></app-addOption>
             <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'genres')" *ngIf="user && isAdmin()"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- OCLC Dataset-->
+      <div class="dataSet">
+        <app-title title="OCLC ID"></app-title>
+
+        <div class="data">
+          <div class="dataPoint" *ngFor="let oclc of oclcs | async" (mouseenter)="oclc.hovering = !oclc.edit" (mouseleave)="oclc.hovering = false">
+            <label class="chkbox-label" for="{{oclc.id}}" *ngIf="!oclc.edit">
+              <input type="radio" class="chkbox-input" name="oclc" id="{{oclc.id}}">
+              <span>{{oclc.value}}</span>
+            </label>
+            <div *ngIf="oclc.edit">
+              <label class="chkbox-label" for="edit{{oclc.id}}">
+                  <input type="radio" class="chkbox-input" id="edit{{oclc.id}}" name="oclc">
+                  <span></span>
+              </label>
+              <input type="text" class="modified" name="edit{{oclc.id}}" value="{{oclc.value}}">
+              <span class="glyphicon glyphicon-ok" (click)="oclc.edit = false; set('oclc', oclc.id, $event.target.previousElementSibling.value)"></span>
+            </div>
+            <div class="iconContainer" *ngIf="isAdmin() && oclc.hovering">
+              <span class="pencil glyphicon glyphicon-pencil" (click)="oclc.edit = true; oclc.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('oclc', oclc.id)"></span>
+            </div>
+          </div>
+          <div>
+            <app-addOption title="oclcs" (click)="showCheck($event)"></app-addOption>
+            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'oclcs')" *ngIf="user && isAdmin()"></span>
           </div>
         </div>
       </div>

@@ -149,7 +149,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
     let newData = {id: this.afs.createId(), value: null, votes: 1};
     newData.value = value;
-    
+
     this.bookDoc.collection(collection).doc(newData.id).set(newData);
 
     document.querySelector("form").reset();
@@ -162,7 +162,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.showTipsOnQuestionHover();
-    
+
     /* Select reusable HTML elements */
     var triangles    = Array.from(document.querySelectorAll('.triangle')),
         imgContainer = document.getElementById("viewContainer"),
@@ -335,7 +335,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         userData[input.name] = newData.value; // save user field transcription in JSON
         this.bookDoc.collection(`${input.name}`).doc(newData.id).set(newData);
       }
-    }); 
+    });
 
     Promise.all(promises).then(() => { // once we finish creating JSON, add it to DB and clear form
       let newID = this.afs.createId();

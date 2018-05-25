@@ -1,9 +1,9 @@
 export interface Publisher {
-    city: string;
-    company: string;
-    country: string;
-    year: number;
-    votes: number;
+  city: string;
+  company: string;
+  country: string;
+  year: number;
+  votes: number;
 }
 
 export interface PublisherCity {
@@ -31,15 +31,15 @@ export interface PublisherYear {
 }
 
 export interface Title {
-    id: string;
-    name: string;
-    votes: number;
+  id: string;
+  name: string;
+  votes: number;
 }
 
 export interface Author {
-    first_name: string;
-    last_name: string;
-    votes: number;
+  first_name: string;
+  last_name: string;
+  votes: number;
 }
 
 export interface AuthorFirstName {
@@ -55,21 +55,21 @@ export interface AuthorLastName {
 }
 
 export interface Page {
-    id: string;
-    number: string;
-    votes: number;
+  id: string;
+  number: string;
+  votes: number;
 }
 
 export interface Genre {
-    id: string;
-    name: string;
-    votes: number;
+  id: string;
+  name: string;
+  votes: number;
 }
 
 export interface Romanization {
-    id: string;
-    name: string;
-    votes: number;
+  id: string;
+  name: string;
+  votes: number;
 }
 
 export interface Language {
@@ -78,7 +78,11 @@ export interface Language {
   votes: number;
 }
 
-export class Book {
-   image_ids: number[];
-   pages: number;
+export interface Book {
+  image_ids: number[];
+  pages: number;
+}
+
+export interface OCLC {
+  ids: string[];
 }
