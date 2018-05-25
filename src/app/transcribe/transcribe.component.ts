@@ -161,6 +161,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.showTipsOnQuestionHover();
+    
     /* Select reusable HTML elements */
     var triangles    = Array.from(document.querySelectorAll('.triangle')),
         imgContainer = document.getElementById("viewContainer"),
@@ -357,5 +359,18 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     try { // try ensures that checkmark is shown only if they click inside the text area
       event.target.parentElement.nextElementSibling.classList.remove("hidden");
     } catch {}
+  }
+
+  /* Hide and Show tip when user hovers over a question mark */
+  showTipsOnQuestionHover() {
+    let questionIcons = document.querySelectorAll('.glyphicon-question-sign');
+
+    Array.from(questionIcons).forEach(item => {
+      ['mouseover', 'mouseout'].forEach(event => {
+        item.addEventListener(event, function(item){
+          item.srcElement.previousElementSibling.classList.toggle('hiding');
+        });
+      });
+    });
   }
 }
