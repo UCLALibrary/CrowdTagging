@@ -23,6 +23,7 @@ label {
     flex-direction: column;
     width: 100vw;
     overflow: scroll;
+    padding-bottom: 2%;
 }
 
 #imageArea {

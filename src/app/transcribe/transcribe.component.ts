@@ -162,7 +162,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.showTipsOnQuestionHover();
-    
+
     /* Select reusable HTML elements */
     var triangles    = Array.from(document.querySelectorAll('.triangle')),
         imgContainer = document.getElementById("viewContainer"),
@@ -339,6 +339,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
     Promise.all(promises).then(() => { // once we finish creating JSON, add it to DB and clear form
       let newID = this.afs.createId();
+      
       this.afs.collection(`progress/${this.user.uid}/books`).doc(`${newID}`).set(userData).then(() => {
         document.querySelector("form").reset();
       });
@@ -347,7 +348,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
       userInfoDoc.ref.get().then(obj => {
         let object = obj.data();
-        console.log(object);
         object.booksTagged.push(newID);
         object.numTagged += 1;
         userInfoDoc.update(object);

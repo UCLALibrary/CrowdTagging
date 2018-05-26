@@ -1,93 +1,73 @@
 <div id="container">
   <div id="options">
     <form onsubmit="return false"> 
-
       <div class="rowflex" id="exportRow">
         <div class="colflex">
           <button id="exportBtn">Export</button>
         </div>
         <div class="colflex">Title</div>
         <div class="colflex">Romanization</div>
-          <div class="colflex">
-            <span>Author:</span>
-            <span>First Name</span>
-          </div>
-            <div class="colflex">
-              <span>Author:</span>
-              <span>Last Name</span>
-            </div>
-  
-
-            <div class="colflex">
-              <span>Publisher:</span>
-              <span>Company</span>
-            </div>
-  
-
-            <div class="colflex">
-              <span>Publisher:</span>
-              <span>City</span>
-            </div>
-  
-    
-            <div class="colflex">
-              <span>Publisher:</span>
-              <span>Coutry</span>
-            </div>
-      
-
-            <div class="colflex">
-              <span>Publisher:</span>
-              <span>Year</span>
-            </div>
-  
-          <div class="colflex">Pages</div>
-          <div class="colflex">Genre</div>
+        <div class="colflex">
+          <span>Author:</span>
+          <span>First Name</span>
+        </div>
+        <div class="colflex">
+          <span>Author:</span>
+          <span>Last Name</span>
+        </div>
+        <div class="colflex">
+          <span>Publisher:</span>
+          <span>Company</span>
+        </div>
+        <div class="colflex">
+          <span>Publisher:</span>
+          <span>City</span>
+        </div>
+        <div class="colflex">
+          <span>Publisher:</span>
+          <span>Coutry</span>
+        </div>
+        <div class="colflex">
+          <span>Publisher:</span>
+          <span>Year</span>
+        </div>
+        <div class="colflex">Pages</div>
+        <div class="colflex">Genre</div>
       </div>
       
-      <div class="rowflex" *ngFor="let book of books | async">
+      <div class="rowflex" *ngFor="let i = index; let book of compiledBookData">
         <div class="colflex">
           <img src="http://via.placeholder.com/80x80" routerLink="/transcribe">
         </div>
-
         <div class="colflex">
-          <span>Leaves of Grass </span>
+          <span>{{book.titles}}</span>
         </div>
-
         <div class="colflex">
-          <span>Leaves of Grass </span>
+          <span>{{book.romanization}}</span>
         </div>
-
         <div class="colflex">
-          <span>Leaves of Grass </span>
+          <span>{{book.author_firstname}}</span>
         </div>
-
         <div class="colflex">
-          <span>Leaves of Grass </span>
+          <span>{{book.author_lastname}}</span>
         </div>
-
         <div class="colflex">
-          <span>Leaves of Grass </span>
+          <span>{{book.publisher_company}}</span>
         </div>
-
         <div class="colflex">
-          <span>Leaves of Grass </span>
+          <span>{{book.publisher_city}}</span>
         </div>
-
         <div class="colflex">
-          <span>Leaves of Grass </span>
+          <span>{{book.publisher_country}}</span>
         </div>
-
         <div class="colflex">
-          <span>Leaves of Grass </span>
+          <span>{{book.publisher_year}}</span>
         </div>
-
         <div class="colflex">
-          <span>Leaves of Grass </span>
+          <span>{{book.pages}}</span>
         </div>
-
         <div class="colflex">
-          <span>Leaves of Grass </span>
+          <span>{{book.genres}}</span>
         </div>
       </div>
     </form>
