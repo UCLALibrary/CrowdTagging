@@ -62,26 +62,53 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
   NA_STRING = 'NA';
 
-  constructor(private afs: AngularFirestore, public AfService: AfService) {
-    this.bookDoc = this.afs.doc<Book>('books/1');
-
-    this.authorsCollection = this.bookDoc.collection<Author>('authors');
-    this.authors = this.authorsCollection.valueChanges();
-
-    this.titlesCollection = this.bookDoc.collection<Title>('titles');
-    this.titles = this.titlesCollection.valueChanges();
-
-    this.publishers = this.bookDoc.collection<Publisher>('publishers').valueChanges();
-
-    this.pagesCollection = this.bookDoc.collection<Page>('pages')
-    this.pages = this.pagesCollection.valueChanges();
-
-    this.genresCollection = this.bookDoc.collection<Genre>('genres')
-    this.genres = this.genresCollection.valueChanges();
-
-    this.romansCollection = this.bookDoc.collection<Romanization>('romanization');
-    this.romans = this.romansCollection.valueChanges();
+  getOrderedBooks() {
+    return this.afs.collection(`books`, ref => ref.orderBy('votes')).valueChanges();
   }
+
+  getUserBooks() {
+    return this.afs.collection(`progress/${this.user.uid}/books`).valueChanges();
+  }
+
+  getBookId() {
+    return new Promise(resolve => {
+      this.getOrderedBooks().subscribe(orderedBooks => {
+        console.log(orderedBooks);
+        this.getUserBooks().subscribe(userBooks =>{
+            console.log(userBooks);
+            var i = 0;
+            while (userBooks.includes(orderedBooks[i].image_key))
+              i++;
+            resolve(orderedBooks[i].image_key);
+        });
+      });
+    });
+  }
+
+  constructor(private afs: AngularFirestore, public AfService: AfService) {
+    this.getBookId().then(bookid => {
+      console.log(bookid);
+      this.bookDoc = this.afs.doc<Book>('books/' + bookid);
+
+      this.authorsCollection = this.bookDoc.collection<Author>('authors');
+      this.authors = this.authorsCollection.valueChanges();
+
+      this.titlesCollection = this.bookDoc.collection<Title>('titles');
+      this.titles = this.titlesCollection.valueChanges();
+
+      this.publishers = this.bookDoc.collection<Publisher>('publishers').valueChanges();
+
+      this.pagesCollection = this.bookDoc.collection<Page>('pages')
+      this.pages = this.pagesCollection.valueChanges();
+
+      this.genresCollection = this.bookDoc.collection<Genre>('genres')
+      this.genres = this.genresCollection.valueChanges();
+
+      this.romansCollection = this.bookDoc.collection<Romanization>('romanization');
+      this.romans = this.romansCollection.valueChanges();
+    });
+  }
+  
 
   isAdmin() {
       return this.user.roles.admin;
