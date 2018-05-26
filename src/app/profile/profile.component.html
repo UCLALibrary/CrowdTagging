@@ -6,10 +6,24 @@
       <input type="file" id="file" class="hidden" multiple>
     </div>
     <div id="textArea">
-      <span>Name: <span>{{user?.dispName}}</span></span>
-      <span>Email: <span>{{user?.email}}</span></span>
-      <span>Roles: <span>{{user?.roles.admin ? "User, Admin" : "User"}}</span></span>
-      <span>Total Books Tagged: <span>{{user?.numTagged ? user?.numTagged : 0}}</span></span>
+      <table>
+        <tr>
+          <th>Name</th>
+          <td>{{user?.dispName}}</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>{{user?.email}}</td>
+        </tr>
+        <tr>
+          <th>Roles</th>
+          <td>{{user?.roles.admin ? "Admin" : "User"}}</td>
+        </tr>
+        <tr>
+          <th>Books Transcribed</th>
+          <td>{{user?.numTagged ? user?.numTagged : 0}}</td>
+        </tr>
+      </table>
     </div>
   </div>
 
@@ -45,5 +59,5 @@
       <div id="ital">Pages: <span>{{book.pages}}</span></div>
     </div>
   </div>
-  
+
 </div>
