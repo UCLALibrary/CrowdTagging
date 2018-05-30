@@ -67,4 +67,13 @@ export class AdminComponent implements OnInit {
       });
     });
   }
+
+  downloadJSON() {
+    var bookData = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.compiledBookData));
+    var downloader = document.createElement('a');
+    
+    downloader.setAttribute('href', bookData);
+    downloader.setAttribute('download', 'Compiled-Book-Data.json');
+    downloader.click();
+  }
 }
