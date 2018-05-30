@@ -301,6 +301,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   updateDatabase() {
     let userSelectedInputs = Array.from(document.querySelectorAll("input:checked"));
     let userData = {};
+    const len = userSelectedInputs.length;
 
     // user had addOption selected at submission, but there was a blank entry
     for(var item of userSelectedInputs)
@@ -309,15 +310,20 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
           return;
 
     // user forgot to choose an option for at least one field
-    if(userSelectedInputs.length < this.numCategories)
+    if(len < this.numCategories)
       return;
 
     let promises = [];
 
-    userSelectedInputs.forEach((item) => {
+    userSelectedInputs.forEach((item, index) => {
       let input = item as HTMLInputElement;
 
       if(input.id.substring(0,5) !== "other"){ // if preexisting option was selected, update existing entry in DB
+        if(index == len - 1) { // oclc is not a voted option, so N/A option not in DB; record value and proceed
+          userData[input.name] = item.nextElementSibling.textContent;
+          return;
+        }
+
         const docToUpdate = this.bookDoc.collection(`${input.name}`).doc(input.id);
 
         promises.push(new Promise((resolve, reject) => {
@@ -339,7 +345,18 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
     Promise.all(promises).then(() => { // once we finish creating JSON, add it to DB and clear form
       let newID = this.afs.createId();
-      
+
+      // Try/catch will initialize user progress doc if it doesn't exist to avoid Firebase
+      // "This document does not exist, it will not appear in queries or snapshots" issue
+      // Will ensure that user progress is query-able later in profile page
+      // Without this, you end up creating a virtual doc
+
+      try {
+        let a = this.afs.doc(`progress/${this.user.uid}`).update(null);
+      } catch{
+        this.afs.doc(`progress/${this.user.uid}`).set({}, { merge: true });
+      }
+
       this.afs.collection(`progress/${this.user.uid}/books`).doc(`${newID}`).set(userData).then(() => {
         document.querySelector("form").reset();
       });
