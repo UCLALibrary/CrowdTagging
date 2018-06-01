@@ -287,11 +287,11 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   }
 
   getOrderedBooks() {
-    return this.afs.collection(`books`, ref => ref.orderBy('submissions')).valueChanges();
+    return this.afs.collection<Book>(`books`, ref => ref.orderBy('submissions')).valueChanges();
   }
 
-  getUserBooks() {
-    return this.afs.collection(`progress/${this.user.uid}/books`).valueChanges();
+  getUserInfo() {
+    return this.afs.doc<User>(`users/${this.user.uid}`).valueChanges();
   }
 
   getBookId() {
@@ -299,14 +299,16 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     return new Promise(resolve => {
       this.getOrderedBooks().subscribe(orderedBooks => {
         console.log(orderedBooks);
-        this.getUserBooks().subscribe(userBooks =>{
-            console.log(userBooks);
+        this.getUserInfo().subscribe(userInfo =>{
+            console.log("user", userInfo);
+            var userBooks = userInfo.booksTagged;
             var i = 0;
-            var book: any = orderedBooks[i];
-            while (userBooks.includes(book.image_key)){
+            console.log(userBooks);
+            while (userBooks.includes(orderedBooks[i].image_key)){
               i++;
             }
-            resolve(book.image_key);
+            console.log("current image key", orderedBooks[i].image_key);
+            resolve(orderedBooks[i].image_key);
             // breaks if user has done all the books
         });
       });
@@ -317,7 +319,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     this.getBookId().then(bookid => {
       console.log("data has been gotten");
       this.imageKey = bookid;
-      console.log(this.imageKey);
+      console.log("this is the image key after the data has been gotten: " + this.imageKey);
       this.bookDoc = this.afs.doc<Book>('books/' + bookid);
 
       this.authorsFirstNamesCollection = this.bookDoc.collection<AuthorFirstName>('author_firstname');
@@ -407,7 +409,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     }); 
 
     Promise.all(promises).then(() => { // once we finish creating JSON, add it to DB and clear form
-      let newID = this.afs.createId();
+      let newID = this.imageKey;//this.afs.createId();
 
       // Try/catch will initialize user progress doc if it doesn't exist to avoid Firebase
       // "This document does not exist, it will not appear in queries or snapshots" issue

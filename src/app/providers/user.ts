@@ -4,7 +4,7 @@ export interface User {
     email: String;
     photoURL: String;
     roles: Roles;
-    booksTagged: Array<number>;
+    booksTagged: Array<string>;
     numTagged: number;
 }
 
