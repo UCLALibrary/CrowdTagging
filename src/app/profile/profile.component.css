@@ -6,7 +6,10 @@ img {
     min-height: 200px;
 }
 
-button {
+label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 70%;
     height: 10%;
     min-height: 30px;
@@ -20,6 +23,7 @@ button {
     flex-direction: column;
     width: 100vw;
     overflow: scroll;
+    padding-bottom: 2%;
 }
 
 #imageArea {

@@ -2,13 +2,28 @@
   <div id="personalData">
     <div id="imageArea">
       <img src="{{user?.photoURL}}">
-      <button>Edit Image</button>
+      <label for="file">Edit Image</label>
+      <input type="file" id="file" class="hidden" multiple>
     </div>
     <div id="textArea">
-      <span>Name: <span>{{user?.dispName}}</span></span>
-      <span>Email: <span>{{user?.email}}</span></span>
-      <span>Roles: <span>{{user?.roles.admin ? "User, Admin" : "User"}}</span></span>
-      <span>Total Books Tagged: <span>{{user?.numTagged ? user?.numTagged : 0}}</span></span>
+      <table>
+        <tr>
+          <th>Name</th>
+          <td>{{user?.dispName}}</td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>{{user?.email}}</td>
+        </tr>
+        <tr>
+          <th>Roles</th>
+          <td>{{user?.roles.admin ? "Admin" : "User"}}</td>
+        </tr>
+        <tr>
+          <th>Books Transcribed</th>
+          <td>{{user?.numTagged ? user?.numTagged : 0}}</td>
+        </tr>
+      </table>
     </div>
   </div>
 
@@ -21,28 +36,32 @@
   <div class="dataSet" *ngFor="let book of books | async">
     <div class="title">
       <div class="triangle" (click)="toggle($event)"></div>
-      <span>{{book.title}}</span>
+      <span>{{book.titles}}</span>
     </div>
 
     <div class="data hidden">
-      <div id="ital">Romanization: <span>{{book.roman}}</span></div>
+      <div id="ital">Romanization: <span>{{book.romanization}}</span></div>
     </div>
 
     <div class="data hidden">
-      <div id="ital">Author: <span>{{book.author.last_name}}, {{book.author.first_name}} </span></div>
+      <div id="ital">Author: <span>{{book.author_lastname}}, {{book.author_firstname}} </span></div>
     </div>
 
     <div class="data hidden">
-      <div id="ital">Publisher: <span>{{book.publisher.company}}, {{book.publisher.city}}, {{book.publisher.country}}, {{book.publisher.year}}</span></div>
+      <div id="ital">Publisher: <span>{{book.publisher_company}}, {{book.publisher_city}}, {{book.publisher_country}}, {{book.publisher_year}}</span></div>
     </div>
 
     <div class="data hidden">
-      <div id="ital">Genre: <span>{{book.genre}}</span></div>
+      <div id="ital">Genre: <span>{{book.genres}}</span></div>
     </div>
 
     <div class="data hidden">
       <div id="ital">Pages: <span>{{book.pages}}</span></div>
     </div>
+
+    <div class="data hidden">
+      <div id="ital">OCLC-ID: <span>{{book.oclc}}</span></div>
+    </div>
   </div>
-  
+
 </div>

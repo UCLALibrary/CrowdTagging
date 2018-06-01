@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AfService } from '../providers/af.service';
 import { User } from '../providers/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +12,7 @@ export class NavbarComponent implements OnInit {
 
   user: User;
 
-  constructor(public AfService: AfService) { }
+  constructor(public AfService: AfService, private router: Router) { }
 
   login() {
     this.AfService.loginWithGoogle();

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-title',
@@ -6,11 +6,11 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./title.component.css'],
   inputs: ['title']
 })
-export class TitleComponent implements OnInit {
+export class TitleComponent implements AfterViewInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngAfterViewInit() { }
 
   @Input() title: string;
 }

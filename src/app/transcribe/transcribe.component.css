@@ -98,7 +98,7 @@
 }
 
 #submit {
-    background-color: #495867;
+    background-color: #86DEB7;
     border-radius: 13px;
     border-style: none;
     box-shadow:0px 4px 4px rgba(0, 0, 0, 0.25);  
@@ -109,7 +109,7 @@
     height: 10%;
     min-height:40px;
     margin-bottom: 1%;
-    color: #f0f3f5;
+    color: black;
 }
 
 input[type="submit"] {
@@ -139,7 +139,7 @@ input[type="submit"] {
     left: 0;
     width: 15px;
     height: 15px;
-    border-radius: 3px;
+    border-radius: 50%;
     margin-top: 2px;
     -webkit-transition: .2s;
     transition: .2s;
@@ -151,15 +151,12 @@ input[type="submit"] {
     content: "";
     position: absolute;
     display: block;
-    left: 5px;
-    top: 3px;
-    width: 6px;
+    left: 3px;
+    top: 5px;
+    width: 10px;
     height: 10px;
-    border: solid #666;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
+    background-color: #666;
+    border-radius: 50%;
 }
 
 .data {
@@ -192,23 +189,28 @@ input[type="text"] {
     box-shadow:0px 3px 3px rgba(0, 0, 0, 0.25) inset;  
     padding-left: 4%;
     margin-left: -2px;
-    width: 85%;
+    width: 78%;
 }
 
 .iconContainer {
     display: inline;
 }
 
-.pencil, .ex {
+.pencil, .ex, .buffer {
     float: right;
 }
 
 .pencil {
-    padding-right: 10%;
+    margin-right: 10%;
 }
 
 .ex {
-    padding-right: 3%;
+    margin-right: 3%;
+}
+
+.buffer {
+    width: 6%;
+    display: inline-block;
 }
 
 .modified {
@@ -218,4 +220,17 @@ input[type="text"] {
 
 .glyphicon-ok {
     padding-left: 1%;
+}
+
+.glyphicon-flag {
+    color: white;
+    position: absolute;
+    top: 95%;
+    left: 95%;
+}
+
+#viewer:hover .glyphicon-flag {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 1s, opacity 1s linear;
 }
