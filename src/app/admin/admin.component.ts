@@ -68,10 +68,12 @@ export class AdminComponent implements OnInit {
     });
   }
 
+  // should call compileBookData() at start of this function, and then on completion, trigger download
+  // keep it as is for now until I rewrite function that populates data on admin page, so that it's faster
   downloadJSON() {
-    var bookData = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.compiledBookData));
+    var bookData = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.compiledBookData, null, "   "));
     var downloader = document.createElement('a');
-    
+
     downloader.setAttribute('href', bookData);
     downloader.setAttribute('download', 'Compiled-Book-Data.json');
     downloader.click();
