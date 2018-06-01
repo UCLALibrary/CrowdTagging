@@ -93,7 +93,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
   NA_STRING = 'NA';
 
-  imageKey: any;
+  imageKey: string;
 
   constructor(private afs: AngularFirestore, public AfService: AfService) {
     console.log("in the constructor")
@@ -263,10 +263,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       // not sure how you'll be handling image display for user
         imageSetIndex++; // Kristie, this should only happen if updateDatabase() is successful
         index = 1; // Kristie, this should only happen if updateDatabase() is successful
-        this.updateDatabase();
+        this.updateDatabase( () => this.renderWithNewBook() );
         document.querySelector("form").reset();
-        // need to add book submission increase
-        this.renderWithNewBook();
     });
 
     /* Tick option checkbox automatically when user tries to add an option */
@@ -298,21 +296,19 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     has not yet completed.
   */
   getBookId() {
-    console.log("in getbookid");
     return new Promise(resolve => {
       this.getOrderedBooks().subscribe(orderedBooks => {
-        console.log(orderedBooks);
         this.getUserInfo().subscribe(userInfo =>{
             console.log("user", userInfo);
             var userBooks = userInfo.booksTagged;
             var i = 0;
-            console.log(userBooks);
             // Checks if user has already done the book
             while (userBooks.includes(orderedBooks[i].image_key)){
               i++;
             }
             console.log("current image key", orderedBooks[i].image_key);
             // Note that book id and image key are the same
+            
             resolve(orderedBooks[i].image_key);
             // Breaks if user has done all the books
         });
@@ -323,8 +319,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   /* Set the bookDoc based on a new book id. Rerender the page. */
   renderWithNewBook() {
     this.getBookId().then(bookid => {
-      console.log("data has been gotten");
-      this.imageKey = bookid;
+      this.imageKey = <string>bookid;
       console.log("this is the image key after the data has been gotten: " + this.imageKey);
       this.bookDoc = this.afs.doc<Book>('books/' + bookid);
 
@@ -369,7 +364,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   }
 
   // TODO: also update submission field
-  updateDatabase() {
+  updateDatabase(doWhenUserIsUpdated) {
     let userSelectedInputs = Array.from(document.querySelectorAll("input:checked"));
     let userData = {};
     const len = userSelectedInputs.length;
@@ -438,7 +433,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         let object = obj.data();
         object.booksTagged.push(newID);
         object.numTagged += 1;
-        userInfoDoc.update(object);
+        userInfoDoc.update(object).then(res => {
+          doWhenUserIsUpdated();
+        });
       });
     });
   }
