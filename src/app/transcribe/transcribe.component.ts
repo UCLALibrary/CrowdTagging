@@ -95,79 +95,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
   imageKey: any;
 
-  getOrderedBooks() {
-    return this.afs.collection(`books`, ref => ref.orderBy('submissions')).valueChanges();
-  }
-
-  getUserBooks() {
-    return this.afs.collection(`progress/${this.user.uid}/books`).valueChanges();
-  }
-
-  getBookId() {
-    console.log("in getbookid");
-    return new Promise(resolve => {
-      this.getOrderedBooks().subscribe(orderedBooks => {
-        console.log(orderedBooks);
-        this.getUserBooks().subscribe(userBooks =>{
-            console.log(userBooks);
-            var i = 0;
-            var book: any = orderedBooks[i];
-            while (userBooks.includes(book.image_key)){
-              i++;
-            }
-            resolve(book.image_key);
-            // breaks if user has done all the books
-        });
-      });
-    });
-  }
-
   constructor(private afs: AngularFirestore, public AfService: AfService) {
     console.log("in the constructor")
-    this.getBookId().then(bookid => {
-      console.log("data has been gotten");
-      this.imageKey = bookid;
-      console.log(this.imageKey);
-      this.bookDoc = this.afs.doc<Book>('books/' + bookid);
-
-      this.authorsFirstNamesCollection = this.bookDoc.collection<AuthorFirstName>('author_firstname');
-      this.authorsFirstNames = this.authorsFirstNamesCollection.valueChanges();
-
-      this.authorsLastNamesCollection = this.bookDoc.collection<AuthorLastName>('author_lastname');
-      this.authorsLastNames = this.authorsLastNamesCollection.valueChanges();
-
-      this.titlesCollection = this.bookDoc.collection<Title>('titles');
-      this.titles = this.titlesCollection.valueChanges();
-
-      this.publishersCitiesCollection = this.bookDoc.collection<PublisherCity>('publisher_city');
-      this.publishersCities = this.publishersCitiesCollection.valueChanges();
-
-      this.publishersCompaniesCollection = this.bookDoc.collection<PublisherCompany>('publisher_company');
-      this.publishersCompanies = this.publishersCompaniesCollection.valueChanges();
-
-      this.publisherCountriesCollection = this.bookDoc.collection<PublisherCountry>('publisher_country');
-      this.publishersCountries = this.publisherCountriesCollection.valueChanges();
-
-      this.publishersYearsCollection = this.bookDoc.collection<PublisherYear>('publisher_year');
-      this.publishersYears = this.publishersYearsCollection.valueChanges();
-
-      this.pagesCollection = this.bookDoc.collection<Page>('pages');
-      this.pages = this.pagesCollection.valueChanges();
-
-      this.genresCollection = this.bookDoc.collection<Genre>('genres');
-      this.genres = this.genresCollection.valueChanges();
-
-      this.romansCollection = this.bookDoc.collection<Romanization>('romanization');
-      this.romans = this.romansCollection.valueChanges();
-
-      this.languagesCollection = this.bookDoc.collection<Language>('languages');
-      this.languages = this.languagesCollection.valueChanges();
-
-      this.numCategories = 0;
-
-      console.log("about to enter ngAfterViewInit, this.imageKey is " + this.imageKey);
-      this.ngAfterViewInit();
-    })
+    this.updateBook();
   }
   
 
@@ -335,7 +265,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         index = 1; // Kristie, this should only happen if updateDatabase() is successful
         this.updateDatabase();
         document.querySelector("form").reset();
-        renderImage(this.imageKey);
+        // need to add book submission increase
+        this.updateBook();
     });
 
     /* Tick option checkbox automatically when user tries to add an option */
@@ -355,6 +286,81 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     renderImage(this.imageKey);
   }
 
+  getOrderedBooks() {
+    return this.afs.collection(`books`, ref => ref.orderBy('submissions')).valueChanges();
+  }
+
+  getUserBooks() {
+    return this.afs.collection(`progress/${this.user.uid}/books`).valueChanges();
+  }
+
+  getBookId() {
+    console.log("in getbookid");
+    return new Promise(resolve => {
+      this.getOrderedBooks().subscribe(orderedBooks => {
+        console.log(orderedBooks);
+        this.getUserBooks().subscribe(userBooks =>{
+            console.log(userBooks);
+            var i = 0;
+            var book: any = orderedBooks[i];
+            while (userBooks.includes(book.image_key)){
+              i++;
+            }
+            resolve(book.image_key);
+            // breaks if user has done all the books
+        });
+      });
+    });
+  }
+
+  updateBook() {
+    this.getBookId().then(bookid => {
+      console.log("data has been gotten");
+      this.imageKey = bookid;
+      console.log(this.imageKey);
+      this.bookDoc = this.afs.doc<Book>('books/' + bookid);
+
+      this.authorsFirstNamesCollection = this.bookDoc.collection<AuthorFirstName>('author_firstname');
+      this.authorsFirstNames = this.authorsFirstNamesCollection.valueChanges();
+
+      this.authorsLastNamesCollection = this.bookDoc.collection<AuthorLastName>('author_lastname');
+      this.authorsLastNames = this.authorsLastNamesCollection.valueChanges();
+
+      this.titlesCollection = this.bookDoc.collection<Title>('titles');
+      this.titles = this.titlesCollection.valueChanges();
+
+      this.publishersCitiesCollection = this.bookDoc.collection<PublisherCity>('publisher_city');
+      this.publishersCities = this.publishersCitiesCollection.valueChanges();
+
+      this.publishersCompaniesCollection = this.bookDoc.collection<PublisherCompany>('publisher_company');
+      this.publishersCompanies = this.publishersCompaniesCollection.valueChanges();
+
+      this.publisherCountriesCollection = this.bookDoc.collection<PublisherCountry>('publisher_country');
+      this.publishersCountries = this.publisherCountriesCollection.valueChanges();
+
+      this.publishersYearsCollection = this.bookDoc.collection<PublisherYear>('publisher_year');
+      this.publishersYears = this.publishersYearsCollection.valueChanges();
+
+      this.pagesCollection = this.bookDoc.collection<Page>('pages');
+      this.pages = this.pagesCollection.valueChanges();
+
+      this.genresCollection = this.bookDoc.collection<Genre>('genres');
+      this.genres = this.genresCollection.valueChanges();
+
+      this.romansCollection = this.bookDoc.collection<Romanization>('romanization');
+      this.romans = this.romansCollection.valueChanges();
+
+      this.languagesCollection = this.bookDoc.collection<Language>('languages');
+      this.languages = this.languagesCollection.valueChanges();
+
+      this.numCategories = 0;
+
+      console.log("about to enter ngAfterViewInit, this.imageKey is " + this.imageKey);
+      this.ngAfterViewInit();
+    })
+  }
+
+  // TODO: also update submission field
   updateDatabase() {
     let userSelectedInputs = Array.from(document.querySelectorAll("input:checked"));
     let userData = {};
