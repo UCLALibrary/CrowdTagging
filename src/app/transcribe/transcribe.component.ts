@@ -182,10 +182,11 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     var index = 1,
         imageSetIndex = 1, // Depends on session value, so they can come back to same book, if they leave
         currSetLength = 10; // Depends on length of data structure in database
+    var imageKey = this.imageKey; // gives access to this.imageKey inside ngAfterViewInit
 
     /* Update gallery */
-    function renderImage(imageKey){
-        var currImagePath = determineImageName(imageKey);
+    function renderImage(){
+        var currImagePath = determineImageName();
 
         pan.resetTransform();
         rotContainer.removeAttribute("style");
@@ -195,7 +196,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     }
 
     /* Produce name of the image within all50 directory */
-    function determineImageName(imageKey){
+    function determineImageName(){
         var directory = "../../assets/all50/";
         var imageSet = imageKey;
         var imageInSet = "_0" + ((index < 10) ? (0 + "" + index) : index);
@@ -232,7 +233,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
             index--;
 
         degree = 0;
-        renderImage(this.imageKey);
+        renderImage();
     });
 
     /* Handle upper-bound of gallery */
@@ -241,7 +242,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
             index++;
 
         degree = 0;
-        renderImage(this.imageKey);
+        renderImage();
     });
 
     /* Allow for left rotation */
@@ -281,7 +282,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         minZoom: 0.5
     });
 
-    renderImage(this.imageKey);
+    renderImage();
   }
 
   getOrderedBooks() {
