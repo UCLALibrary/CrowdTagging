@@ -63,7 +63,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   NA_STRING = 'NA';
 
   getOrderedBooks() {
-    return this.afs.collection(`books`, ref => ref.orderBy('votes')).valueChanges();
+    return this.afs.collection(`books`, ref => ref.orderBy('submissions')).valueChanges();
   }
 
   getUserBooks() {
@@ -77,9 +77,12 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         this.getUserBooks().subscribe(userBooks =>{
             console.log(userBooks);
             var i = 0;
-            while (userBooks.includes(orderedBooks[i].image_key))
+            var book: any = orderedBooks[i];
+            while (userBooks.includes(book.image_key)){
               i++;
-            resolve(orderedBooks[i].image_key);
+            }
+            resolve(book.image_key);
+            // breaks if user has done all the books
         });
       });
     });
