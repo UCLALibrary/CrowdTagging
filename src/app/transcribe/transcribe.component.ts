@@ -76,44 +76,100 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   romansCollection: AngularFirestoreCollection<Title>;
   romans: Observable<Romanization[]>
 
-  constructor(private afs: AngularFirestore, public AfService: AfService) {
-    this.bookDoc = this.afs.doc<Book>('books/1');
+  selectedTitle: string;
+  newTitle: string;
 
-    this.authorsFirstNamesCollection = this.bookDoc.collection<AuthorFirstName>('author_firstname');
-    this.authorsFirstNames = this.authorsFirstNamesCollection.valueChanges();
+  selectedAuthor: string;
+  newAuthor: string;
 
-    this.authorsLastNamesCollection = this.bookDoc.collection<AuthorLastName>('author_lastname');
-    this.authorsLastNames = this.authorsLastNamesCollection.valueChanges();
+  selectedRoman: string;
+  newRoman: string;
 
-    this.titlesCollection = this.bookDoc.collection<Title>('titles');
-    this.titles = this.titlesCollection.valueChanges();
+  selectedPages: string;
+  newPages: string;
 
-    this.publishersCitiesCollection = this.bookDoc.collection<PublisherCity>('publisher_city');
-    this.publishersCities = this.publishersCitiesCollection.valueChanges();
+  selectedGenre: string;
+  newGenre: string;
 
-    this.publishersCompaniesCollection = this.bookDoc.collection<PublisherCompany>('publisher_company');
-    this.publishersCompanies = this.publishersCompaniesCollection.valueChanges();
+  NA_STRING = 'NA';
 
-    this.publisherCountriesCollection = this.bookDoc.collection<PublisherCountry>('publisher_country');
-    this.publishersCountries = this.publisherCountriesCollection.valueChanges();
+  imageKey: any;
 
-    this.publishersYearsCollection = this.bookDoc.collection<PublisherYear>('publisher_year');
-    this.publishersYears = this.publishersYearsCollection.valueChanges();
-
-    this.pagesCollection = this.bookDoc.collection<Page>('pages');
-    this.pages = this.pagesCollection.valueChanges();
-
-    this.genresCollection = this.bookDoc.collection<Genre>('genres');
-    this.genres = this.genresCollection.valueChanges();
-
-    this.romansCollection = this.bookDoc.collection<Romanization>('romanization');
-    this.romans = this.romansCollection.valueChanges();
-
-    this.languagesCollection = this.bookDoc.collection<Language>('languages');
-    this.languages = this.languagesCollection.valueChanges();
-
-    this.numCategories = 0
+  getOrderedBooks() {
+    return this.afs.collection(`books`, ref => ref.orderBy('submissions')).valueChanges();
   }
+
+  getUserBooks() {
+    return this.afs.collection(`progress/${this.user.uid}/books`).valueChanges();
+  }
+
+  getBookId() {
+    console.log("in getbookid");
+    return new Promise(resolve => {
+      this.getOrderedBooks().subscribe(orderedBooks => {
+        console.log(orderedBooks);
+        this.getUserBooks().subscribe(userBooks =>{
+            console.log(userBooks);
+            var i = 0;
+            var book: any = orderedBooks[i];
+            while (userBooks.includes(book.image_key)){
+              i++;
+            }
+            resolve(book.image_key);
+            // breaks if user has done all the books
+        });
+      });
+    });
+  }
+
+  constructor(private afs: AngularFirestore, public AfService: AfService) {
+    console.log("in the constructor")
+    this.getBookId().then(bookid => {
+      console.log("data has been gotten");
+      this.imageKey = bookid;
+      console.log(this.imageKey);
+      this.bookDoc = this.afs.doc<Book>('books/' + bookid);
+
+      this.authorsFirstNamesCollection = this.bookDoc.collection<AuthorFirstName>('author_firstname');
+      this.authorsFirstNames = this.authorsFirstNamesCollection.valueChanges();
+
+      this.authorsLastNamesCollection = this.bookDoc.collection<AuthorLastName>('author_lastname');
+      this.authorsLastNames = this.authorsLastNamesCollection.valueChanges();
+
+      this.titlesCollection = this.bookDoc.collection<Title>('titles');
+      this.titles = this.titlesCollection.valueChanges();
+
+      this.publishersCitiesCollection = this.bookDoc.collection<PublisherCity>('publisher_city');
+      this.publishersCities = this.publishersCitiesCollection.valueChanges();
+
+      this.publishersCompaniesCollection = this.bookDoc.collection<PublisherCompany>('publisher_company');
+      this.publishersCompanies = this.publishersCompaniesCollection.valueChanges();
+
+      this.publisherCountriesCollection = this.bookDoc.collection<PublisherCountry>('publisher_country');
+      this.publishersCountries = this.publisherCountriesCollection.valueChanges();
+
+      this.publishersYearsCollection = this.bookDoc.collection<PublisherYear>('publisher_year');
+      this.publishersYears = this.publishersYearsCollection.valueChanges();
+
+      this.pagesCollection = this.bookDoc.collection<Page>('pages');
+      this.pages = this.pagesCollection.valueChanges();
+
+      this.genresCollection = this.bookDoc.collection<Genre>('genres');
+      this.genres = this.genresCollection.valueChanges();
+
+      this.romansCollection = this.bookDoc.collection<Romanization>('romanization');
+      this.romans = this.romansCollection.valueChanges();
+
+      this.languagesCollection = this.bookDoc.collection<Language>('languages');
+      this.languages = this.languagesCollection.valueChanges();
+
+      this.numCategories = 0;
+
+      console.log("about to enter ngAfterViewInit, this.imageKey is " + this.imageKey);
+      this.ngAfterViewInit();
+    })
+  }
+  
 
   isAdmin() {
       return this.user.roles.admin;
@@ -161,6 +217,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    console.log("in ngAfterViewInit, this.imageKey is " + this.imageKey);
     this.showTipsOnQuestionHover();
 
     /* Select reusable HTML elements */
@@ -197,8 +254,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         currSetLength = 10; // Depends on length of data structure in database
 
     /* Update gallery */
-    function renderImage(){
-        var currImagePath = determineImageName();
+    function renderImage(imageKey){
+        var currImagePath = determineImageName(imageKey);
 
         pan.resetTransform();
         rotContainer.removeAttribute("style");
@@ -208,9 +265,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     }
 
     /* Produce name of the image within all50 directory */
-    function determineImageName(){
+    function determineImageName(imageKey){
         var directory = "../../assets/all50/";
-        var imageSet = "EALJ00" + ((imageSetIndex < 10) ? (0 + "" + imageSetIndex) : imageSetIndex);
+        var imageSet = imageKey;
         var imageInSet = "_0" + ((index < 10) ? (0 + "" + index) : index);
 
         return (directory + imageSet + imageInSet + ".jpg");
@@ -245,7 +302,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
             index--;
 
         degree = 0;
-        renderImage();
+        renderImage(this.imageKey);
     });
 
     /* Handle upper-bound of gallery */
@@ -254,7 +311,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
             index++;
 
         degree = 0;
-        renderImage();
+        renderImage(this.imageKey);
     });
 
     /* Allow for left rotation */
@@ -278,7 +335,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         index = 1; // Kristie, this should only happen if updateDatabase() is successful
         this.updateDatabase();
         document.querySelector("form").reset();
-        renderImage();
+        renderImage(this.imageKey);
     });
 
     /* Tick option checkbox automatically when user tries to add an option */
@@ -295,7 +352,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         minZoom: 0.5
     });
 
-    renderImage();
+    renderImage(this.imageKey);
   }
 
   updateDatabase() {
