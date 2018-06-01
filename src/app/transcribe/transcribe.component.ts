@@ -97,7 +97,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
   constructor(private afs: AngularFirestore, public AfService: AfService) {
     console.log("in the constructor")
-    this.updateBook();
+    this.renderWithNewBook();
   }
   
 
@@ -266,7 +266,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         this.updateDatabase();
         document.querySelector("form").reset();
         // need to add book submission increase
-        this.updateBook();
+        this.renderWithNewBook();
     });
 
     /* Tick option checkbox automatically when user tries to add an option */
@@ -294,6 +294,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     return this.afs.doc<User>(`users/${this.user.uid}`).valueChanges();
   }
 
+  /* Gets the book id of the book with the least number of submissions that the user
+    has not yet completed.
+  */
   getBookId() {
     console.log("in getbookid");
     return new Promise(resolve => {
@@ -304,18 +307,21 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
             var userBooks = userInfo.booksTagged;
             var i = 0;
             console.log(userBooks);
+            // Checks if user has already done the book
             while (userBooks.includes(orderedBooks[i].image_key)){
               i++;
             }
             console.log("current image key", orderedBooks[i].image_key);
+            // Note that book id and image key are the same
             resolve(orderedBooks[i].image_key);
-            // breaks if user has done all the books
+            // Breaks if user has done all the books
         });
       });
     });
   }
 
-  updateBook() {
+  /* Set the bookDoc based on a new book id. Rerender the page. */
+  renderWithNewBook() {
     this.getBookId().then(bookid => {
       console.log("data has been gotten");
       this.imageKey = bookid;
