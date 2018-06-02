@@ -96,7 +96,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   imageKey: string;
 
   constructor(private afs: AngularFirestore, public AfService: AfService) {
-    console.log("in the constructor")
     this.renderWithNewBook();
   }
   
@@ -147,7 +146,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log("in ngAfterViewInit, this.imageKey is " + this.imageKey);
     this.showTipsOnQuestionHover();
 
     /* Select reusable HTML elements */
@@ -294,20 +292,17 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   }
 
   /* Gets the book id of the book with the least number of submissions that the user
-    has not yet completed.
-  */
+    has not yet completed. */
   getBookId() {
     return new Promise(resolve => {
       this.getOrderedBooks().subscribe(orderedBooks => {
         this.getUserInfo().subscribe(userInfo =>{
-            console.log("user", userInfo);
             var userBooks = userInfo.booksTagged;
             var i = 0;
             // Checks if user has already done the book
             while (userBooks.includes(orderedBooks[i].image_key)){
               i++;
             }
-            console.log("current image key", orderedBooks[i].image_key);
             // Note that book id and image key are the same
             
             resolve(orderedBooks[i].image_key);
@@ -321,7 +316,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   renderWithNewBook() {
     this.getBookId().then(bookid => {
       this.imageKey = <string>bookid;
-      console.log("this is the image key after the data has been gotten: " + this.imageKey);
+
       this.bookDoc = this.afs.doc<Book>('books/' + bookid);
 
       this.authorsFirstNamesCollection = this.bookDoc.collection<AuthorFirstName>('author_firstname');
@@ -359,7 +354,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
       this.numCategories = 0;
 
-      console.log("about to enter ngAfterViewInit, this.imageKey is " + this.imageKey);
       this.ngAfterViewInit();
     })
   }
@@ -428,6 +422,13 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         document.querySelector("form").reset();
       });
 
+      // increment number of submissions field on book
+      this.bookDoc.ref.get().then(obj => {
+        let object = obj.data();
+        object.submissions += 1;
+        this.bookDoc.update(object);
+      })
+
       const userInfoDoc = this.afs.doc(`users/${this.user.uid}`);
 
       userInfoDoc.ref.get().then(obj => {
@@ -438,6 +439,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
           doWhenUserIsUpdated();
         });
       });
+
     });
   }
 
