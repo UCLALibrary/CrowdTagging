@@ -4,6 +4,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { FormsModule } from '@angular/forms';
@@ -30,7 +31,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
+    NavbarComponent,	
     TranscribeComponent,
     HomeComponent,
     AddOptionComponent,
@@ -45,7 +46,8 @@ const appRoutes: Routes = [
     AngularFireStorageModule, // imports firebase/storage only needed for storage features
     BrowserModule,
     RouterModule.forRoot(appRoutes),
-    FormsModule
+    FormsModule,
+    HttpClientModule,
   ],
   providers: [AngularFireDatabase, AfService, AdminGuard, UserGuard],
   bootstrap: [AppComponent]

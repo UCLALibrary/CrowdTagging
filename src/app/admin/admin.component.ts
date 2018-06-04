@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../providers/user';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { AfService } from '../providers/af.service';
+import { HttpClient } from '@angular/common/http';
+
+interface AWT{
+  awt: string,
+  week: string
+}
 
 @Component({
   selector: 'app-admin',
@@ -13,8 +19,9 @@ export class AdminComponent implements OnInit {
   books;
   compiledBookData; // array of dictionaries to access top book data
   availableFields; // names of all collections in a book document
-
-  constructor(private afs: AngularFirestore, public AfService: AfService) { 
+  awt;
+  week;
+  constructor(private afs: AngularFirestore, private http: HttpClient, public AfService: AfService) { 
     this.books = this.afs.collection('books').valueChanges();
     this.compiledBookData = [];
     this.availableFields = [
@@ -33,7 +40,13 @@ export class AdminComponent implements OnInit {
     this.compileBookData();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+      this.http.get<AWT>('http://us-central1-test-project-d9089.cloudfunctions.net/getAWT').subscribe(data=>{
+         this.awt=data.awt;
+         this.week=data.week;
+         console.log(data.awt)
+      });
+  }
 
   // Creates an array of objects, where each object represents the
   // top voted data for each field of a given book
