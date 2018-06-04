@@ -76,44 +76,29 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   romansCollection: AngularFirestoreCollection<Title>;
   romans: Observable<Romanization[]>
 
+  selectedTitle: string;
+  newTitle: string;
+
+  selectedAuthor: string;
+  newAuthor: string;
+
+  selectedRoman: string;
+  newRoman: string;
+
+  selectedPages: string;
+  newPages: string;
+
+  selectedGenre: string;
+  newGenre: string;
+
+  NA_STRING = 'NA';
+
+  imageKey: string;
+
   constructor(private afs: AngularFirestore, public AfService: AfService) {
-    this.bookDoc = this.afs.doc<Book>('books/1');
-
-    this.authorsFirstNamesCollection = this.bookDoc.collection<AuthorFirstName>('author_firstname');
-    this.authorsFirstNames = this.authorsFirstNamesCollection.valueChanges();
-
-    this.authorsLastNamesCollection = this.bookDoc.collection<AuthorLastName>('author_lastname');
-    this.authorsLastNames = this.authorsLastNamesCollection.valueChanges();
-
-    this.titlesCollection = this.bookDoc.collection<Title>('titles');
-    this.titles = this.titlesCollection.valueChanges();
-
-    this.publishersCitiesCollection = this.bookDoc.collection<PublisherCity>('publisher_city');
-    this.publishersCities = this.publishersCitiesCollection.valueChanges();
-
-    this.publishersCompaniesCollection = this.bookDoc.collection<PublisherCompany>('publisher_company');
-    this.publishersCompanies = this.publishersCompaniesCollection.valueChanges();
-
-    this.publisherCountriesCollection = this.bookDoc.collection<PublisherCountry>('publisher_country');
-    this.publishersCountries = this.publisherCountriesCollection.valueChanges();
-
-    this.publishersYearsCollection = this.bookDoc.collection<PublisherYear>('publisher_year');
-    this.publishersYears = this.publishersYearsCollection.valueChanges();
-
-    this.pagesCollection = this.bookDoc.collection<Page>('pages');
-    this.pages = this.pagesCollection.valueChanges();
-
-    this.genresCollection = this.bookDoc.collection<Genre>('genres');
-    this.genres = this.genresCollection.valueChanges();
-
-    this.romansCollection = this.bookDoc.collection<Romanization>('romanization');
-    this.romans = this.romansCollection.valueChanges();
-
-    this.languagesCollection = this.bookDoc.collection<Language>('languages');
-    this.languages = this.languagesCollection.valueChanges();
-
-    this.numCategories = 0
+    this.renderWithNewBook();
   }
+  
 
   isAdmin() {
       return this.user.roles.admin;
@@ -195,6 +180,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     var index = 1,
         imageSetIndex = 1, // Depends on session value, so they can come back to same book, if they leave
         currSetLength = 10; // Depends on length of data structure in database
+    var imageKey = this.imageKey; // gives access to this.imageKey inside ngAfterViewInit
 
     /* Update gallery */
     function renderImage(){
@@ -210,7 +196,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     /* Produce name of the image within all50 directory */
     function determineImageName(){
         var directory = "../../assets/all50/";
-        var imageSet = "EALJ00" + ((imageSetIndex < 10) ? (0 + "" + imageSetIndex) : imageSetIndex);
+        var imageSet = imageKey;
         var imageInSet = "_0" + ((index < 10) ? (0 + "" + index) : index);
 
         return (directory + imageSet + imageInSet + ".jpg");
@@ -276,9 +262,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       // not sure how you'll be handling image display for user
         imageSetIndex++; // Kristie, this should only happen if updateDatabase() is successful
         index = 1; // Kristie, this should only happen if updateDatabase() is successful
-        this.updateDatabase();
+        this.updateDatabase( () => this.renderWithNewBook() );
         document.querySelector("form").reset();
-        renderImage();
     });
 
     /* Tick option checkbox automatically when user tries to add an option */
@@ -298,7 +283,83 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     renderImage();
   }
 
-  updateDatabase() {
+  getOrderedBooks() {
+    return this.afs.collection<Book>(`books`, ref => ref.orderBy('submissions')).valueChanges();
+  }
+
+  getUserInfo() {
+    return this.afs.doc<User>(`users/${this.user.uid}`).valueChanges();
+  }
+
+  /* Gets the book id of the book with the least number of submissions that the user
+    has not yet completed. */
+  getBookId() {
+    return new Promise(resolve => {
+      this.getOrderedBooks().subscribe(orderedBooks => {
+        this.getUserInfo().subscribe(userInfo =>{
+            var userBooks = userInfo.booksTagged;
+            var i = 0;
+            // Checks if user has already done the book
+            while (userBooks.includes(orderedBooks[i].image_key)){
+              i++;
+            }
+            // Note that book id and image key are the same
+            
+            resolve(orderedBooks[i].image_key);
+            // Breaks if user has done all the books
+        });
+      });
+    });
+  }
+
+  /* Set the bookDoc based on a new book id. Rerender the page. */
+  renderWithNewBook() {
+    this.getBookId().then(bookid => {
+      this.imageKey = <string>bookid;
+
+      this.bookDoc = this.afs.doc<Book>('books/' + bookid);
+
+      this.authorsFirstNamesCollection = this.bookDoc.collection<AuthorFirstName>('author_firstname');
+      this.authorsFirstNames = this.authorsFirstNamesCollection.valueChanges();
+
+      this.authorsLastNamesCollection = this.bookDoc.collection<AuthorLastName>('author_lastname');
+      this.authorsLastNames = this.authorsLastNamesCollection.valueChanges();
+
+      this.titlesCollection = this.bookDoc.collection<Title>('titles');
+      this.titles = this.titlesCollection.valueChanges();
+
+      this.publishersCitiesCollection = this.bookDoc.collection<PublisherCity>('publisher_city');
+      this.publishersCities = this.publishersCitiesCollection.valueChanges();
+
+      this.publishersCompaniesCollection = this.bookDoc.collection<PublisherCompany>('publisher_company');
+      this.publishersCompanies = this.publishersCompaniesCollection.valueChanges();
+
+      this.publisherCountriesCollection = this.bookDoc.collection<PublisherCountry>('publisher_country');
+      this.publishersCountries = this.publisherCountriesCollection.valueChanges();
+
+      this.publishersYearsCollection = this.bookDoc.collection<PublisherYear>('publisher_year');
+      this.publishersYears = this.publishersYearsCollection.valueChanges();
+
+      this.pagesCollection = this.bookDoc.collection<Page>('pages');
+      this.pages = this.pagesCollection.valueChanges();
+
+      this.genresCollection = this.bookDoc.collection<Genre>('genres');
+      this.genres = this.genresCollection.valueChanges();
+
+      this.romansCollection = this.bookDoc.collection<Romanization>('romanization');
+      this.romans = this.romansCollection.valueChanges();
+
+      this.languagesCollection = this.bookDoc.collection<Language>('languages');
+      this.languages = this.languagesCollection.valueChanges();
+
+      this.numCategories = 0;
+
+      this.ngAfterViewInit();
+    })
+  }
+
+  // TODO: also update submission field
+  updateDatabase(doWhenUserIsUpdated) {
     let userSelectedInputs = Array.from(document.querySelectorAll("input:checked"));
     let userData = {};
     const len = userSelectedInputs.length;
@@ -344,7 +405,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     }); 
 
     Promise.all(promises).then(() => { // once we finish creating JSON, add it to DB and clear form
-      let newID = this.afs.createId();
+      let newID = this.imageKey;//this.afs.createId();
 
       // Try/catch will initialize user progress doc if it doesn't exist to avoid Firebase
       // "This document does not exist, it will not appear in queries or snapshots" issue
@@ -361,14 +422,24 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         document.querySelector("form").reset();
       });
 
+      // increment number of submissions field on book
+      this.bookDoc.ref.get().then(obj => {
+        let object = obj.data();
+        object.submissions += 1;
+        this.bookDoc.update(object);
+      })
+
       const userInfoDoc = this.afs.doc(`users/${this.user.uid}`);
 
       userInfoDoc.ref.get().then(obj => {
         let object = obj.data();
         object.booksTagged.push(newID);
         object.numTagged += 1;
-        userInfoDoc.update(object);
+        userInfoDoc.update(object).then(res => {
+          doWhenUserIsUpdated();
+        });
       });
+
     });
   }
 

@@ -81,4 +81,6 @@ export interface Language {
 export class Book {
    image_ids: number[];
    pages: number;
+   image_key: string;
+   submissions: number;
 }
