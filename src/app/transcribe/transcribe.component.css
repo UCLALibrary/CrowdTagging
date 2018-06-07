@@ -240,8 +240,16 @@ input[type="text"] {
     color: green;
 }
 
-#viewer:hover .glyphicon-flag {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s 1s, opacity 1s linear;
+#inProgress {
+    position: absolute;
+    font-size: 50px;
+    color: white;
+    top: 50%;
+    left: 30%;
+    -webkit-animation: rotation 2s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+    from {-webkit-transform: rotate(0deg);}
+    to   {-webkit-transform: rotate(359deg);}
 }

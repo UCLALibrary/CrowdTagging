@@ -238,6 +238,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
     /* Update current image and image set positions */
     submitBtn.addEventListener("click", () => {
+      let progress = document.createElement('div');
+      progress.id = "inProgress";
+      progress.className = "glyphicon glyphicon-refresh";
+      document.body.appendChild(progress);
       // not sure how you'll be handling image display for user
         imageSetIndex++; // Kristie, this should only happen if updateDatabase() is successful
         index = 1; // Kristie, this should only happen if updateDatabase() is successful
@@ -357,6 +361,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     // If new year was added, but it wasn't an integer
     if(!parseInt(year) && year != ""){
       this.createNotificationWith("Year must be an integer.", "warnings");
+      document.querySelector("#inProgress").remove();
       return;
     }
 
@@ -365,12 +370,14 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       if(item.id.substring(0,5) === "other")
         if((item.parentElement.nextElementSibling as HTMLInputElement).value === ""){
           this.createNotificationWith("You forgot to define the new option!", "warnings");
+          document.querySelector("#inProgress").remove();
           return;
         }
 
     // user forgot to choose an option for at least one field
     if(len < this.numCategories){
       this.createNotificationWith("You left a field blank!", "warnings");
+      document.querySelector("#inProgress").remove();
       return;
     }
 
@@ -438,6 +445,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         userInfoDoc.update(object).then(res => {
           document.querySelector("form").reset();
           this.createNotificationWith("Success!", "success");
+          document.querySelector("#inProgress").remove();
           doWhenUserIsUpdated();
         });
       });
