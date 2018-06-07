@@ -242,7 +242,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         imageSetIndex++; // Kristie, this should only happen if updateDatabase() is successful
         index = 1; // Kristie, this should only happen if updateDatabase() is successful
         this.updateDatabase( () => this.renderWithNewBook() );
-        document.querySelector("form").reset();
     });
 
     /* Tick option checkbox automatically when user tries to add an option */
@@ -345,7 +344,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
     setTimeout(function(){
       document.querySelector('.' + styleClass).remove();
-    }, 5000);
+    }, 2000);
   }
 
   // TODO: also update submission field
@@ -353,6 +352,12 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     let userSelectedInputs = Array.from(document.querySelectorAll("input:checked"));
     let userData = {};
     const len = userSelectedInputs.length;
+    let year = (document.querySelector("#otherpublisher_year").parentElement.childNodes[1].parentElement.nextElementSibling as any).value;
+
+    if(!parseInt(year) && year != ""){
+      this.createNotificationWith("Year must be an integer.", "warnings");
+      return;
+    }
 
     // user had addOption selected at submission, but there was a blank entry
     for(var item of userSelectedInputs)
@@ -361,7 +366,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
           this.createNotificationWith("You forgot to define the new option!", "warnings");
           return;
         }
-          
 
     // user forgot to choose an option for at least one field
     if(len < this.numCategories){
@@ -431,6 +435,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         object.booksTagged.push(newID);
         object.numTagged += 1;
         userInfoDoc.update(object).then(res => {
+          document.querySelector("form").reset();
           doWhenUserIsUpdated();
         });
       });
