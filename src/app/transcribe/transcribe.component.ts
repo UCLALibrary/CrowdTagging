@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, style } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
@@ -358,6 +358,17 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     })
   }
 
+  createNotificationWith(text, styleClass) {
+    var div = document.createElement('div');
+    div.classList.add(styleClass);
+    div.innerText = text;
+    document.querySelector("#viewer").appendChild(div);
+
+    setTimeout(function(){
+      document.querySelector('.' + styleClass).remove();
+    }, 5000);
+  }
+
   // TODO: also update submission field
   updateDatabase(doWhenUserIsUpdated) {
     let userSelectedInputs = Array.from(document.querySelectorAll("input:checked"));
@@ -367,12 +378,17 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     // user had addOption selected at submission, but there was a blank entry
     for(var item of userSelectedInputs)
       if(item.id.substring(0,5) === "other")
-        if((item.parentElement.nextElementSibling as HTMLInputElement).value === "")
+        if((item.parentElement.nextElementSibling as HTMLInputElement).value === ""){
+          this.createNotificationWith("You forgot to define the new option!", "warnings");
           return;
+        }
+          
 
     // user forgot to choose an option for at least one field
-    if(len < this.numCategories)
+    if(len < this.numCategories){
+      this.createNotificationWith("You left a field blank!", "warnings");
       return;
+    }
 
     let promises = [];
 

@@ -112,6 +112,12 @@
     color: black;
 }
 
+#submit:active {
+    background: #86DEB7;
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.45); 
+     outline: none;
+  }
+
 input[type="submit"] {
     background: none;
     border: none;
@@ -222,11 +228,11 @@ input[type="text"] {
     padding-left: 1%;
 }
 
-.glyphicon-flag {
-    color: white;
+.warnings {
+    color: red;
     position: absolute;
     top: 95%;
-    left: 95%;
+    left: 2%;
 }
 
 #viewer:hover .glyphicon-flag {
