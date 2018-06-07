@@ -282,17 +282,20 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   getBookId() {
     return new Promise(resolve => {
       this.getOrderedBooks().subscribe(orderedBooks => {
-        this.getUserInfo().subscribe(userInfo =>{
-            var userBooks = userInfo.booksTagged;
-            var i = 0;
-            // Checks if user has already done the book
-            while (userBooks.includes(orderedBooks[i].image_key)){
-              i++;
-            }
-            // Note that book id and image key are the same
-            
-            resolve(orderedBooks[i].image_key);
-            // Breaks if user has done all the books
+        this.AfService.user$.subscribe(user => {
+          this.user = user;
+          this.getUserInfo().subscribe(userInfo =>{
+              var userBooks = userInfo.booksTagged;
+              var i = 0;
+              // Checks if user has already done the book
+              while (userBooks.includes(orderedBooks[i].image_key)){
+                i++;
+              }
+              // Note that book id and image key are the same
+              
+              resolve(orderedBooks[i].image_key);
+              // Breaks if user has done all the books
+          });
         });
       });
     });
