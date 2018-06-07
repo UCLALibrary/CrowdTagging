@@ -33,12 +33,12 @@
 
 #prev, #rotateLeft {
     left: 3%;
-    transform: translate(-160%);
+
 }
 
 #next, #rotateRight {
     right: 3%;
-    transform: translate(160%);
+
 }
 
 #prev, #next, #rotateLeft, #rotateRight {
@@ -46,7 +46,7 @@
     height: 32px;
     width: 32px;
     cursor: pointer;
-    transition: transform 111ms linear;
+
 }
 
 #rotateLeft, #rotateRight {
@@ -62,8 +62,6 @@
     color: grey;
     font-size: 2rem;
     letter-spacing: 5px;
-    transform: translateY(100%);
-    transition: transform 111ms linear;
 }
 
 #progress, #viewer, #submit {
