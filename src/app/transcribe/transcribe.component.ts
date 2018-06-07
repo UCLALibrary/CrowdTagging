@@ -146,6 +146,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    
+  }
+
+  setupView() {
     this.showTipsOnQuestionHover();
 
     /* Select reusable HTML elements */
@@ -180,7 +184,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     var index = 1,
         imageSetIndex = 1, // Depends on session value, so they can come back to same book, if they leave
         currSetLength = 10; // Depends on length of data structure in database
-    var imageKey = this.imageKey; // gives access to this.imageKey inside ngAfterViewInit
+    var imageKey = this.imageKey; // gives access to this.imageKey inside setupView
 
     /* Update gallery */
     function renderImage(){
@@ -336,7 +340,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
       this.numCategories = 0;
 
-      this.ngAfterViewInit();
+      this.setupView();
     })
   }
 
