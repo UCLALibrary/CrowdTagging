@@ -202,27 +202,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         return (directory + imageSet + imageInSet + ".jpg");
     }
 
-    /* Reset translate transforms on buttons inside gallery */
-    function showThese(arr){
-        arr.forEach(function(item){
-            item.style.transform = "translate(0)";
-        });
-    }
-
-    /* Display arrow and rotation buttons on hover */
-    imgContainer.addEventListener("mouseover", function(){
-        showThese([prevArrow, nextArrow, rotateLeft, rotateRight, statusBar]);
-    });
-
-    /* Hide previous/next arrows on hover */
-    imgContainer.addEventListener("mouseout", function(){
-        prevArrow.style.transform = "translate(-160%)";
-        nextArrow.style.transform = "translate(160%)";
-        rotateLeft.style.transform = "translate(-160%)";
-        rotateRight.style.transform = "translate(160%)";
-        statusBar.style.transform = "translateY(100%)";
-    });
-
     var degree = 0;
 
     /* Handle lower-bound of gallery */
