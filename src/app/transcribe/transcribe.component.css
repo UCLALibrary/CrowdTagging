@@ -226,11 +226,18 @@ input[type="text"] {
     padding-left: 1%;
 }
 
-.warnings {
-    color: red;
+.warnings, .success {
     position: absolute;
     top: 95%;
     left: 2%;
+}
+
+.warnings {
+    color: red;
+}
+
+.success {
+    color: green;
 }
 
 #viewer:hover .glyphicon-flag {

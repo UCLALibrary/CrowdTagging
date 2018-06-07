@@ -354,6 +354,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     const len = userSelectedInputs.length;
     let year = (document.querySelector("#otherpublisher_year").parentElement.childNodes[1].parentElement.nextElementSibling as any).value;
 
+    // If new year was added, but it wasn't an integer
     if(!parseInt(year) && year != ""){
       this.createNotificationWith("Year must be an integer.", "warnings");
       return;
@@ -436,6 +437,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         object.numTagged += 1;
         userInfoDoc.update(object).then(res => {
           document.querySelector("form").reset();
+          this.createNotificationWith("Success!", "success");
           doWhenUserIsUpdated();
         });
       });
