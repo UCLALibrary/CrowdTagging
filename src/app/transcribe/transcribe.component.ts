@@ -117,7 +117,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
        return;
 
     var col = this.bookDoc.collection(collection).doc(id);
-
+    
     col.ref.get().then(doc => {
         const data = doc.data();
         data.value = value;
