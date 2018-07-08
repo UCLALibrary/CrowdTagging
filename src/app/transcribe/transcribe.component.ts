@@ -145,9 +145,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     this.AfService.user$.subscribe(user => this.user = user);
   }
 
-  ngAfterViewInit() {
-    
-  }
+  ngAfterViewInit() {}
 
   setupView() {
     this.showTipsOnQuestionHover();
@@ -284,16 +282,26 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       this.getOrderedBooks().subscribe(orderedBooks => {
         this.AfService.user$.subscribe(user => {
           this.user = user;
-          this.getUserInfo().subscribe(userInfo =>{
+          this.getUserInfo().subscribe(userInfo => {
               var userBooks = userInfo.booksTagged;
               var i = 0;
               // Checks if user has already done the book
-              while (userBooks.includes(orderedBooks[i].image_key)){
-                i++;
+
+              try {
+                while (userBooks.includes(orderedBooks[i].image_key)){
+                  i++;
+                }
+              } catch {
+                this.noMoreBooksToDisplay();
               }
+              
               // Note that book id and image key are the same
               
-              resolve(orderedBooks[i].image_key);
+              try {
+                resolve(orderedBooks[i].image_key);
+              } catch {
+                resolve(undefined);
+              }
               // Breaks if user has done all the books
           });
         });
@@ -301,9 +309,29 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /* Change view to show that there are no more books to tag */
+  noMoreBooksToDisplay() {
+    console.log("no more books");
+
+    let myStyle = "outOfBooks";
+
+    var div = document.createElement('div');
+    div.classList.add(myStyle);
+    div.innerHTML = "Thanks for your help! <br> There are no more books to tag at the moment. <br> Please check back again later.";
+    document.querySelector("#viewer").appendChild(div);
+
+    setTimeout(function(){
+      document.querySelector('.' + myStyle).remove();
+    }, 5000);
+  }
+
   /* Set the bookDoc based on a new book id. Rerender the page. */
   renderWithNewBook() {
     this.getBookId().then(bookid => {
+
+      if(bookid == undefined)
+        return;
+
       this.imageKey = <string>bookid;
 
       this.bookDoc = this.afs.doc<Book>('books/' + bookid);

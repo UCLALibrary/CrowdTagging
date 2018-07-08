@@ -33,12 +33,10 @@
 
 #prev, #rotateLeft {
     left: 3%;
-
 }
 
 #next, #rotateRight {
     right: 3%;
-
 }
 
 #prev, #next, #rotateLeft, #rotateRight {
@@ -46,7 +44,6 @@
     height: 32px;
     width: 32px;
     cursor: pointer;
-
 }
 
 #rotateLeft, #rotateRight {
@@ -238,6 +235,14 @@ input[type="text"] {
 
 .success {
     color: green;
+}
+
+.outOfBooks {
+    color: green;
+    position: absolute;
+    top: 42%;
+    width: 100%;
+    text-align: center;
 }
 
 #inProgress {
