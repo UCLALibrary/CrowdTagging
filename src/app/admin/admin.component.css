@@ -106,3 +106,16 @@ button:focus {
 img:hover {
     cursor: pointer;
 }
+
+#stats {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    align-items: flex-end;
+    height: 40px;
+    padding-left: 5%;
+}
+
+#exportRow {
+    padding-top: 0%;
+}
