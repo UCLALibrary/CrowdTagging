@@ -134,3 +134,11 @@ label {
 div > span {
     padding-left: 2%;
 }
+
+td {
+    padding-left: 17%;
+}
+
+.title > span {
+    width: 70%;
+}
