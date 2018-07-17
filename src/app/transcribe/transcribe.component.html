@@ -20,26 +20,26 @@
           <div class="ital">Language</div>
           <div class="dataPoint" *ngFor="let language of languages | async" (mouseenter)="language.hovering = !language.edit" (mouseleave)="language.hovering = false">
             <label class="chkbox-label" for="{{language.id}}" *ngIf="!language.edit">
-              <input type="radio" class="chkbox-input" name="languages" id="{{language.id}}">
+              <input type="radio" class="chkbox-input" name="language" id="{{language.id}}">
               <span>{{language.value}}</span>
             </label>
             <div *ngIf="language.edit">
               <label class="chkbox-label" for="edit{{language.id}}">
-                <input type="radio" class="chkbox-input" id="edit{{language.id}}" name="languages">
+                <input type="radio" class="chkbox-input" id="edit{{language.id}}" name="language">
                 <span></span>
               </label>
               <input type="text" class="modified" name="edit{{language.id}}" value="{{language.value}}">
-              <span class="glyphicon glyphicon-ok" (click)="language.edit = false; set('languages', language.id, $event.target.previousElementSibling.value)"></span>
+              <span class="glyphicon glyphicon-ok" (click)="language.edit = false; set('language', language.id, $event.target.previousElementSibling.value)"></span>
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && language.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="language.edit = true; language.hovering = false"></span>
               <span class="buffer">&nbsp;</span>
-              <span class="ex glyphicon glyphicon-remove" (click)="delete('languages', language.id)"></span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('language', language.id)"></span>
             </div>
           </div>
           <div>
-            <app-addOption title="languages" (click)="showCheck($event)"></app-addOption>
-            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'languages')" *ngIf="user && isAdmin()"></span>
+            <app-addOption title="language" (click)="showCheck($event)"></app-addOption>
+            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'language')" *ngIf="user && isAdmin()"></span>
           </div>
         </div>
         </div>
@@ -51,26 +51,26 @@
           <div class="ital">Title in Native Language</div>
           <div class="dataPoint" *ngFor="let title of titles | async" (mouseenter)="title.hovering = !title.edit" (mouseleave)="title.hovering = false">
             <label class="chkbox-label" for="{{title.id}}" *ngIf="!title.edit">
-              <input type="radio" class="chkbox-input" name="titles" id="{{title.id}}">
+              <input type="radio" class="chkbox-input" name="title" id="{{title.id}}">
               <span>{{title.value}}</span>
             </label>
             <div *ngIf="title.edit">
               <label class="chkbox-label" for="edit{{title.id}}">
-                  <input type="radio" class="chkbox-input" id="edit{{title.id}}" name="titles">
+                  <input type="radio" class="chkbox-input" id="edit{{title.id}}" name="title">
                   <span></span>
               </label>
               <input type="text" class="modified" name="edit{{title.id}}" value="{{title.value}}">
-              <span class="glyphicon glyphicon-ok" (click)="title.edit = false; set('titles', title.id, $event.target.previousElementSibling.value)"></span>
+              <span class="glyphicon glyphicon-ok" (click)="title.edit = false; set('title', title.id, $event.target.previousElementSibling.value)"></span>
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && title.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="title.edit = true; title.hovering = false"></span>
               <span class="buffer">&nbsp;</span>
-              <span class="ex glyphicon glyphicon-remove" (click)="delete('titles', title.id)"></span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('title', title.id)"></span>
             </div>
           </div>
           <div>
-            <app-addOption title="titles" (click)="showCheck($event)"></app-addOption>
-            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'titles')" *ngIf="user && isAdmin()"></span>
+            <app-addOption title="title" (click)="showCheck($event)"></app-addOption>
+            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'title')" *ngIf="user && isAdmin()"></span>
           </div>
         </div>
         
@@ -78,26 +78,53 @@
           <div class="ital">Romanization</div>
           <div class="dataPoint" *ngFor="let roman of romans | async" (mouseenter)="roman.hovering = !roman.edit" (mouseleave)="roman.hovering = false">
             <label class="chkbox-label" for="{{roman.id}}" *ngIf="!roman.edit">
-              <input type="radio" class="chkbox-input" name="romanization" id="{{roman.id}}">
+              <input type="radio" class="chkbox-input" name="title_rom" id="{{roman.id}}">
               <span>{{roman.value}}</span>
             </label>
             <div *ngIf="roman.edit">
               <label class="chkbox-label" for="edit{{roman.id}}">
-                  <input type="radio" class="chkbox-input" id="edit{{roman.id}}" name="romanization">
+                  <input type="radio" class="chkbox-input" id="edit{{roman.id}}" name="title_rom">
                   <span></span>
               </label>
               <input type="text" class="modified" name="edit{{roman.id}}" value="{{roman.value}}">
-              <span class="glyphicon glyphicon-ok" (click)="roman.edit = false; set('romanization', roman.id, $event.target.previousElementSibling.value)"></span>
+              <span class="glyphicon glyphicon-ok" (click)="roman.edit = false; set('title_rom', roman.id, $event.target.previousElementSibling.value)"></span>
             </div>
             <div class="iconContainer" *ngIf="isAdmin() && roman.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="roman.edit = true; roman.hovering = false"></span>
               <span class="buffer">&nbsp;</span>
-              <span class="ex glyphicon glyphicon-remove" (click)="delete('romanization', roman.id)"></span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('title_rom', roman.id)"></span>
             </div>
           </div>
           <div>
-            <app-addOption title="romanization" (click)="showCheck($event)"></app-addOption>
-            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'romanization')" *ngIf="user && isAdmin()"></span>
+            <app-addOption title="title_rom" (click)="showCheck($event)"></app-addOption>
+            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'title_rom')" *ngIf="user && isAdmin()"></span>
+          </div>
+        </div>
+
+        <div class="data">
+          <div class="ital">Translation</div>
+          <div class="dataPoint" *ngFor="let tran of trans | async" (mouseenter)="tran.hovering = !tran.edit" (mouseleave)="tran.hovering = false">
+            <label class="chkbox-label" for="{{tran.id}}" *ngIf="!tran.edit">
+              <input type="radio" class="chkbox-input" name="translated_title" id="{{tran.id}}">
+              <span>{{tran.value}}</span>
+            </label>
+            <div *ngIf="tran.edit">
+              <label class="chkbox-label" for="edit{{tran.id}}">
+                  <input type="radio" class="chkbox-input" id="edit{{tran.id}}" name="translated_title">
+                  <span></span>
+              </label>
+              <input type="text" class="modified" name="edit{{tran.id}}" value="{{tran.value}}">
+              <span class="glyphicon glyphicon-ok" (click)="tran.edit = false; set('translated_title', tran.id, $event.target.previousElementSibling.value)"></span>
+            </div>
+            <div class="iconContainer" *ngIf="isAdmin() && tran.hovering">
+              <span class="pencil glyphicon glyphicon-pencil" (click)="tran.edit = true; tran.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('translated_title', tran.id)"></span>
+            </div>
+          </div>
+          <div>
+            <app-addOption title="translated_title" (click)="showCheck($event)"></app-addOption>
+            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'translated_title')" *ngIf="user && isAdmin()"></span>
           </div>
         </div>
       </div>
@@ -134,6 +161,33 @@
         </div>
 
         <div class="data">
+          <div class="ital">First Name Romanized</div>
+          <div class="dataPoint" *ngFor="let author of authorsFirstNamesRom | async" (mouseenter)="author.hovering = !author.edit" (mouseleave)="author.hovering = false">
+            <label class="chkbox-label" for="{{author.id}}" *ngIf="!author.edit">
+              <input type="radio" class="chkbox-input" name="author_firstname_rom" id="{{author.id}}">
+              <span>{{author.value}}</span>
+            </label>
+            <div *ngIf="author.edit">
+              <label class="chkbox-label" for="edit{{author.id}}">
+                  <input type="radio" class="chkbox-input" id="edit{{author.id}}" name="firstName">
+                  <span></span>
+              </label>
+              <input type="text" class="modified" name="edit{{author.id}}" value="{{author.value}}">
+              <span class="glyphicon glyphicon-ok" (click)="author.edit = false; set('author_firstname_rom', author.id, $event.target.previousElementSibling.value)"></span>
+            </div>
+            <div class="iconContainer" *ngIf="isAdmin() && author.hovering">
+              <span class="pencil glyphicon glyphicon-pencil" (click)="author.edit = true; author.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('author_firstname_rom', author.id)"></span>
+            </div>
+          </div>
+        <div>
+          <app-addOption title="author_firstname_rom" (click)="showCheck($event)"></app-addOption>
+          <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'author_firstname_rom')" *ngIf="user && isAdmin()"></span>
+        </div>
+        </div>
+
+        <div class="data">
           <div class="ital">Last Name</div>
           <div class="dataPoint" *ngFor="let author of authorsLastNames | async" (mouseenter)="author.hovering = !author.edit" (mouseleave)="author.hovering = false">
             <label class="chkbox-label" for="{{author.id}}" *ngIf="!author.edit">
@@ -159,7 +213,34 @@
           <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'author_lastname')" *ngIf="user && isAdmin()"></span>
         </div>
       </div>
+
+      <div class="data">
+        <div class="ital">Last Name Romanized</div>
+        <div class="dataPoint" *ngFor="let author of authorsLastNamesRom | async" (mouseenter)="author.hovering = !author.edit" (mouseleave)="author.hovering = false">
+          <label class="chkbox-label" for="{{author.id}}" *ngIf="!author.edit">
+            <input type="radio" class="chkbox-input" name="author_lastname_rom" id="{{author.id}}">
+            <span>{{author.value}}</span>
+          </label>
+          <div *ngIf="author.edit">
+            <label class="chkbox-label" for="edit{{author.id}}">
+                <input type="radio" class="chkbox-input" id="edit{{author.id}}" name="lastName">
+                <span></span>
+            </label>
+            <input type="text" class="modified" name="edit{{author.id}}" value="{{author.value}}">
+            <span class="glyphicon glyphicon-ok" (click)="author.edit = false; set('author_lastname_rom', author.id, $event.target.previousElementSibling.value)"></span>
+          </div>
+          <div class="iconContainer" *ngIf="isAdmin() && author.hovering">
+            <span class="pencil glyphicon glyphicon-pencil" (click)="author.edit = true; author.hovering = false"></span>
+            <span class="buffer">&nbsp;</span>
+            <span class="ex glyphicon glyphicon-remove" (click)="delete('author_lastname_rom', author.id)"></span>
+          </div>
+        </div>
+      <div>
+        <app-addOption title="author_lastname_rom" (click)="showCheck($event)"></app-addOption>
+        <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'author_lastname_rom')" *ngIf="user && isAdmin()"></span>
       </div>
+    </div>
+    </div>
 
       <!-- Publisher Dataset-->
       <div class="dataSet">
@@ -193,6 +274,33 @@
         </div>
 
         <div class="data">
+          <div class="ital">Company Romanized</div>
+          <div class="dataPoint" *ngFor="let publisher of publishersCompaniesRom | async" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
+            <label class="chkbox-label" for="{{publisher.id}}" *ngIf="!publisher.edit">
+              <input type="radio" class="chkbox-input" name="publisher_company_rom" id="{{publisher.id}}">
+              <span>{{publisher.value}}</span>
+            </label>
+            <div *ngIf="publisher.edit">
+              <label class="chkbox-label" for="edit{{publisher.id}}">
+                  <input type="radio" class="chkbox-input" id="edit{{publisher.id}}" name="company">
+                  <span></span>
+              </label>
+              <input type="text" class="modified" name="edit{{publisher.id}}" value="{{publisher.value}}">
+              <span class="glyphicon glyphicon-ok" (click)="publisher.edit = false; set('publisher_company_rom', publisher.id, $event.target.previousElementSibling.value)"></span>
+            </div>
+            <div class="iconContainer" *ngIf="isAdmin() && publisher.hovering">
+              <span class="pencil glyphicon glyphicon-pencil" (click)="publisher.edit = true; publisher.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('publisher_company_rom', publisher.id)"></span>
+            </div>
+          </div>
+        <div>
+          <app-addOption title="publisher_company_rom" (click)="showCheck($event)"></app-addOption>
+          <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'publisher_company_rom')" *ngIf="user && isAdmin()"></span>
+        </div>
+        </div>
+
+        <div class="data">
           <div class="ital">City</div>
           <div class="dataPoint" *ngFor="let publisher of publishersCities | async" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
             <label class="chkbox-label" for="{{publisher.id}}" *ngIf="!publisher.edit">
@@ -216,6 +324,33 @@
         <div>
           <app-addOption title="publisher_city" (click)="showCheck($event)"></app-addOption>
           <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'publisher_city')" *ngIf="user && isAdmin()"></span>
+        </div>
+        </div>
+
+        <div class="data">
+          <div class="ital">City Romanized</div>
+          <div class="dataPoint" *ngFor="let publisher of publishersCitiesRom | async" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
+            <label class="chkbox-label" for="{{publisher.id}}" *ngIf="!publisher.edit">
+              <input type="radio" class="chkbox-input" name="publisher_city_rom" id="{{publisher.id}}">
+              <span>{{publisher.value}}</span>
+            </label>
+            <div *ngIf="publisher.edit">
+              <label class="chkbox-label" for="edit{{publisher.id}}">
+                  <input type="radio" class="chkbox-input" id="edit{{publisher.id}}" name="city">
+                  <span></span>
+              </label>
+              <input type="text" class="modified" name="edit{{publisher.id}}" value="{{publisher.value}}">
+              <span class="glyphicon glyphicon-ok" (click)="publisher.edit = false; set('publisher_city_rom', publisher.id, $event.target.previousElementSibling.value)"></span>
+            </div>
+            <div class="iconContainer" *ngIf="isAdmin() && publisher.hovering">
+              <span class="pencil glyphicon glyphicon-pencil" (click)="publisher.edit = true; publisher.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('publisher_city_rom', publisher.id)"></span>
+            </div>
+          </div>
+        <div>
+          <app-addOption title="publisher_city_rom" (click)="showCheck($event)"></app-addOption>
+          <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'publisher_city_rom')" *ngIf="user && isAdmin()"></span>
         </div>
         </div>
 
@@ -247,6 +382,33 @@
         </div>
 
         <div class="data">
+          <div class="ital">Country Romanized</div>
+          <div class="dataPoint" *ngFor="let publisher of publishersCountriesRom | async" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
+            <label class="chkbox-label" for="{{publisher.id}}" *ngIf="!publisher.edit">
+              <input type="radio" class="chkbox-input" name="publisher_country_rom" id="{{publisher.id}}">
+              <span>{{publisher.value}}</span>
+            </label>
+            <div *ngIf="publisher.edit">
+              <label class="chkbox-label" for="edit{{publisher.id}}">
+                  <input type="radio" class="chkbox-input" id="edit{{publisher.id}}" name="country">
+                  <span></span>
+              </label>
+              <input type="text" class="modified" name="edit{{publisher.id}}" value="{{publisher.value}}">
+              <span class="glyphicon glyphicon-ok" (click)="publisher.edit = false; set('publisher_country_rom', publisher.id, $event.target.previousElementSibling.value)"></span>
+            </div>
+            <div class="iconContainer" *ngIf="isAdmin() && publisher.hovering">
+              <span class="pencil glyphicon glyphicon-pencil" (click)="publisher.edit = true; publisher.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('publisher_country_rom', publisher.id)"></span>
+            </div>
+          </div>
+          <div>
+          <app-addOption title="publisher_country_rom" (click)="showCheck($event)"></app-addOption>
+          <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'publisher_country_rom')" *ngIf="user && isAdmin()"></span>
+        </div>
+        </div>
+
+        <div class="data">
           <div class="ital">Year</div>
           <div class="dataPoint" *ngFor="let publisher of publishersYears | async" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
             <label class="chkbox-label" for="{{publisher.id}}" *ngIf="!publisher.edit">
@@ -270,6 +432,33 @@
           <div>
           <app-addOption title="publisher_year" (click)="showCheck($event)"></app-addOption>
           <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'publisher_year')" *ngIf="user && isAdmin()"></span>
+        </div>
+        </div>
+
+        <div class="data">
+          <div class="ital">Year Romanized</div>
+          <div class="dataPoint" *ngFor="let publisher of publishersYearsRom | async" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
+            <label class="chkbox-label" for="{{publisher.id}}" *ngIf="!publisher.edit">
+              <input type="radio" class="chkbox-input" name="publisher_year_rom" id="{{publisher.id}}">
+              <span>{{publisher.value}}</span>
+            </label>
+            <div *ngIf="publisher.edit">
+              <label class="chkbox-label" for="edit{{publisher.id}}">
+                  <input type="radio" class="chkbox-input" id="edit{{publisher.id}}" name="year">
+                  <span></span>
+              </label>
+              <input type="text" class="modified" name="edit{{publisher.id}}" value="{{publisher.value}}">
+              <span class="glyphicon glyphicon-ok" (click)="publisher.edit = false; set('publisher_year_rom', publisher.id, $event.target.previousElementSibling.value)"></span>
+            </div>
+            <div class="iconContainer" *ngIf="isAdmin() && publisher.hovering">
+              <span class="pencil glyphicon glyphicon-pencil" (click)="publisher.edit = true; publisher.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('publisher_year_rom', publisher.id)"></span>
+            </div>
+          </div>
+          <div>
+          <app-addOption title="publisher_year_rom" (click)="showCheck($event)"></app-addOption>
+          <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'publisher_year_rom')" *ngIf="user && isAdmin()"></span>
         </div>
         </div>
       </div>
@@ -305,38 +494,6 @@
         </div>
       </div>
 
-      <!-- Genre Dataset-->
-      <div class="dataSet">
-        <app-title title="Genre"></app-title>
-
-        <div class="data">
-          <div class="ital">Genre</div>
-          <div class="dataPoint" *ngFor="let genre of genres | async" (mouseenter)="genre.hovering = !genre.edit" (mouseleave)="genre.hovering = false">
-            <label class="chkbox-label" for="{{genre.id}}" *ngIf="!genre.edit">
-              <input type="radio" class="chkbox-input" name="genres" id="{{genre.id}}">
-              <span>{{genre.value}}</span>
-            </label>
-            <div *ngIf="genre.edit">
-              <label class="chkbox-label" for="edit{{genre.id}}">
-                  <input type="radio" class="chkbox-input" id="edit{{genre.id}}" name="genre">
-                  <span></span>
-              </label>
-              <input type="text" class="modified" name="edit{{genre.id}}" value="{{genre.value}}">
-              <span class="glyphicon glyphicon-ok" (click)="genre.edit = false; set('genres', genre.id, $event.target.previousElementSibling.value)"></span>
-            </div>
-            <div class="iconContainer" *ngIf="isAdmin() && genre.hovering">
-              <span class="pencil glyphicon glyphicon-pencil" (click)="genre.edit = true; genre.hovering = false"></span>
-              <span class="buffer">&nbsp;</span>
-              <span class="ex glyphicon glyphicon-remove" (click)="delete('genres', genre.id)"></span>
-            </div>
-          </div>
-          <div>
-            <app-addOption title="genres" (click)="showCheck($event)"></app-addOption>
-            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'genres')" *ngIf="user && isAdmin()"></span>
-          </div>
-        </div>
-      </div>
-
       <!-- OCLC Dataset -->
       <div class="dataSet">
         <app-title title="OCLC"></app-title>
@@ -345,11 +502,11 @@
           <div class="ital">OCLC-ID</div>
           <div class="dataPoint">
             <label class="chkbox-label" for="oclcVal">
-              <input type="radio" class="chkbox-input" name="oclc" id="oclcVal">
+              <input type="radio" class="chkbox-input" name="oclc_id" id="oclcVal">
               <span>Not Applicable</span>
             </label>
           </div>
-          <div><app-addOption title="oclc"></app-addOption></div>
+          <div><app-addOption title="oclc_id"></app-addOption></div>
         </div>
       </div>
 

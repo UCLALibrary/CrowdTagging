@@ -26,15 +26,21 @@ export class AdminComponent implements OnInit {
     this.compiledBookData = [];
     this.availableFields = [
       "author_firstname",
+      "author_firstname_rom",
       "author_lastname",
-      "genres",
+      "author_lastname_rom",
       "pages",
       "publisher_city",
       "publisher_company",
       "publisher_country",
       "publisher_year",
-      "romanization",
-      "titles"
+      "publisher_city_rom",
+      "publisher_company_rom",
+      "publisher_country_rom",
+      "publisher_year_rom",
+      "title_rom",
+      "title",
+      "translated_title"
     ];
 
     this.compileBookData();

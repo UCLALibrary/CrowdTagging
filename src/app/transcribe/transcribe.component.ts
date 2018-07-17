@@ -3,8 +3,9 @@ import { ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { Book, Author, AuthorFirstName, AuthorLastName, Publisher, PublisherCity, PublisherCompany,
-  PublisherCountry, PublisherYear, Title, Page, Genre, Romanization, Language } from '../book';
+import { Book, Author, AuthorFirstName, AuthorFirstNameRom, AuthorLastName, AuthorLastNameRom, Publisher, PublisherCity, PublisherCompany,
+  PublisherCountry, PublisherYear, PublisherCityRom, PublisherCompanyRom, PublisherCountryRom, Title, Page, Romanization, Language,
+  PublisherYearRom, Translation } from '../book';
 import 'rxjs/add/operator/take';
 import * as panzoom from './panzoom/dist/panzoom.js';
 import { User } from '../providers/user';
@@ -37,9 +38,17 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   authorsFirstNamesCollection: AngularFirestoreCollection<AuthorFirstName>;
   authorsFirstNames: Observable<AuthorFirstName[]>
 
+  /* Author First Name Romanized */
+  authorsFirstNamesRomCollection: AngularFirestoreCollection<AuthorFirstNameRom>;
+  authorsFirstNamesRom: Observable<AuthorFirstNameRom[]>
+
   /* Author Last Name */
   authorsLastNamesCollection: AngularFirestoreCollection<AuthorLastName>;
   authorsLastNames: Observable<AuthorLastName[]>
+
+  /* Author Last Name Romanized */
+  authorsLastNamesRomCollection: AngularFirestoreCollection<AuthorLastNameRom>;
+  authorsLastNamesRom: Observable<AuthorLastNameRom[]>
 
   /* Publisher */
   publishers: Observable<Publisher[]>
@@ -60,17 +69,33 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   publishersYearsCollection: AngularFirestoreCollection<PublisherYear>;
   publishersYears: Observable<PublisherYear[]>;
 
+  /* Publisher City Romanized */
+  publishersCitiesRomCollection: AngularFirestoreCollection<PublisherCityRom>;
+  publishersCitiesRom: Observable<PublisherCityRom[]>;
+
+  /* Publisher Company Romanized */
+  publishersCompaniesRomCollection: AngularFirestoreCollection<PublisherCompanyRom>;
+  publishersCompaniesRom: Observable<PublisherCompanyRom[]>;
+
+  /* Publisher Name Romanized */
+  publisherCountriesRomCollection: AngularFirestoreCollection<PublisherCountryRom>;
+  publishersCountriesRom: Observable<PublisherCountryRom[]>;
+
+  /* Publisher Year Romanized */
+  publishersYearsRomCollection: AngularFirestoreCollection<PublisherYearRom>;
+  publishersYearsRom: Observable<PublisherYearRom[]>;
+
   /* Title */
   titlesCollection: AngularFirestoreCollection<Title>;
   titles: Observable<Title[]>
 
+  /* Title Translated */
+  transCollection: AngularFirestoreCollection<Translation>;
+  trans: Observable<Translation[]>
+
   /* Page */
   pagesCollection: AngularFirestoreCollection<Page>;
   pages: Observable<Page[]>
-
-  /* Genre */
-  genresCollection: AngularFirestoreCollection<Genre>;
-  genres: Observable<Genre[]>
 
   /* Romanizations */
   romansCollection: AngularFirestoreCollection<Title>;
@@ -311,8 +336,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
   /* Change view to show that there are no more books to tag */
   noMoreBooksToDisplay() {
-    console.log("no more books");
-
     let myStyle = "outOfBooks";
 
     var div = document.createElement('div');
@@ -339,11 +362,20 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       this.authorsFirstNamesCollection = this.bookDoc.collection<AuthorFirstName>('author_firstname');
       this.authorsFirstNames = this.authorsFirstNamesCollection.valueChanges();
 
+      this.authorsFirstNamesRomCollection = this.bookDoc.collection<AuthorFirstNameRom>('author_firstname_rom');
+      this.authorsFirstNamesRom = this.authorsFirstNamesRomCollection.valueChanges();
+
       this.authorsLastNamesCollection = this.bookDoc.collection<AuthorLastName>('author_lastname');
       this.authorsLastNames = this.authorsLastNamesCollection.valueChanges();
 
-      this.titlesCollection = this.bookDoc.collection<Title>('titles');
+      this.authorsLastNamesRomCollection = this.bookDoc.collection<AuthorLastNameRom>('author_lastname_rom');
+      this.authorsLastNamesRom = this.authorsLastNamesRomCollection.valueChanges();
+
+      this.titlesCollection = this.bookDoc.collection<Title>('title');
       this.titles = this.titlesCollection.valueChanges();
+
+      this.transCollection = this.bookDoc.collection<Translation>('translated_title');
+      this.trans = this.transCollection.valueChanges();
 
       this.publishersCitiesCollection = this.bookDoc.collection<PublisherCity>('publisher_city');
       this.publishersCities = this.publishersCitiesCollection.valueChanges();
@@ -357,16 +389,25 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       this.publishersYearsCollection = this.bookDoc.collection<PublisherYear>('publisher_year');
       this.publishersYears = this.publishersYearsCollection.valueChanges();
 
+      this.publishersCitiesRomCollection = this.bookDoc.collection<PublisherCityRom>('publisher_city_rom');
+      this.publishersCitiesRom = this.publishersCitiesRomCollection.valueChanges();
+
+      this.publishersCompaniesRomCollection = this.bookDoc.collection<PublisherCompanyRom>('publisher_company_rom');
+      this.publishersCompaniesRom = this.publishersCompaniesRomCollection.valueChanges();
+
+      this.publisherCountriesRomCollection = this.bookDoc.collection<PublisherCountryRom>('publisher_country_rom');
+      this.publishersCountriesRom = this.publisherCountriesRomCollection.valueChanges();
+
+      this.publishersYearsRomCollection = this.bookDoc.collection<PublisherYearRom>('publisher_year_rom');
+      this.publishersYearsRom = this.publishersYearsRomCollection.valueChanges();
+
       this.pagesCollection = this.bookDoc.collection<Page>('pages');
       this.pages = this.pagesCollection.valueChanges();
 
-      this.genresCollection = this.bookDoc.collection<Genre>('genres');
-      this.genres = this.genresCollection.valueChanges();
-
-      this.romansCollection = this.bookDoc.collection<Romanization>('romanization');
+      this.romansCollection = this.bookDoc.collection<Romanization>('title_rom');
       this.romans = this.romansCollection.valueChanges();
 
-      this.languagesCollection = this.bookDoc.collection<Language>('languages');
+      this.languagesCollection = this.bookDoc.collection<Language>('language');
       this.languages = this.languagesCollection.valueChanges();
 
       this.numCategories = 0;

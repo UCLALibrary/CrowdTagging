@@ -8,32 +8,56 @@
         </div>
         <div class="colflex">Title</div>
         <div class="colflex">Romanization</div>
+        <div class="colflex">Translation</div>
         <div class="colflex">
           <span>Author:</span>
           <span>First Name</span>
+        </div>
+        <div class="colflex">
+          <span>First Name</span>
+          <span>Romanized</span>
         </div>
         <div class="colflex">
           <span>Author:</span>
           <span>Last Name</span>
         </div>
         <div class="colflex">
+          <span>Last Name</span>
+          <span>Romanized</span>
+        </div>
+        <div class="colflex">
           <span>Publisher:</span>
           <span>Company</span>
+        </div>
+        <div class="colflex">
+          <span>Company</span>
+          <span>Romanized</span>
         </div>
         <div class="colflex">
           <span>Publisher:</span>
           <span>City</span>
         </div>
         <div class="colflex">
+          <span>City</span>
+          <span>Romanized</span>
+        </div>
+        <div class="colflex">
           <span>Publisher:</span>
-          <span>Coutry</span>
+          <span>Country</span>
+        </div>
+        <div class="colflex">
+          <span>Country</span>
+          <span>Romanized</span>
         </div>
         <div class="colflex">
           <span>Publisher:</span>
           <span>Year</span>
         </div>
+        <div class="colflex">
+          <span>Year</span>
+          <span>Romanized</span>
+        </div>
         <div class="colflex">Pages</div>
-        <div class="colflex">Genre</div>
       </div>
       
       <div class="rowflex" *ngFor="let i = index; let book of compiledBookData">
@@ -41,34 +65,52 @@
           <img src="http://via.placeholder.com/80x80" routerLink="/transcribe">
         </div>
         <div class="colflex">
-          <span>{{book.titles}}</span>
+          <span>{{book.title}}</span>
         </div>
         <div class="colflex">
-          <span>{{book.romanization}}</span>
+          <span>{{book.title_rom}}</span>
+        </div>
+        <div class="colflex">
+          <span>{{book.translated_title}}</span>
         </div>
         <div class="colflex">
           <span>{{book.author_firstname}}</span>
         </div>
         <div class="colflex">
+          <span>{{book.author_firstname_rom}}</span>
+        </div>
+        <div class="colflex">
           <span>{{book.author_lastname}}</span>
+        </div>
+        <div class="colflex">
+          <span>{{book.author_lastname_rom}}</span>
         </div>
         <div class="colflex">
           <span>{{book.publisher_company}}</span>
         </div>
         <div class="colflex">
+          <span>{{book.publisher_company_rom}}</span>
+        </div>
+        <div class="colflex">
           <span>{{book.publisher_city}}</span>
+        </div>
+        <div class="colflex">
+          <span>{{book.publisher_city_rom}}</span>
         </div>
         <div class="colflex">
           <span>{{book.publisher_country}}</span>
         </div>
         <div class="colflex">
+          <span>{{book.publisher_country_rom}}</span>
+        </div>
+        <div class="colflex">
           <span>{{book.publisher_year}}</span>
         </div>
         <div class="colflex">
-          <span>{{book.pages}}</span>
+          <span>{{book.publisher_year_rom}}</span>
         </div>
         <div class="colflex">
-          <span>{{book.genres}}</span>
+          <span>{{book.pages}}</span>
         </div>
       </div>
     </form>

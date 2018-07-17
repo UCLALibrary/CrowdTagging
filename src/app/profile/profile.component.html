@@ -36,23 +36,30 @@
   <div class="dataSet" *ngFor="let book of books | async">
     <div class="title">
       <div class="triangle" (click)="toggle($event)"></div>
-      <span>{{book.titles}}</span>
+      <span>{{book.title}}</span>
     </div>
 
     <div class="data hidden">
-      <div id="ital">Romanization: <span>{{book.romanization}}</span></div>
+      <div id="ital">Romanization: <span>{{book.title_rom}}</span></div>
+    </div>
+
+    <div class="data hidden">
+      <div id="ital">Translation: <span>{{book.translated_title}}</span></div>
     </div>
 
     <div class="data hidden">
       <div id="ital">Author: <span>{{book.author_lastname}}, {{book.author_firstname}} </span></div>
     </div>
-
+    
+    <div class="data hidden">
+      <div id="ital">Author Romanized: <span>{{book.author_lastname_rom}}, {{book.author_firstname_rom}} </span></div>
+    </div>
     <div class="data hidden">
       <div id="ital">Publisher: <span>{{book.publisher_company}}, {{book.publisher_city}}, {{book.publisher_country}}, {{book.publisher_year}}</span></div>
     </div>
 
     <div class="data hidden">
-      <div id="ital">Genre: <span>{{book.genres}}</span></div>
+      <div id="ital">Publisher Romanized: <span>{{book.publisher_company_rom}}, {{book.publisher_city_rom}}, {{book.publisher_country_rom}}, {{book.publisher_year_rom}}</span></div>
     </div>
 
     <div class="data hidden">
@@ -60,7 +67,7 @@
     </div>
 
     <div class="data hidden">
-      <div id="ital">OCLC-ID: <span>{{book.oclc}}</span></div>
+      <div id="ital">OCLC-ID: <span>{{book.oclc_id}}</span></div>
     </div>
   </div>
 

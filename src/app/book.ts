@@ -8,32 +8,62 @@ export interface Publisher {
 
 export interface PublisherCity {
   id: string;
-  city: string;
+  value: string;
+  votes: number;
+}
+
+export interface PublisherCityRom {
+  id: string;
+  value: string;
   votes: number;
 }
 
 export interface PublisherCompany {
   id: string;
-  company: string;
+  value: string;
+  votes: number;
+}
+
+export interface PublisherCompanyRom {
+  id: string;
+  value: string;
   votes: number;
 }
 
 export interface PublisherCountry {
   id: string;
-  country: string;
+  value: string;
+  votes: number;
+}
+
+export interface PublisherCountryRom {
+  id: string;
+  value: string;
   votes: number;
 }
 
 export interface PublisherYear {
   id: string;
-  year: string;
+  value: string;
+  votes: number;
+}
+
+export interface PublisherYearRom {
+  id: string;
+  value: string;
   votes: number;
 }
 
 export interface Title {
     id: string;
-    name: string;
+    value: string;
     votes: number;
+}
+
+export interface Translation {
+  id: string;
+  value: string;
+  votes: number;
 }
 
 export interface Author {
@@ -44,37 +74,43 @@ export interface Author {
 
 export interface AuthorFirstName {
   id: string;
-  name: string;
+  value: string;
+  votes: number;
+}
+
+export interface AuthorFirstNameRom {
+  id: string;
+  value: string;
   votes: number;
 }
 
 export interface AuthorLastName {
   id: string;
-  name: string;
+  value: string;
+  votes: number;
+}
+
+export interface AuthorLastNameRom {
+  id: string;
+  value: string;
   votes: number;
 }
 
 export interface Page {
     id: string;
-    number: string;
-    votes: number;
-}
-
-export interface Genre {
-    id: string;
-    name: string;
+    value: string;
     votes: number;
 }
 
 export interface Romanization {
     id: string;
-    name: string;
+    value: string;
     votes: number;
 }
 
 export interface Language {
   id: string;
-  language: string;
+  value: string;
   votes: number;
 }
 
