@@ -23,14 +23,6 @@
               <input type="radio" class="chkbox-input" name="language" id="{{language.id}}">
               <span>{{language.value}}</span>
             </label>
-            <div *ngIf="language.edit">
-              <label class="chkbox-label" for="edit{{language.id}}">
-                <input type="radio" class="chkbox-input" id="edit{{language.id}}" name="language">
-                <span></span>
-              </label>
-              <input type="text" class="modified" name="edit{{language.id}}" value="{{language.value}}">
-              <span class="glyphicon glyphicon-ok" (click)="language.edit = false; set('language', language.id, $event.target.previousElementSibling.value)"></span>
-            </div>
             <div class="iconContainer" *ngIf="isAdmin() && language.hovering">
               <span class="pencil glyphicon glyphicon-pencil" (click)="language.edit = true; language.hovering = false"></span>
               <span class="buffer">&nbsp;</span>
@@ -38,8 +30,13 @@
             </div>
           </div>
           <div>
-            <app-addOption title="language" (click)="showCheck($event)"></app-addOption>
-            <span id="ok" class="glyphicon glyphicon-ok hidden" (click)="createEntry($event, 'language')" *ngIf="user && isAdmin()"></span>
+            <label class="chkbox-label" for="otherLanguage">
+                <input type="radio" class="chkbox-input" id="otherLanguage" name="language">
+                <span></span>
+            </label>
+            <select ng-model="data">
+              <option *ngFor="let code of codes" ng-value="code.alpha2">{{code.English}}</option>
+            </select>
           </div>
         </div>
         </div>

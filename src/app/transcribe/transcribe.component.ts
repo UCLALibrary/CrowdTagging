@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit, style } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Book, Author, AuthorFirstName, AuthorFirstNameRom, AuthorLastName, AuthorLastNameRom, Publisher, PublisherCity, PublisherCompany,
   PublisherCountry, PublisherYear, PublisherCityRom, PublisherCompanyRom, PublisherCountryRom, Title, Page, Romanization, Language,
@@ -10,7 +9,7 @@ import 'rxjs/add/operator/take';
 import * as panzoom from './panzoom/dist/panzoom.js';
 import { User } from '../providers/user';
 import { AfService } from '../providers/af.service';
-import { resolve } from 'url';
+import { CODES } from '../../assets/LanguageCodes';
 
 @Component({
   encapsulation: ViewEncapsulation.None, /* External CSS will not be applied without this */
@@ -119,6 +118,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   NA_STRING = 'NA';
 
   imageKey: string;
+
+  codes = CODES;
+  data = this.codes[0];
 
   constructor(private afs: AngularFirestore, public AfService: AfService) {
     this.renderWithNewBook();
@@ -282,6 +284,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       });
     });
 
+    /* Tick option checkbox automatically when user tries to select a language */
+    document.querySelector("select").addEventListener("click", function(item){
+      (item.srcElement.previousElementSibling.childNodes[1] as HTMLInputElement).checked = true;
+    });
 
     /* Allow for zoom/pan functionality on gallery */
     var pan = panzoom(galleryImg, {
@@ -433,7 +439,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     let userData = {};
     const len = userSelectedInputs.length;
     let year = (document.querySelector("#otherpublisher_year").parentElement.childNodes[1].parentElement.nextElementSibling as any).value;
-
+    
     // If new year was added, but it wasn't an integer
     if(!parseInt(year) && year != ""){
       this.createNotificationWith("Year must be an integer.", "warnings");

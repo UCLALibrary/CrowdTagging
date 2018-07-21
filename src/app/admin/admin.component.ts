@@ -3,6 +3,7 @@ import { User } from '../providers/user';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { AfService } from '../providers/af.service';
 import { HttpClient } from '@angular/common/http';
+import { codeLookUp } from '../../assets/LanguageCodes';
 
 interface AWT{
   awt: string,
@@ -17,6 +18,7 @@ interface AWT{
 export class AdminComponent implements OnInit {
 
   books;
+  engToCode;
   compiledBookData; // array of dictionaries to access top book data
   availableFields; // names of all collections in a book document
   awt;
@@ -40,9 +42,11 @@ export class AdminComponent implements OnInit {
       "publisher_year_rom",
       "title_rom",
       "title",
-      "translated_title"
+      "translated_title",
+      "language"
     ];
 
+    this.engToCode = codeLookUp;
     this.compileBookData();
   }
 
@@ -90,7 +94,14 @@ export class AdminComponent implements OnInit {
   // should call compileBookData() at start of this function, and then on completion, trigger download
   // keep it as is for now until I rewrite function that populates data on admin page, so that it's faster
   downloadJSON() {
-    var bookData = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.compiledBookData, null, "   "));
+    // This creates a true copy instead of simply creating a pointer for the objects
+    var downloadedBookData = JSON.parse(JSON.stringify(this.compiledBookData)); 
+
+    for(var item of downloadedBookData) {
+      item['language'] = this.engToCode[item['language']];
+    }
+
+    var bookData = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(downloadedBookData, null, "   "));
     var downloader = document.createElement('a');
 
     downloader.setAttribute('href', bookData);

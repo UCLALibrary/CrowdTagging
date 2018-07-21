@@ -6,6 +6,7 @@
         <div class="colflex">
           <button id="exportBtn" (click)="downloadJSON()">Export</button>
         </div>
+        <div class="colflex">Language</div>
         <div class="colflex">Title</div>
         <div class="colflex">Romanization</div>
         <div class="colflex">Translation</div>
@@ -63,6 +64,9 @@
       <div class="rowflex" *ngFor="let i = index; let book of compiledBookData">
         <div class="colflex">
           <img src="http://via.placeholder.com/80x80" routerLink="/transcribe">
+        </div>
+        <div class="colflex">
+          <span>{{book.language}}</span>
         </div>
         <div class="colflex">
           <span>{{book.title}}</span>

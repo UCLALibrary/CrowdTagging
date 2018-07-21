@@ -182,15 +182,19 @@ label {
     font-weight: normal;
 }
 
-input[type="text"] {
+input[type="text"], select {
     height:30px;
     border-radius: 10px;
     border: none;
     font-size: 13px;
-    box-shadow:0px 3px 3px rgba(0, 0, 0, 0.25) inset;  
+    box-shadow:0px 3px 3px rgba(0, 0, 0, 0.25);
     padding-left: 4%;
     margin-left: -2px;
     width: 78%;
+}
+
+input[type="text"] {
+    box-shadow:0px 3px 3px rgba(0, 0, 0, 0.25) inset;  
 }
 
 .iconContainer {
@@ -233,12 +237,11 @@ input[type="text"] {
     color: red;
 }
 
-.success {
+.success, .outOfBooks {
     color: green;
 }
 
 .outOfBooks {
-    color: green;
     position: absolute;
     top: 42%;
     width: 100%;
