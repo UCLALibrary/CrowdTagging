@@ -66,6 +66,12 @@ export interface Translation {
   votes: number;
 }
 
+export interface Script {
+  id: string;
+  value: string;
+  votes: number;
+}
+
 export interface Author {
     first_name: string;
     last_name: string;

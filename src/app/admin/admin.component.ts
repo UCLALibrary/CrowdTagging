@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AfService } from '../providers/af.service';
 import { HttpClient } from '@angular/common/http';
 import { codeLookUp } from '../../assets/LanguageCodes';
+import { scriptLookUp } from '../../assets/ScriptCodes';
 
 interface AWT{
   awt: string,
@@ -19,6 +20,7 @@ export class AdminComponent implements OnInit {
 
   books;
   engToCode;
+  scriptToCode;
   compiledBookData; // array of dictionaries to access top book data
   availableFields; // names of all collections in a book document
   awt;
@@ -43,10 +45,13 @@ export class AdminComponent implements OnInit {
       "title_rom",
       "title",
       "translated_title",
-      "language"
+      "language",
+      "script"
     ];
 
     this.engToCode = codeLookUp;
+    this.scriptToCode = scriptLookUp;
+
     this.compileBookData();
   }
 
@@ -99,6 +104,7 @@ export class AdminComponent implements OnInit {
 
     for(var item of downloadedBookData) {
       item['language'] = this.engToCode[item['language']];
+      item['script'] = this.scriptToCode[item['script']];
     }
 
     var bookData = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(downloadedBookData, null, "   "));

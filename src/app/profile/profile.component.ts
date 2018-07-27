@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AfService } from '../providers/af.service';
 import { User } from '../providers/user';
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Observable } from '@firebase/util';
-import { Book } from '../book';
-import { Transcription } from '../transcription';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-profile',

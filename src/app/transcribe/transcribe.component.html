@@ -41,6 +41,34 @@
         </div>
         </div>
 
+      <!-- Script Dataset-->
+      <div class="dataSet">
+        <app-title title="Writing System"></app-title>
+        <div class="data">
+          <div class="ital">Script</div>
+          <div class="dataPoint" *ngFor="let script of scripts | async" (mouseenter)="script.hovering = !script.edit" (mouseleave)="script.hovering = false">
+            <label class="chkbox-label" for="{{script.id}}" *ngIf="!script.edit">
+              <input type="radio" class="chkbox-input" name="script" id="{{script.id}}">
+              <span>{{script.value}}</span>
+            </label>
+            <div class="iconContainer" *ngIf="isAdmin() && script.hovering">
+              <span class="pencil glyphicon glyphicon-pencil" (click)="script.edit = true; script.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('script', script.id)"></span>
+            </div>
+          </div>
+          <div>
+            <label class="chkbox-label" for="otherScript">
+                <input type="radio" class="chkbox-input" id="otherScript" name="script">
+                <span></span>
+            </label>
+            <select ng-model="data2">
+              <option *ngFor="let entry of scriptCodes" ng-value="entry.code">{{entry.English}}</option>
+            </select>
+          </div>
+        </div>
+        </div>
+
         <!-- Title Dataset-->
         <div class="dataSet">
         <app-title title="Title"></app-title>

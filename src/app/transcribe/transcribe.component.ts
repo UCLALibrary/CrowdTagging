@@ -4,12 +4,13 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Book, Author, AuthorFirstName, AuthorFirstNameRom, AuthorLastName, AuthorLastNameRom, Publisher, PublisherCity, PublisherCompany,
   PublisherCountry, PublisherYear, PublisherCityRom, PublisherCompanyRom, PublisherCountryRom, Title, Page, Romanization, Language,
-  PublisherYearRom, Translation } from '../book';
+  PublisherYearRom, Translation, Script } from '../book';
 import 'rxjs/add/operator/take';
 import * as panzoom from './panzoom/dist/panzoom.js';
 import { User } from '../providers/user';
 import { AfService } from '../providers/af.service';
 import { CODES } from '../../assets/LanguageCodes';
+import { SCRIPTCODES } from '../../assets/ScriptCodes';
 
 @Component({
   encapsulation: ViewEncapsulation.None, /* External CSS will not be applied without this */
@@ -100,6 +101,10 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   romansCollection: AngularFirestoreCollection<Title>;
   romans: Observable<Romanization[]>
 
+  /* Title */
+  scriptsCollection: AngularFirestoreCollection<Script>;
+  scripts: Observable<Script[]>
+
   selectedTitle: string;
   newTitle: string;
 
@@ -121,6 +126,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
   codes = CODES;
   data = this.codes[0];
+
+  scriptCodes = SCRIPTCODES;
+  data2 = this.scriptCodes[0];
 
   constructor(private afs: AngularFirestore, public AfService: AfService) {
     this.renderWithNewBook();
@@ -188,7 +196,8 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         rotateRight  = imgContainer.querySelector("#rotateRight") as any,
         statusBar    = imgContainer.querySelector("#progress") as any,
         submitBtn    = document.getElementById("submit"),
-        addOptions   = Array.from(document.querySelectorAll(".option"));
+        addOptions   = Array.from(document.querySelectorAll(".option")),
+        dropdowns    = Array.from(document.querySelectorAll("select"));
 
     // Number of separate fields that require a selection from the user
     this.numCategories = document.querySelectorAll(".data").length;
@@ -284,10 +293,11 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
       });
     });
 
-    /* Tick option checkbox automatically when user tries to select a language */
-    document.querySelector("select").addEventListener("click", function(item){
+    /* Tick option checkbox automatically when user tries to select a dropdown */
+    dropdowns.forEach(element => {
+      element.addEventListener("click", function(item){
       (item.srcElement.previousElementSibling.childNodes[1] as HTMLInputElement).checked = true;
-    });
+    })});
 
     /* Allow for zoom/pan functionality on gallery */
     var pan = panzoom(galleryImg, {
@@ -415,6 +425,9 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
 
       this.languagesCollection = this.bookDoc.collection<Language>('language');
       this.languages = this.languagesCollection.valueChanges();
+
+      this.scriptsCollection = this.bookDoc.collection<Script>('script');
+      this.scripts = this.scriptsCollection.valueChanges();
 
       this.numCategories = 0;
 
