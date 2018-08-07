@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../providers/user';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { AfService } from '../providers/af.service';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/map';
 import { codeLookUp } from '../../assets/LanguageCodes';
 import { scriptLookUp } from '../../assets/ScriptCodes';
 
@@ -59,8 +61,80 @@ export class AdminComponent implements OnInit {
       this.http.get<AWT>('http://us-central1-test-project-d9089.cloudfunctions.net/getAWT').subscribe(data=>{
          this.awt=data.awt;
          this.week=data.week;
-         console.log(data.awt)
       });
+  }
+
+  maintainCompletionColor(complete) {
+    if(complete)
+      return "complete";
+    
+    return "";
+  }
+
+  /*
+    Marks a book as complete, at request of admin. 
+  */
+  completeBook(event, id) {
+      event.target.classList.toggle("complete");
+
+      this.afs.doc(`books/${id}`).ref.get().then(obj => {
+        let object = obj.data();
+
+        if(event.target.classList.length === 4){
+          object.completed = true;
+        } else {
+          object.completed = false;
+        }
+        
+        this.afs.doc(`books/${id}`).update(object);
+      });
+  }
+
+  /* 
+    Checks to see if there are new books to add to the database.
+
+    Uses the previous checked book to determine where to begin. Sequentially,
+    it will check to see if a bookset with the corresponding imageKey exists
+    in the assets folder. If the image exists, it checks to see if a record 
+    exists in the database. If not, it will create one, otherwise ignoring it.
+
+    If it comes across a bookset with a given imageKey that doesn't exist, then we 
+    can assume that no further books after that key will exist in the assets folder
+    either, since we are going about this incrementally, and we can stop the algorithm.
+  */
+  async checkForNewBooks() {
+    let promises = [];
+    let lastBookChecked;
+    
+    await this.afs.doc('progress/checkForNewBooks').ref.get().then((data) => {
+      lastBookChecked = data.data().lastBookChecked;
+    });
+
+    for(var i = lastBookChecked; i <= lastBookChecked * 100; i++){
+      var imageKey = "EALJ" + ((i < 10) ? ("000" + i) : ((i >= 100) ? ("0" + i) : ("00" + i)));
+      var imagePath = "/assets/all50/" + imageKey + "_001.jpg";
+
+      const t = await this.http.get(imagePath).catch(err => Observable.of(err.status)).toPromise();
+
+      if(t !== 404){
+        promises.push(new Promise((resolve, reject) => {    
+          this.afs.collection('books').doc(`${imageKey}`).ref.get().then(val => {
+            if(!val.exists){
+                this.afs.collection('books').doc(`${imageKey}`)
+                .set({image_key: imageKey, submissions: 0}, { merge: true })
+                .then(() => { resolve(); });
+            } else { resolve(); }
+          });
+        }));
+      } else {
+        this.afs.doc('progress/checkForNewBooks').set({lastBookChecked: i-1});
+        return;
+      }
+
+      await Promise.all(promises);
+      this.afs.doc('progress/checkForNewBooks').set({lastBookChecked: i});
+    }
+      
   }
 
   // Creates an array of objects, where each object represents the
@@ -75,25 +149,34 @@ export class AdminComponent implements OnInit {
     // save dictionary in array for HTML to access
     this.afs.collection('books').ref.get().then(allBooks => {
       allBooks.docs.forEach(book => {
-        this.availableFields.forEach(field => {
-          promises.push(new Promise((resolve, reject) => {
-            this.afs.collection(`books/${book.id}/${field}`).ref.orderBy("votes", "desc").limit(1).get().then(doc => {
-              doc.docs[0].ref.get().then(topVoted => {
-                dict[field] = topVoted.data().value;
-                resolve();
-              });
+        this.afs.doc(`books/${book.id}`).ref.get().then(docu => {
+          var document = docu.data();
+
+          if(document.submissions > 0){
+            this.availableFields.forEach(field => {
+              promises.push(new Promise((resolve, reject) => {
+                this.afs.collection(`books/${book.id}/${field}`).ref.orderBy("votes", "desc").limit(1).get().then(doc => {
+                  doc.docs[0].ref.get().then(topVoted => {
+                    dict[field] = topVoted.data().value;
+                    resolve();
+                  });
+                });
+              }));
             });
-          }));
-        });
-      
-        // Wait for dictionary for current book to be made
-        Promise.all(promises).then(() => {
-          this.compiledBookData.push(dict);
-          dict = {};
-          promises = [];
-        });
+          
+            // Wait for dictionary for current book to be made
+            Promise.all(promises).then(() => {
+              dict["id"] = book.id;
+              dict["completed"] = document.completed;
+              this.compiledBookData.push(dict);
+              dict = {};
+              promises = [];
+            });
+          }});
       });
     });
+
+    this.checkForNewBooks();
   }
 
   // should call compileBookData() at start of this function, and then on completion, trigger download
@@ -105,6 +188,8 @@ export class AdminComponent implements OnInit {
     for(var item of downloadedBookData) {
       item['language'] = this.engToCode[item['language']];
       item['script'] = this.scriptToCode[item['script']];
+      delete item["id"];
+      delete item["completed"]
     }
 
     var bookData = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(downloadedBookData, null, "   "));

@@ -329,7 +329,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
               // Checks if user has already done the book
 
               try {
-                while (userBooks.includes(orderedBooks[i].image_key)){
+                while (userBooks.includes(orderedBooks[i].image_key) || orderedBooks[i].completed){
                   i++;
                 }
               } catch {
@@ -446,7 +446,6 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
     }, 2000);
   }
 
-  // TODO: also update submission field
   updateDatabase(doWhenUserIsUpdated) {
     let userSelectedInputs = Array.from(document.querySelectorAll("input:checked"));
     let userData = {};
@@ -529,7 +528,7 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
         let object = obj.data();
         object.submissions += 1;
         this.bookDoc.update(object);
-      })
+      });
 
       const userInfoDoc = this.afs.doc(`users/${this.user.uid}`);
 

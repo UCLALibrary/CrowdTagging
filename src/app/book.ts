@@ -125,4 +125,5 @@ export class Book {
    pages: number;
    image_key: string;
    submissions: number;
+   completed: boolean;
 }

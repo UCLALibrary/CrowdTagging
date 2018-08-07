@@ -64,7 +64,8 @@ div {
 }
 
 .selection {
-    min-width: 50px;
+    min-width: 40px;
+    margin-right: -10px;
 }
 
 .colflex, .rowflex {
@@ -118,4 +119,8 @@ img:hover {
 
 #exportRow {
     padding-top: 0%;
+}
+
+.complete {
+    color: green;
 }
