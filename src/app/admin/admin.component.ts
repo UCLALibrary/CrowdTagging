@@ -71,6 +71,10 @@ export class AdminComponent implements OnInit {
     return "";
   }
 
+  bookImageURL(id) {
+    return "../../assets/all50/" + id + "_001.jpg";
+  }
+  
   /*
     Marks a book as complete, at request of admin. 
   */
@@ -142,6 +146,7 @@ export class AdminComponent implements OnInit {
   compileBookData() {
     let dict = {};
     let promises = [];
+    let bookPromises = []; // helps ensure that compiledBookData array is populated before moving on
 
     // Go through all book docs in books collection; for each field,
     // find the top voted doc, and add that field: value pair to dictionary
@@ -149,30 +154,45 @@ export class AdminComponent implements OnInit {
     // save dictionary in array for HTML to access
     this.afs.collection('books').ref.get().then(allBooks => {
       allBooks.docs.forEach(book => {
-        this.afs.doc(`books/${book.id}`).ref.get().then(docu => {
-          var document = docu.data();
+        bookPromises.push(new Promise((res2, rej2) => {
+          this.afs.doc(`books/${book.id}`).ref.get().then(docu => {
+            var document = docu.data();
 
-          if(document.submissions > 0){
-            this.availableFields.forEach(field => {
-              promises.push(new Promise((resolve, reject) => {
-                this.afs.collection(`books/${book.id}/${field}`).ref.orderBy("votes", "desc").limit(1).get().then(doc => {
-                  doc.docs[0].ref.get().then(topVoted => {
-                    dict[field] = topVoted.data().value;
-                    resolve();
+            if(document.submissions > 0){
+              this.availableFields.forEach(field => {
+                promises.push(new Promise((resolve, reject) => {
+                  this.afs.collection(`books/${book.id}/${field}`).ref.orderBy("votes", "desc").limit(1).get().then(doc => {
+                    doc.docs[0].ref.get().then(topVoted => {
+                      dict[field] = topVoted.data().value;
+                      resolve();
+                    });
                   });
-                });
-              }));
-            });
-          
-            // Wait for dictionary for current book to be made
-            Promise.all(promises).then(() => {
-              dict["id"] = book.id;
-              dict["completed"] = document.completed;
-              this.compiledBookData.push(dict);
-              dict = {};
-              promises = [];
-            });
-          }});
+                }));
+              });
+            
+              // Wait for dictionary for current book to be made
+              Promise.all(promises).then(() => {
+                dict["id"] = book.id;
+                dict["completed"] = document.completed;
+                this.compiledBookData.push(dict);
+                dict = {};
+                promises = [];
+                res2();
+              });
+            } else { res2(); }
+          });
+        }));
+      });
+
+      Promise.all(bookPromises).then(() => {
+        this.compiledBookData.sort((a,b) => {
+          if(a.completed === b.completed)
+            return 0;
+          else if(a.completed === true)
+            return 1;
+          else 
+            return -1;
+        });
       });
     });
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, style } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
@@ -319,6 +319,16 @@ export class TranscribeComponent implements OnInit, AfterViewInit {
   /* Gets the book id of the book with the least number of submissions that the user
     has not yet completed. */
   getBookId() {
+    var currentURL = window.location.href; // url of get request that caused this component to load
+    var urlParamPosition = currentURL.indexOf("EAL"); // index of bookID we want to show, if exists
+
+    // if bookID was passed in as parameter in route, then just use that bookID
+    if(urlParamPosition >= 0){
+      return new Promise(resolve => {
+        resolve(currentURL.substring(urlParamPosition));
+      });
+    }
+
     return new Promise(resolve => {
       this.getOrderedBooks().subscribe(orderedBooks => {
         this.AfService.user$.subscribe(user => {

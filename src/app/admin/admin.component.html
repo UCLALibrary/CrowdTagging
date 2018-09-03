@@ -70,7 +70,7 @@
             <span class="glyphicon glyphicon-check btn-lg {{maintainCompletionColor(book.completed)}}" (click)="completeBook($event, book.id)"></span>
         </div>
         <div class="colflex">
-          <img src="http://via.placeholder.com/80x80" routerLink="/transcribe">
+          <img src="{{bookImageURL(book.id)}}" routerLink="/transcribe/{{book.id}}">
         </div>
         <div class="colflex">
           <span>{{book.language}}</span>

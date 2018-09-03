@@ -24,6 +24,7 @@ import { ProfileComponent } from './profile/profile.component';
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'transcribe', component: TranscribeComponent, canActivate: [UserGuard] },
+  { path: 'transcribe/:bookID', component: TranscribeComponent, canActivate: [AdminGuard]},
   { path: 'admin', component: AdminComponent, canActivate: [AdminGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [UserGuard] }
 ];
