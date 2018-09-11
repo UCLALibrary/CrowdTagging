@@ -13,67 +13,11 @@
   </div>
   <div id="options">
     <form onsubmit="return false">
-      <!-- Language Dataset-->
+      <!-- Title Dataset-->
       <div class="dataSet">
-        <app-title title="Language"></app-title>
-        <div class="data">
-          <div class="ital">Language</div>
-          <div class="dataPoint" *ngFor="let language of languages | async" (mouseenter)="language.hovering = !language.edit" (mouseleave)="language.hovering = false">
-            <label class="chkbox-label" for="{{language.id}}" *ngIf="!language.edit">
-              <input type="radio" class="chkbox-input" name="language" id="{{language.id}}">
-              <span>{{language.value}}</span>
-            </label>
-            <div class="iconContainer" *ngIf="isAdmin() && language.hovering">
-              <span class="pencil glyphicon glyphicon-pencil" (click)="language.edit = true; language.hovering = false"></span>
-              <span class="buffer">&nbsp;</span>
-              <span class="ex glyphicon glyphicon-remove" (click)="delete('language', language.id)"></span>
-            </div>
-          </div>
-          <div>
-            <label class="chkbox-label" for="otherLanguage">
-                <input type="radio" class="chkbox-input" id="otherLanguage" name="language">
-                <span></span>
-            </label>
-            <select ng-model="data">
-              <option *ngFor="let code of codes" ng-value="code.alpha2">{{code.English}}</option>
-            </select>
-          </div>
-        </div>
-        </div>
-
-      <!-- Script Dataset-->
-      <div class="dataSet">
-        <app-title title="Writing System"></app-title>
-        <div class="data">
-          <div class="ital">Script</div>
-          <div class="dataPoint" *ngFor="let script of scripts | async" (mouseenter)="script.hovering = !script.edit" (mouseleave)="script.hovering = false">
-            <label class="chkbox-label" for="{{script.id}}" *ngIf="!script.edit">
-              <input type="radio" class="chkbox-input" name="script" id="{{script.id}}">
-              <span>{{script.value}}</span>
-            </label>
-            <div class="iconContainer" *ngIf="isAdmin() && script.hovering">
-              <span class="pencil glyphicon glyphicon-pencil" (click)="script.edit = true; script.hovering = false"></span>
-              <span class="buffer">&nbsp;</span>
-              <span class="ex glyphicon glyphicon-remove" (click)="delete('script', script.id)"></span>
-            </div>
-          </div>
-          <div>
-            <label class="chkbox-label" for="otherScript">
-                <input type="radio" class="chkbox-input" id="otherScript" name="script">
-                <span></span>
-            </label>
-            <select ng-model="data2">
-              <option *ngFor="let entry of scriptCodes" ng-value="entry.code">{{entry.English}}</option>
-            </select>
-          </div>
-        </div>
-        </div>
-
-        <!-- Title Dataset-->
-        <div class="dataSet">
         <app-title title="Title"></app-title>
         <div class="data">
-          <div class="ital">Title in Native Language</div>
+          <div class="ital">Title in native language</div>
           <div class="dataPoint" *ngFor="let title of titles | async" (mouseenter)="title.hovering = !title.edit" (mouseleave)="title.hovering = false">
             <label class="chkbox-label" for="{{title.id}}" *ngIf="!title.edit">
               <input type="radio" class="chkbox-input" name="title" id="{{title.id}}">
@@ -159,7 +103,7 @@
         <app-title title="Author"></app-title>
 
         <div class="data">
-          <div class="ital">First Name</div>
+          <div class="ital">First name</div>
           <div class="dataPoint" *ngFor="let author of authorsFirstNames | async" (mouseenter)="author.hovering = !author.edit" (mouseleave)="author.hovering = false">
             <label class="chkbox-label" for="{{author.id}}" *ngIf="!author.edit">
               <input type="radio" class="chkbox-input" name="author_firstname" id="{{author.id}}">
@@ -186,7 +130,7 @@
         </div>
 
         <div class="data">
-          <div class="ital">First Name Romanized</div>
+          <div class="ital">First name romanized</div>
           <div class="dataPoint" *ngFor="let author of authorsFirstNamesRom | async" (mouseenter)="author.hovering = !author.edit" (mouseleave)="author.hovering = false">
             <label class="chkbox-label" for="{{author.id}}" *ngIf="!author.edit">
               <input type="radio" class="chkbox-input" name="author_firstname_rom" id="{{author.id}}">
@@ -213,7 +157,7 @@
         </div>
 
         <div class="data">
-          <div class="ital">Last Name</div>
+          <div class="ital">Last name</div>
           <div class="dataPoint" *ngFor="let author of authorsLastNames | async" (mouseenter)="author.hovering = !author.edit" (mouseleave)="author.hovering = false">
             <label class="chkbox-label" for="{{author.id}}" *ngIf="!author.edit">
               <input type="radio" class="chkbox-input" name="author_lastname" id="{{author.id}}">
@@ -240,7 +184,7 @@
       </div>
 
       <div class="data">
-        <div class="ital">Last Name Romanized</div>
+        <div class="ital">Last name romanized</div>
         <div class="dataPoint" *ngFor="let author of authorsLastNamesRom | async" (mouseenter)="author.hovering = !author.edit" (mouseleave)="author.hovering = false">
           <label class="chkbox-label" for="{{author.id}}" *ngIf="!author.edit">
             <input type="radio" class="chkbox-input" name="author_lastname_rom" id="{{author.id}}">
@@ -299,7 +243,7 @@
         </div>
 
         <div class="data">
-          <div class="ital">Company Romanized</div>
+          <div class="ital">Company romanized</div>
           <div class="dataPoint" *ngFor="let publisher of publishersCompaniesRom | async" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
             <label class="chkbox-label" for="{{publisher.id}}" *ngIf="!publisher.edit">
               <input type="radio" class="chkbox-input" name="publisher_company_rom" id="{{publisher.id}}">
@@ -353,7 +297,7 @@
         </div>
 
         <div class="data">
-          <div class="ital">City Romanized</div>
+          <div class="ital">City romanized</div>
           <div class="dataPoint" *ngFor="let publisher of publishersCitiesRom | async" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
             <label class="chkbox-label" for="{{publisher.id}}" *ngIf="!publisher.edit">
               <input type="radio" class="chkbox-input" name="publisher_city_rom" id="{{publisher.id}}">
@@ -407,7 +351,7 @@
         </div>
 
         <div class="data">
-          <div class="ital">Country Romanized</div>
+          <div class="ital">Country romanized</div>
           <div class="dataPoint" *ngFor="let publisher of publishersCountriesRom | async" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
             <label class="chkbox-label" for="{{publisher.id}}" *ngIf="!publisher.edit">
               <input type="radio" class="chkbox-input" name="publisher_country_rom" id="{{publisher.id}}">
@@ -461,7 +405,7 @@
         </div>
 
         <div class="data">
-          <div class="ital">Year Romanized</div>
+          <div class="ital">Year (Gregorian)</div>
           <div class="dataPoint" *ngFor="let publisher of publishersYearsRom | async" (mouseenter)="publisher.hovering = !publisher.edit" (mouseleave)="publisher.hovering = false">
             <label class="chkbox-label" for="{{publisher.id}}" *ngIf="!publisher.edit">
               <input type="radio" class="chkbox-input" name="publisher_year_rom" id="{{publisher.id}}">
@@ -487,6 +431,62 @@
         </div>
         </div>
       </div>
+
+      <!-- Script Dataset-->
+      <div class="dataSet">
+        <app-title title="Writing System"></app-title>
+        <div class="data">
+          <div class="ital">Script</div>
+          <div class="dataPoint" *ngFor="let script of scripts | async" (mouseenter)="script.hovering = !script.edit" (mouseleave)="script.hovering = false">
+            <label class="chkbox-label" for="{{script.id}}" *ngIf="!script.edit">
+              <input type="radio" class="chkbox-input" name="script" id="{{script.id}}">
+              <span>{{script.value}}</span>
+            </label>
+            <div class="iconContainer" *ngIf="isAdmin() && script.hovering">
+              <span class="pencil glyphicon glyphicon-pencil" (click)="script.edit = true; script.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('script', script.id)"></span>
+            </div>
+          </div>
+          <div>
+            <label class="chkbox-label" for="otherScript">
+                <input type="radio" class="chkbox-input" id="otherScript" name="script">
+                <span></span>
+            </label>
+            <select ng-model="data2">
+              <option *ngFor="let entry of scriptCodes" ng-value="entry.code">{{entry.English}}</option>
+            </select>
+          </div>
+        </div>
+        </div>
+
+      <!-- Language Dataset-->
+      <div class="dataSet">
+        <app-title title="Language"></app-title>
+        <div class="data">
+          <div class="ital">Language</div>
+          <div class="dataPoint" *ngFor="let language of languages | async" (mouseenter)="language.hovering = !language.edit" (mouseleave)="language.hovering = false">
+            <label class="chkbox-label" for="{{language.id}}" *ngIf="!language.edit">
+              <input type="radio" class="chkbox-input" name="language" id="{{language.id}}">
+              <span>{{language.value}}</span>
+            </label>
+            <div class="iconContainer" *ngIf="isAdmin() && language.hovering">
+              <span class="pencil glyphicon glyphicon-pencil" (click)="language.edit = true; language.hovering = false"></span>
+              <span class="buffer">&nbsp;</span>
+              <span class="ex glyphicon glyphicon-remove" (click)="delete('language', language.id)"></span>
+            </div>
+          </div>
+          <div>
+            <label class="chkbox-label" for="otherLanguage">
+                <input type="radio" class="chkbox-input" id="otherLanguage" name="language">
+                <span></span>
+            </label>
+            <select ng-model="data">
+              <option *ngFor="let code of codes" ng-value="code.alpha2">{{code.English}}</option>
+            </select>
+          </div>
+        </div>
+        </div>
 
       <!-- Pages Dataset-->
       <div class="dataSet">

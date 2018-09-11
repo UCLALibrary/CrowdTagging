@@ -64,7 +64,7 @@ div {
 }
 
 .selection {
-    min-width: 40px;
+    min-width: 100px;
     margin-right: -10px;
 }
 

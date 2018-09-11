@@ -1,16 +1,11 @@
-<div id="stats">Average weekly transcriptions for week {{week}}: {{awt}}</div>
 <div id="container">
   <div id="options">
     <form onsubmit="return false"> 
       <div class="rowflex" id="exportRow">
-        <div class="colflex selection">
-          <span></span>
-        </div>
+        <div class="colflex selection">Completed</div>
         <div class="colflex">
           <button id="exportBtn" (click)="downloadJSON()">Export</button>
         </div>
-        <div class="colflex">Language</div>
-        <div class="colflex">Script</div>
         <div class="colflex">Title</div>
         <div class="colflex">Romanization</div>
         <div class="colflex">Translation</div>
@@ -60,8 +55,10 @@
         </div>
         <div class="colflex">
           <span>Year</span>
-          <span>Romanized</span>
+          <span>(Gregorian)</span>
         </div>
+        <div class="colflex">Script</div>
+        <div class="colflex">Language</div>
         <div class="colflex">Pages</div>
       </div>
       
@@ -71,12 +68,6 @@
         </div>
         <div class="colflex">
           <img src="{{bookImageURL(book.id)}}" routerLink="/transcribe/{{book.id}}">
-        </div>
-        <div class="colflex">
-          <span>{{book.language}}</span>
-        </div>
-        <div class="colflex">
-          <span>{{book.script}}</span>
         </div>
         <div class="colflex">
           <span>{{book.title}}</span>
@@ -122,6 +113,12 @@
         </div>
         <div class="colflex">
           <span>{{book.publisher_year_rom}}</span>
+        </div>
+        <div class="colflex">
+          <span>{{book.script}}</span>
+        </div>
+        <div class="colflex">
+          <span>{{book.language}}</span>
         </div>
         <div class="colflex">
           <span>{{book.pages}}</span>
